@@ -172,11 +172,11 @@ const AboutUs = () => {
                     "ಅನ್ನಂ ಬ್ರಹ್ಮ"
                   </p>
                   <div className="flex items-center gap-6 w-full px-4">
-                    <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-brand-blue/30"></div>
-                    <p className="text-[11px] uppercase tracking-[0.5em] text-brand-blue/50 whitespace-nowrap font-bold">
+                    {/* <div className="flex-1 to-brand-blue/30"></div> */}
+                    <p className="text-sm md:text-base  uppercase tracking-[0.5em] text-brand-blue/50 font-bold">
                       Food is manifestation of the Lord
                     </p>
-                    <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-brand-blue/30"></div>
+                    {/* <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-brand-blue/30"></div> */}
                   </div>
                 </div>
                 <div className="mt-6 text-brand-blue/20 text-xs">⬥ ❦ ⬥</div>
