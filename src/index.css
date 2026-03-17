@@ -1,0 +1,43 @@
+@import url('https://fonts.cdnfonts.com/css/garet');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "tailwindcss";
+/* @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap'); */
+
+@theme {
+  --font-display: "Garet", sans-serif;
+  --font-sans: "Poppins", sans-serif;
+  --font-serif: "Cinzel Decorative", serif;
+
+  --color-brand-blue: #0F2F4A;
+  --color-brand-gold: #D4A65A;
+  --color-brand-cream: #F7F3E9;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-cream text-brand-blue font-sans;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold;
+  }
+}
+
+.texture-bg {
+  background-image: url("https://www.transparenttextures.com/patterns/handmade-paper.png");
+}
+
+.cascading-image {
+  box-shadow: 20px 20px 0px 0px #D4A65A;
+}
+
+.cascading-image-reverse {
+  box-shadow: -20px 20px 0px 0px #D4A65A;
+}
+
+
+
+/* index.css mein add karein */
+.animate-spin-slow {
+  animation: spin 8s linear infinite;
+}
