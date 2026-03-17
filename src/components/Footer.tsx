@@ -1,7 +1,7 @@
 import React from 'react';
 import { Instagram, Facebook, Youtube, MapPin, Phone, Mail, Clock, ChevronRight } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle, faWhatsapp, faXTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faGoogle, faWhatsapp, faXTwitter, faTripadvisor } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom'; // Internal linking ke liye import kiya
 // Importing centralized data from your new config file
 import { SOCIAL_LINKS, NAV_LINKS, CONTACT_DETAILS } from '../data/siteConfig';
@@ -40,16 +40,19 @@ const Footer = () => {
             </div>
 
             <p className="opacity-70 text-base leading-relaxed mb-10 max-w-sm">
-              Preserving the sacred culinary traditions of Udupi with authentic vegetarian dishes made with love.
+              Preserving the sacred role of food
+              and provider of food since
+              inception. Simple, pure vegetarian
+              Karnataka food in Dubai.            
             </p>
 
             {/* Social Media Links (Mapped from siteConfig) */}
             <div className="flex flex-wrap gap-3">
               {SOCIAL_LINKS.map((social) => (
-                <SocialIcon 
-                  key={social.id} 
-                  link={social.href} 
-                  icon={social.isLucide ? <social.icon size={18} /> : <FontAwesomeIcon icon={social.icon} />} 
+                <SocialIcon
+                  key={social.id}
+                  link={social.href}
+                  icon={social.isLucide ? <social.icon size={18} /> : <FontAwesomeIcon icon={social.icon} />}
                 />
               ))}
             </div>
@@ -132,7 +135,7 @@ const Footer = () => {
                 {CONTACT_DETAILS.phone}
               </li>
               <li className="flex gap-3 items-start">
-                <FontAwesomeIcon icon={faWhatsapp} className="text-[20px] text-brand-gold flex-shrink-0" />   
+                <FontAwesomeIcon icon={faWhatsapp} className="text-[20px] text-brand-gold flex-shrink-0" />
                 {CONTACT_DETAILS.whatsapp}
               </li>
               <li className="flex gap-3 items-start">

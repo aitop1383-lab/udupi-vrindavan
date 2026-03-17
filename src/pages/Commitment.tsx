@@ -5,8 +5,7 @@ import { Heart, Users, Coins, GraduationCap, ArrowRightCircle } from 'lucide-rea
 import { EMPLOYEE_BENEFITS } from '../data/siteConfig';
 
 const Commitment = () => {
-  // Helper to map icons to specific titles since we don't want to store 
-  // complex components in the data file if we can avoid it.
+  // Helper to map icons to specific titles
   const getIcon = (title: string) => {
     switch (title) {
       case "Worker Welfare": return <Heart className="w-8 h-8" />;
@@ -43,12 +42,12 @@ const Commitment = () => {
           
           <div className="flex items-center justify-center gap-4">
             <div className="w-12 h-px bg-brand-gold/30"></div>
-            <p className="text-2xl font-display text-brand-gold">ಅನ್ನದಾತಾ ಸುಖೀಭವ</p>
+            <p className="text-sm uppercase tracking-widest text-brand-gold font-bold">The Provider of Food Shall Be Happy</p>
             <div className="w-12 h-px bg-brand-gold/30"></div>
           </div>
         </div>
 
-        {/* Benefits Cards Mapped from siteConfig */}
+        {/* Benefits Cards */}
         <div className="space-y-12 lg:space-y-20">
           {EMPLOYEE_BENEFITS.map((benefit, idx) => (
             <motion.div
@@ -65,29 +64,19 @@ const Commitment = () => {
                   </div>
                   <div>
                     <h3 className="text-2xl md:text-3xl font-bold">{benefit.title}</h3>
-                    <p className="text-brand-gold font-display text-lg opacity-90">{benefit.kannadaTitle}</p>
+                    <p className="text-brand-gold/80 text-sm uppercase tracking-widest mt-1 font-semibold">Core Benefit</p>
                   </div>
                 </div>
               </div>
 
               <div className="p-6 md:p-10 lg:p-12">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
-                  {/* English Items */}
-                  <ul className="space-y-6">
+                <div className="max-w-4xl mx-auto">
+                  {/* English Items Only - Clean Single Column Layout */}
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                     {benefit.items.map((item, i) => (
-                      <li key={i} className="flex gap-4">
+                      <li key={i} className="flex gap-4 items-start">
                         <ArrowRightCircle className="w-6 h-6 text-brand-gold flex-shrink-0 mt-0.5" />
                         <span className="text-brand-blue/80 text-base md:text-lg leading-relaxed">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* Kannada Items */}
-                  <ul className="space-y-6 lg:border-l lg:border-brand-gold/20 lg:pl-12">
-                    {benefit.kannadaItems.map((item, i) => (
-                      <li key={i} className="flex gap-4">
-                        <ArrowRightCircle className="w-6 h-6 text-brand-gold/60 flex-shrink-0 mt-0.5" />
-                        <span className="text-brand-blue/80 text-base md:text-lg leading-relaxed font-kannada italic">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -103,9 +92,9 @@ const Commitment = () => {
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
             className="text-center bg-white/50 backdrop-blur-sm px-10 py-8 rounded-[2rem] border border-brand-gold/20 shadow-inner"
           >
-            <p className="text-2xl md:text-3xl font-display text-brand-blue mb-2">"ನಮ್ಮ ಸಿಬ್ಬಂದಿಯೇ ನಮ್ಮ ಸಂಸ್ಥೆಯ ಆತ್ಮ"</p>
-            <div className="w-24 h-0.5 bg-brand-gold mx-auto mb-2"></div>
-            <p className="text-brand-gold uppercase tracking-widest text-xs font-bold">Our staff are the soul of our organization</p>
+            <div className="w-24 h-0.5 bg-brand-gold mx-auto mb-4"></div>
+            <p className="text-brand-blue text-xl md:text-2xl font-display mb-2">Our staff are the soul of our organization</p>
+            <p className="text-brand-gold uppercase tracking-widest text-[10px] font-bold opacity-70">Udupi Vrindavan Hospitality Group</p>
           </motion.div>
         </div>
       </div>

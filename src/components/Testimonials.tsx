@@ -133,7 +133,7 @@ const Testimonials = () => {
           className="inline-flex items-center gap-4 px-14 py-6 bg-brand-blue text-brand-cream rounded-full transition-all duration-500 font-bold uppercase tracking-[0.2em] text-xs shadow-2xl border border-brand-blue/10"
         >
           <FontAwesomeIcon icon={faGoogle} className="text-xl" />
-          <span>Explore All 500+ Reviews</span>
+          <span>View all Google Reviews</span>
         </motion.a>
       </div>
 

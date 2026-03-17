@@ -54,10 +54,10 @@ const AboutUs = () => {
   return (
     <section id="about" className="py-32 texture-bg relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-        
-        {/* --- Top Section: Image and Story --- */}
+
+        {/* --- Philosophy Section: Image and Story --- */}
         <div className="grid md:grid-cols-2 gap-20 items-center">
-          
+
           {/* Left Side: Traditional Imagery */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -69,11 +69,11 @@ const AboutUs = () => {
               <img
                 src="/host.jpeg"
                 alt="Traditional Cooking"
-                className="w-full h-[600px] object-cover hover:scale-105 transition-transform duration-700"
+                className="w-full h-[700px] object-cover hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
               />
             </div>
-            
+
             {/* Floating Badge (Desktop Only) */}
             <div className="absolute -bottom-10 -right-10 bg-brand-blue p-10 rounded-3xl shadow-2xl hidden lg:block z-20 border-4 border-brand-cream">
               <p className="text-brand-gold font-display italic text-3xl mb-3">"ಅನ್ನದಾತಾ ಸುಖೀಭವ"</p>
@@ -98,16 +98,47 @@ const AboutUs = () => {
             </h2>
             <div className="space-y-8 text-brand-blue/80 text-lg leading-relaxed">
               <p>
-                At Udupi Vrindavan, we believe that food is more than just sustenance; it is a sacred offering. Our journey began with a simple mission: to bring the authentic flavors of Udupi to your table with uncompromising purity.
-              </p>
+                At Udupi Vrindavan, we believe
+                that food is more than just
+                sustenance; it is sacred. For
+                example, we offer various portion
+                sizes so that you only order based
+                on how hungry you are. We only
+                make those items that we know
+                rather than trying to be everything
+                to everyone. Just as you would not
+                engage a plumber to wire your
+                house, we do not cook North
+                Indian or Chinese food because we
+                can never make it as tasty as the
+                cooks from those regions. You will
+                easily recognise the taste! </p>
               <p>
-                Inspired by the ancient traditions of the Udupi Krishna Temple, our recipes have been passed down through generations, preserving the essence of South Indian vegetarian cuisine while embracing modern elegance.
+                As owners, we eat the food at our
+                restaurant and therefore do not
+                adulterate it for taste. Therefore,
+                you will not find colourings or
+                preservatives in our restaurant. We
+                do not reheat oil and do not freeze
+                cooked food. We do not microwave
+                food and where our customers
+                don’t mind the use of baking soda - we clearly declare that in our
+                menu (check out the pink page in
+                our menu!) so that you aren’t
+                surprised if you have a bloated
+                stomach :)
+                So, please visit our restaurant or
+                order from our website. You will
+                see our morals in action. We are a
+                small restaurant but with ideals
+                which we are sure, you will
+                appreciate!!
               </p>
             </div>
           </motion.div>
         </div>
 
-        {/* --- Bottom Section: Ancient Wisdom Quote Grid --- */}
+        {/* --- Ancient Wisdom Quote Grid --- */}
         <motion.section
           initial="hidden"
           whileInView="show"
@@ -116,31 +147,58 @@ const AboutUs = () => {
             hidden: { opacity: 0 },
             show: {
               opacity: 1,
-              transition: { staggerChildren: 0.2 } // Cards appear one after another
+              transition: { staggerChildren: 0.2 }
             }
           }}
           className="mt-32 px-4 max-w-7xl mx-auto"
         >
+
+          {/* --- TOP BADGE FOR QUOTES --- */}
+          <div className="mb-16 w-full flex justify-center px-4">
+            <motion.div
+              variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+              className="relative p-1 bg-white border-[3px] border-brand-blue/10 rounded-sm shadow-2xl max-w-lg w-full overflow-hidden"
+            >
+              {/* Corner Ornaments */}
+              <div className="absolute top-0 left-0 w-10 h-10 border-t-4 border-l-4 border-brand-blue opacity-60 rounded-tl-sm" />
+              <div className="absolute top-0 right-0 w-10 h-10 border-t-4 border-r-4 border-brand-blue opacity-60 rounded-tr-sm" />
+              <div className="absolute bottom-0 left-0 w-10 h-10 border-b-4 border-l-4 border-brand-blue opacity-60 rounded-bl-sm" />
+              <div className="absolute bottom-0 right-0 w-10 h-10 border-b-4 border-r-4 border-brand-blue opacity-60 rounded-br-sm" />
+
+              <div className="border border-brand-blue/10 m-1.5 p-10 flex flex-col items-center text-center">
+                <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain mb-6 opacity-80" />
+                <div className="relative inline-flex flex-col items-center">
+                  <p className="text-4xl md:text-6xl font-display text-brand-gold italic mb-4 tracking-tight">
+                    "ಅನ್ನಂ ಬ್ರಹ್ಮ"
+                  </p>
+                  <div className="flex items-center gap-6 w-full px-4">
+                    <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-brand-blue/30"></div>
+                    <p className="text-[11px] uppercase tracking-[0.5em] text-brand-blue/50 whitespace-nowrap font-bold">
+                      Food is manifestation of the Lord
+                    </p>
+                    <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-brand-blue/30"></div>
+                  </div>
+                </div>
+                <div className="mt-6 text-brand-blue/20 text-xs">⬥ ❦ ⬥</div>
+              </div>
+            </motion.div>
+          </div>
+
           {/* Section Header */}
           <div className="text-center mb-20">
-            <motion.span
-              variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}
-              className="text-brand-gold font-bold tracking-[0.4em] uppercase text-[10px] mb-4 block"
-            >
-              Ancient Wisdom
-            </motion.span>
             <motion.h2
               variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
               className="text-2xl md:text-3xl text-brand-blue"
             >
-              Quality food is the <span className="text-brand-gold font-display">first line of</span> health defence
+              Quality food is the <span className="text-brand-gold font-display">first line of</span> defence against ill health.
             </motion.h2>
             <motion.div
               variants={{ hidden: { scaleX: 0 }, show: { scaleX: 1 } }}
               className="h-px w-24 bg-brand-gold/30 mx-auto mt-8 mb-6"
             />
             <p className="text-brand-blue/70 max-w-2xl mx-auto text-lg leading-relaxed">
-              Explore the sacred verses that bridge the gap between nutrition and spirituality.
+              Our ancestors knew the link
+              between food and the mental state
             </p>
           </div>
 
@@ -155,41 +213,40 @@ const AboutUs = () => {
                 }}
                 className="relative p-1 bg-white border-[3px] border-brand-blue/10 rounded-sm shadow-xl overflow-hidden"
               >
-                {/* CSS Corner Ornaments: Styled to look like a traditional photo frame */}
+                {/* CSS Corner Ornaments */}
                 <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-brand-blue opacity-40 rounded-tl-sm" />
                 <div className="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-brand-blue opacity-40 rounded-tr-sm" />
                 <div className="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-brand-blue opacity-40 rounded-bl-sm" />
                 <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-brand-blue opacity-40 rounded-br-sm" />
 
-                {/* Card Inner Content Container */}
                 <div className="border border-brand-blue/10 m-2 p-4 flex flex-col items-center text-center space-y-5">
                   <img src="/logo.png" alt="Logo" className="w-14 h-14 object-contain mb-2 opacity-90" />
-
                   <h3 className="text-brand-blue/50 text-[10px] font-bold tracking-[0.4em] uppercase">
                     {quote.source || "UDUPI VRINDAVAN"}
                   </h3>
-
-                  {/* Sanskrit and Kannada Script */}
-                  <p className="text-2xl md:text-3xl font-bold text-brand-blue leading-tight">
+                  
+                  {/* Sanskrit: Big and Bold */}
+                  <p className="text-3xl md:text-4xl font-bold text-brand-blue leading-tight">
                     {quote.sanskrit}
                   </p>
-                  <p className="text-2xl font-bold text-brand-blue/90 font-display">
+
+                  {/* Kannada: Smaller and Normal weight */}
+                  <p className="text-xl font-normal text-brand-blue/90 font-display">
                     {quote.kannada}
                   </p>
 
                   {/* Phonetic Transliteration */}
-                  <p className="text-lg font-medium text-brand-blue/80 italic">
+                  <p className="text-base font-medium text-brand-blue/80 italic">
                     {quote.transliteration}
                   </p>
 
-                  {/* English Translation Section */}
+                  {/* English Translation: Smaller, Normal weight, with Quotes */}
                   <div className="pt-6 border-t border-brand-blue/10 w-full">
-                    <p className="text-2xl text-brand-blue font-semibold italic">
-                      {quote.translation}
+                    <p className="text-lg text-brand-blue font-normal italic">
+                      “{quote.translation}”
                     </p>
                   </div>
 
-                  {/* Decorative Footer Ornament */}
                   <div className="pt-4 flex items-center gap-3 text-brand-blue/30">
                     <div className="h-px w-6 bg-brand-blue/20"></div>
                     <span className="text-sm">⬥</span>
@@ -198,44 +255,6 @@ const AboutUs = () => {
                 </div>
               </motion.div>
             ))}
-          </div>
-
-          {/* --- Final Calligraphic Badge: Food is Divine --- */}
-          <div className="mt-24 w-full flex justify-center px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              viewport={{ once: true }}
-              className="relative p-1 bg-white border-[3px] border-brand-blue/10 rounded-sm shadow-2xl max-w-lg w-full overflow-hidden"
-            >
-              {/* Corner Ornaments */}
-              <div className="absolute top-0 left-0 w-10 h-10 border-t-4 border-l-4 border-brand-blue opacity-60 rounded-tl-sm" />
-              <div className="absolute top-0 right-0 w-10 h-10 border-t-4 border-r-4 border-brand-blue opacity-60 rounded-tr-sm" />
-              <div className="absolute bottom-0 left-0 w-10 h-10 border-b-4 border-l-4 border-brand-blue opacity-60 rounded-bl-sm" />
-              <div className="absolute bottom-0 right-0 w-10 h-10 border-b-4 border-r-4 border-brand-blue opacity-60 rounded-br-sm" />
-
-              <div className="border border-brand-blue/10 m-1.5 p-10 flex flex-col items-center text-center">
-                <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain mb-6 opacity-80" />
-
-                <div className="relative inline-flex flex-col items-center">
-                  <p className="text-4xl md:text-6xl font-display text-brand-gold italic mb-4 tracking-tight">
-                    "ಅನ್ನಂ ಬ್ರಹ್ಮ"
-                  </p>
-
-                  {/* Decorative Gradient Divider */}
-                  <div className="flex items-center gap-6 w-full px-4">
-                    <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-brand-blue/30"></div>
-                    <p className="text-[11px] uppercase tracking-[0.5em] text-brand-blue/50 whitespace-nowrap font-bold">
-                      Food is Divine
-                    </p>
-                    <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-brand-blue/30"></div>
-                  </div>
-                </div>
-
-                <div className="mt-6 text-brand-blue/20 text-xs">⬥ ❦ ⬥</div>
-              </div>
-            </motion.div>
           </div>
         </motion.section>
       </div>

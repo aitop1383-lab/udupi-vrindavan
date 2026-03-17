@@ -33,15 +33,29 @@ const Heritage = () => {
             </h2>
             
             <div className="space-y-8 opacity-90 text-lg leading-relaxed">
-              <p>
-                Udupi cuisine is a celebrated vegetarian culinary tradition from the coastal region of Karnataka. Known for its balanced flavors and wholesome ingredients, it reflects generations of culinary heritage.
-              </p>
-              <p>
-                Our meals are prepared using fresh grains, lentils, vegetables, and traditional spices that highlight the authentic taste of South Indian cooking.
-              </p>
-              <p>
-                From comforting Sambar and crispy Dosas to nourishing rice dishes and traditional sweets, every meal represents the rich heritage and hospitality of Udupi cuisine.
-              </p>
+              <div className="flex gap-4">
+                {/* 01 Badge: 10% smaller (text-base) and darker (opacity-60) */}
+                <span className="text-brand-gold/60 text-base font-bold mt-1">01</span>
+                <p>
+                  Udupi cuisine is a celebrated vegetarian culinary tradition from the coastal region of Karnataka. Known for its balanced flavors and wholesome ingredients, it reflects generations of culinary heritage.
+                </p>
+              </div>
+
+              <div className="flex gap-4">
+                {/* 02 Badge */}
+                <span className="text-brand-gold/60 text-base font-bold mt-1">02</span>
+                <p>
+                  Our meals are prepared using fresh grains, lentils, vegetables, and traditional spices that highlight the authentic taste of South Indian cooking.
+                </p>
+              </div>
+
+              <div className="flex gap-4">
+                {/* 03 Badge */}
+                <span className="text-brand-gold/60 text-base font-bold mt-1">03</span>
+                <p>
+                  From comforting Sambar and crispy Dosas to nourishing rice dishes and traditional sweets, every meal represents the rich heritage and hospitality of Udupi cuisine.
+                </p>
+              </div>
             </div>
           </motion.div>
 
