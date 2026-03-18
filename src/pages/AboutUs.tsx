@@ -96,7 +96,7 @@ const AboutUs = () => {
             <h2 className="text-5xl md:text-6xl mb-10 text-brand-blue leading-tight">
               The Heart of <br /><span className="italic text-brand-gold">Hospitality</span>
             </h2>
-            <div className="space-y-8 text-brand-blue/80 text-lg leading-relaxed">
+            <div className="space-y-8 text-brand-blue/60 text-lg leading-relaxed">
               <p>
                 At Udupi Vrindavan, we believe
                 that food is more than just

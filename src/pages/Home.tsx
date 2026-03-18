@@ -9,7 +9,7 @@ import { Utensils, ChevronRight } from 'lucide-react';
  */
 const Home = () => {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-brand-cream pt-20">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-brand-cream pt-10">
       {/* --- BACKGROUND ELEMENTS --- */}
       {/* Background Texture Overlay */}
       <div className="absolute inset-0 z-0 opacity-30 texture-bg"></div>
@@ -35,18 +35,14 @@ const Home = () => {
 
             {/* Main Heading with original typography */}
             <h1 className="text-4xl md:text-6xl lg:text-7xl text-brand-blue leading-[0.9] mb-8 font-display">
-              Experience<br />
-              <span className="text-brand-gold italic">the Taste of</span> <br />
-              <span className="text-brand-blue">Udupi</span>
+              Eating Food<br />
+              <span className="text-brand-gold italic">Cooked at</span> <br />
+              <span className="text-brand-blue">Home is best</span>
             </h1>
 
             {/* Full Original Description (No changes made) */}
             <p className="text-xl text-brand-blue/70 mb-12 max-w-lg leading-relaxed font-light">
-              Eating outside your home is best. The next best place should offer you the same health and taste. 
-              After all, no one wants to spend money to get ill. At Udupi Vrindavan Restaurant, you will get 
-              to experience healthy, fresh and tasty food. You can listen to your favourite songs, talk to 
-              our Front of House staff in Kannada and enjoy the delicacies that remind you of Udupi and the 
-              wider Karnataka region.
+            Eating outside your home is best. The next best place should offer you the same health and taste. After all, no one wants to spend money to get ill. At Udupi Vrindavan Restaurant, you will get to experience healthy, fresh and tasty food. You can listen to your favourite songs, talk to our Front of House staff in Kannada and enjoy the delicacies that remind you of Udupi and the wider Karnataka region.
             </p>
 
             {/* Call to Action Buttons */}
