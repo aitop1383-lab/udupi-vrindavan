@@ -17,9 +17,6 @@ export default defineConfig(({mode}) => {
       }
     },
     plugins: [react(), tailwindcss()],
-    define: {
-      'process.env': env,
-    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

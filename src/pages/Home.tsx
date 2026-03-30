@@ -125,7 +125,6 @@ const Home = () => {
               <span className="text-brand-blue">Home is best</span>
             </motion.h1>
 
-<<<<<<< HEAD
             {/* Description */}
             <motion.p
               variants={itemVariants}
@@ -133,12 +132,6 @@ const Home = () => {
             >
               Food cooked and eaten at home with family is the best. The next best place should offer you the same health and taste. After all, no one wants to spend money to get ill. At Udupi Vrindavan Restaurant, you will get to experience healthy, fresh and tasty food. You can listen to your favourite songs, talk to our Front of House staff in Kannada and enjoy the delicacies that remind you of Udupi and the wider Karnataka region.
             </motion.p>
-=======
-            {/* Full Original Description (No changes made) */}
-            <p className="text-xl text-brand-blue/70 mb-12 max-w-lg leading-relaxed font-light">
-            Food cooked and eaten at home with family is the best. The next best place should offer you the same health and taste. After all, no one wants to spend money to get ill. At Udupi Vrindavan Restaurant, you will get to experience healthy, fresh and tasty food. You can listen to your favourite songs, talk to our Front of House staff in Kannada and enjoy the delicacies that remind you of Udupi and the wider Karnataka region.
-            </p>
->>>>>>> 0dc5f9a5fa40b7a6fb28ec4d8ba21ec485c948ea
 
             {/* CTA Buttons */}
             <motion.div
