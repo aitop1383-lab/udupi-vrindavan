@@ -88,7 +88,7 @@ const BlogPostDetail = () => {
   );
 
   return (
-    <div className="bg-brand-cream min-h-screen texture-bg pb-20 overflow-x-hidden">
+    <div className="bg-brand-cream min-h-screen texture-bg pb-20">
       <Helmet>
         <title>{post.title.replace(/<[^>]*>/g, '')} | Udupi Vrindavan</title>
         <meta name="description" content={post.excerpt.replace(/<[^>]*>/g, '')} />
@@ -202,11 +202,11 @@ const BlogPostDetail = () => {
       </section>
 
       {/* Article Content Area */}
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 relative">
 
         {/* Sticky Social Tools */}
-        <aside className="lg:col-span-1 hidden lg:block">
-          <div className="sticky top-32 flex flex-col gap-6 items-center">
+        <aside className="lg:col-span-1 hidden lg:block h-full min-h-[500px]">
+          <div className="sticky top-40 flex flex-col gap-8 items-center">
             <button
               onClick={() => setIsLiked(!isLiked)}
               className={`p-3 rounded-full border transition-all ${isLiked ? 'bg-red-500 border-red-500 text-white' : 'border-brand-blue/10 text-brand-blue hover:border-brand-gold'}`}
@@ -240,25 +240,6 @@ const BlogPostDetail = () => {
             prose-img:max-w-full prose-img:h-auto prose-img:rounded-3xl prose-img:mx-auto prose-img:shadow-2xl prose-img:my-16
             prose-a:text-brand-gold prose-a:no-underline hover:prose-a:underline prose-a:font-semibold transition-all
           ">
-            {/* Premium Quote Component - Responsive Refinement */}
-            <div className="my-12 md:my-24 relative px-6 py-12 md:px-20 md:py-16 text-center bg-white/40 backdrop-blur-md rounded-3xl md:rounded-[3rem] border border-brand-gold/10 shadow-sm overflow-hidden group">
-              {/* Decorative backgrounds - hidden on very small screens to avoid clutter */}
-              <div className="absolute top-0 right-0 w-24 md:w-32 h-24 md:h-32 bg-brand-gold/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:bg-brand-gold/10 transition-colors" />
-              <div className="absolute bottom-0 left-0 w-24 md:w-32 h-24 md:h-32 bg-brand-gold/5 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl group-hover:bg-brand-gold/10 transition-colors" />
-
-              <Quote className="mx-auto text-brand-gold mb-6 md:mb-8 opacity-40 group-hover:scale-110 transition-transform duration-500 scale-75 md:scale-100" size={48} fill="currentColor" />
-
-              <p className="text-xl md:text-4xl font-display text-brand-blue leading-snug md:leading-tight relative z-10 italic">
-                "Traditional flavors meet modern wellness in every bite at Udupi Vrindavan."
-              </p>
-
-              <div className="mt-8 flex items-center justify-center gap-3 md:gap-4">
-                <div className="h-px w-8 md:w-12 bg-brand-gold/30" />
-                <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.4em] font-bold text-brand-gold">Our Philosophy</span>
-                <div className="h-px w-8 md:w-12 bg-brand-gold/30" />
-              </div>
-            </div>
-
             <div
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
               className="drop-cap-first"
