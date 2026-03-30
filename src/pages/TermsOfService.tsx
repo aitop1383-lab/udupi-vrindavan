@@ -13,6 +13,7 @@ import {
   Mail, 
   ShieldAlert
 } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 /**
  * TermsOfService Component
@@ -21,7 +22,11 @@ import {
  */
 const TermsOfService = () => {
   return (
-    <div className="bg-[#fdfcf7] min-h-screen pt-28 pb-20 font-sans">
+    <div className="bg-[#fdfcf7] min-h-screen pt-28 pb-20 font-sans texture-bg">
+      <Helmet>
+        <title>Terms Of Use | Udupi Vrindavan</title>
+        <meta name="description" content="Review the terms and conditions for using Udupi Vrindavan's website and services." />
+      </Helmet>
       <div className="max-w-4xl mx-auto px-6">
         
         {/* --- Header Section --- */}

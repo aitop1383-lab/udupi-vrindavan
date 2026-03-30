@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Map, Plane, Train, Car, Compass, Images, Star, Utensils } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { 
   UDUPI_FEATURES, 
   TRAVEL_MODES, 
@@ -12,7 +13,16 @@ import {
 
 const VisitUdupi = () => {
   return (
-    <div className="bg-[#fdfcf7] min-h-screen pt-16 md:pt-20 overflow-x-hidden font-sans selection:bg-brand-gold/30">
+    <div className="bg-[#fdfcf7] min-h-screen pt-16 md:pt-20 overflow-x-hidden font-sans selection:bg-brand-gold/30 texture-bg">
+      <Helmet>
+        <title>Visit Udupi | Explore the Coast of Karnataka</title>
+        <meta name="description" content="Discover the spiritual and culinary heart of Karnataka. Plan your journey to Udupi's pristine beaches and sacred temples." />
+        <meta property="og:title" content="Visit Udupi | Explore the Coast of Karnataka" />
+        <meta property="og:description" content="A guide to exploring Udupi's heritage, culture, and world-famous cuisine." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://udupivrindavan.com/visit-udupi" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
       
       {/* --- HERO: Cinematic Entrance --- */}
       <section className="relative h-[80vh] md:h-[95vh] flex items-center justify-center overflow-hidden">
@@ -26,6 +36,10 @@ const VisitUdupi = () => {
             src="/VisitUdupi_Gallery/udupi.webp" 
             className="w-full h-full object-cover" 
             alt="Udupi" 
+            fetchPriority="high"
+            loading="eager"
+            width="1920"
+            height="1080"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-brand-blue/40" />
         </motion.div>

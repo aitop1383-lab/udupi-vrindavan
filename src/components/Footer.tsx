@@ -1,7 +1,8 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Instagram, Facebook, Youtube, MapPin, Phone, Mail, Clock, ChevronRight } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle, faWhatsapp, faXTwitter, faTripadvisor } from '@fortawesome/free-brands-svg-icons';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom'; // Internal linking ke liye import kiya
 // Importing centralized data from your new config file
 import { SOCIAL_LINKS, NAV_LINKS, CONTACT_DETAILS } from '../data/siteConfig';
@@ -25,6 +26,24 @@ const Footer = () => {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
+        {/* ── Premium CTA Strip ── */}
+        <div className="mb-20 p-8 md:p-10 rounded-[2.5rem] border border-brand-gold/20 bg-gradient-to-r from-brand-gold/5 via-brand-gold/10 to-brand-gold/5 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+          <div>
+            <p className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px] mb-2">Always Pure. Always Fresh.</p>
+            <h3 className="text-2xl md:text-3xl font-display text-brand-cream leading-tight">
+              Taste Karnataka, <span className="italic text-brand-gold">from our kitchen.</span>
+            </h3>
+          </div>
+          <a
+            href="https://order.udupivrindavan.com/outlet/99670498269910"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 bg-brand-gold text-brand-blue px-10 py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-white transition-all shadow-xl hover:scale-105 duration-200"
+          >
+            Order Online
+          </a>
+        </div>
+
         {/* --- Main Grid Structure --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16 mb-20 md:mb-24">
 
@@ -43,7 +62,7 @@ const Footer = () => {
               Preserving the sacred role of food
               and provider of food since
               inception. Simple, pure vegetarian
-              Karnataka food in Dubai.            
+              Karnataka food in Dubai.
             </p>
 
             {/* Social Media Links (Mapped from siteConfig) */}
@@ -127,7 +146,7 @@ const Footer = () => {
             </h4>
             <ul className="space-y-5 opacity-70 text-base">
               <li className="flex gap-3 items-start">
-                <MapPin size={30} className="text-brand-gold flex-shrink-0" />
+                <MapPin size={20} className="text-brand-gold flex-shrink-0" />
                 {CONTACT_DETAILS.address}
               </li>
               <li className="flex gap-3 items-start">
@@ -166,13 +185,24 @@ const Footer = () => {
         </div>
 
 
-        {/* --- Back to Top Button --- */}
-        <button
+        {/* --- Back to Top Button (Animated) --- */}
+        <motion.button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-6 right-6 w-12 h-12 bg-brand-gold rounded-2xl flex items-center justify-center text-brand-blue shadow-xl z-50 hover:scale-110 transition-transform"
+          animate={{
+            boxShadow: [
+              '0 0 0 0px rgba(212,166,90,0)',
+              '0 0 0 8px rgba(212,166,90,0.25)',
+              '0 0 0 16px rgba(212,166,90,0)',
+            ],
+          }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+          whileHover={{ scale: 1.15, y: -2 }}
+          whileTap={{ scale: 0.9 }}
+          className="fixed bottom-6 right-6 w-12 h-12 bg-brand-gold rounded-2xl flex items-center justify-center text-brand-blue shadow-xl z-50"
+          title="Back to top"
         >
           <ChevronRight className="-rotate-90" size={24} />
-        </button>
+        </motion.button>
 
       </div>
     </footer>
@@ -182,12 +212,12 @@ const Footer = () => {
 /**
  * SocialIcon Sub-component
  */
-const SocialIcon = ({ link, icon }: { link: string; icon: React.ReactNode }) => (
+const SocialIcon: React.FC<{ link: string; icon: any; key?: string }> = ({ link, icon }) => (
   <a
     href={link}
     target="_blank"
     rel="noopener noreferrer"
-    className="w-10 h-10 rounded-xl border border-brand-cream/10 flex items-center justify-center hover:bg-brand-gold hover:text-brand-blue transition"
+    className="w-10 h-10 rounded-xl border border-brand-cream/10 flex items-center justify-center hover:bg-brand-gold hover:text-brand-blue transition transform hover:scale-110 duration-300"
   >
     {icon}
   </a>

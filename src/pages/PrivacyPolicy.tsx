@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Mail, Info, Eye, Globe, Lock, ShieldAlert, FileText } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 /**
  * PrivacyPolicy Component
@@ -9,7 +10,11 @@ import { ShieldCheck, Mail, Info, Eye, Globe, Lock, ShieldAlert, FileText } from
  */
 const PrivacyPolicy = () => {
   return (
-    <div className="bg-[#fdfcf7] min-h-screen pt-28 pb-20">
+    <div className="bg-[#fdfcf7] min-h-screen pt-28 pb-20 texture-bg">
+      <Helmet>
+        <title>Privacy Policy | Udupi Vrindavan</title>
+        <meta name="description" content="Read our privacy policy to understand how we collect, use, and protect your personal information at Udupi Vrindavan." />
+      </Helmet>
       <div className="max-w-4xl mx-auto px-6">
         
         {/* --- Header Section --- */}

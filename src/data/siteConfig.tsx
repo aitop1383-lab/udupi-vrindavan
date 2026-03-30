@@ -85,6 +85,7 @@ export const NAV_LINKS = [
     { name: "About Us", href: "/#about" },
     { name: "Heritage", href: "/#heritage" },
     { name: "Our Commitment", href: "/#commitment" },
+    { name: "Blog", href: "/blog" },
     { name: "Order Online", href: "https://order.udupivrindavan.com" }
 ];
 
