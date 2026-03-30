@@ -79,7 +79,7 @@ const BlogPostDetail = () => {
             <div className="h-16 md:h-24 w-3/4 bg-brand-blue/10 rounded-2xl animate-pulse" />
           </div>
           <div className="lg:col-span-5 hidden lg:block">
-             <div className="h-32 w-full bg-brand-blue/10 rounded-2xl animate-pulse" />
+            <div className="h-32 w-full bg-brand-blue/10 rounded-2xl animate-pulse" />
           </div>
         </div>
         <div className="h-[45vh] md:h-[80vh] w-full bg-brand-blue/10 rounded-2xl animate-pulse mb-20" />
@@ -88,7 +88,7 @@ const BlogPostDetail = () => {
   );
 
   return (
-    <div className="bg-brand-cream min-h-screen texture-bg pb-20">
+    <div className="bg-brand-cream min-h-screen texture-bg pb-20 overflow-x-hidden">
       <Helmet>
         <title>{post.title.replace(/<[^>]*>/g, '')} | Udupi Vrindavan</title>
         <meta name="description" content={post.excerpt.replace(/<[^>]*>/g, '')} />
@@ -107,52 +107,69 @@ const BlogPostDetail = () => {
 
 
       {/* Modern Editorial Header */}
-      <header className="relative pt-24 pb-12 md:pt-32 md:pb-16 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
-          <Link to="/blog" className="flex items-center gap-2 text-brand-gold font-medium mb-8 group">
+      <header className="relative pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10 w-full overflow-hidden">
+          <Link to="/blog" className="flex items-center gap-2 text-brand-gold font-medium mb-10 group">
             <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-            <span className="uppercase tracking-widest text-xs">Back to Journal</span>
+            <span className="uppercase tracking-[0.3em] text-[10px] md:text-xs">Back to Journal</span>
           </Link>
 
-          <div className="grid lg:grid-cols-12 gap-12 items-end">
-            <div className="lg:col-span-7">
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-                <span className="text-brand-gold font-bold tracking-[0.2em] uppercase text-xs block mb-4">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-end">
+            <div className="lg:col-span-12">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+              >
+                <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs block mb-6 px-4 py-1.5 border border-brand-gold/20 rounded-full w-fit">
                   {post.category}
                 </span>
                 <h1
-                  className="text-4xl md:text-7xl font-display text-brand-blue leading-[1.1] mb-8"
+                  className="text-3xl md:text-5xl lg:text-6xl font-display text-brand-blue leading-[1.2] tracking-tight mb-10 break-words"
                   dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.title) }}
                 />
-                <div className="flex items-center gap-8 text-brand-blue/60 border-t border-brand-blue/10 pt-8">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold font-bold">
+
+                <div className="flex flex-wrap items-center gap-6 md:gap-10 text-brand-blue/60 border-t border-brand-blue/10 pt-10">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-brand-gold/10 flex items-center justify-center text-brand-gold font-bold border border-brand-gold/20">
                       {post.author.charAt(0)}
                     </div>
-                    <span className="text-sm font-semibold text-brand-blue">{post.author}</span>
+                    <div className="flex flex-col">
+                      <span className="text-[10px] uppercase tracking-widest text-brand-blue/40 font-bold mb-0.5">Written by</span>
+                      <span className="text-sm font-bold text-brand-blue">{post.author}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <Calendar size={14} />
-                    <span>{post.date}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <Clock size={14} />
-                    <span>{post.readTime}</span>
+
+                  <div className="flex items-center gap-8">
+                    <div className="flex flex-col">
+                      <span className="text-[10px] uppercase tracking-widest text-brand-blue/40 font-bold mb-0.5">Published</span>
+                      <div className="flex items-center gap-2 text-sm font-semibold text-brand-blue">
+                        <Calendar size={14} className="text-brand-gold" />
+                        <span>{post.date}</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[10px] uppercase tracking-widest text-brand-blue/40 font-bold mb-0.5">Reading Time</span>
+                      <div className="flex items-center gap-2 text-sm font-semibold text-brand-blue">
+                        <Clock size={14} className="text-brand-gold" />
+                        <span>{post.readTime}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 {/* Mobile Social Actions */}
-                <div className="flex lg:hidden items-center gap-6 mt-8 pt-6 border-t border-brand-blue/10">
-                  <button 
+                <div className="flex lg:hidden items-center gap-4 sm:gap-8 mt-10 p-4 bg-white/50 backdrop-blur-sm rounded-2xl border border-brand-blue/5 flex-wrap">
+                  <button
                     onClick={handleShare}
-                    className={`flex items-center gap-2 font-bold text-xs uppercase tracking-[0.2em] transition-colors ${copied ? 'text-brand-gold' : 'text-brand-blue/60 hover:text-brand-gold'}`}
+                    className={`flex items-center gap-3 font-bold text-[10px] uppercase tracking-[0.2em] transition-colors ${copied ? 'text-brand-gold' : 'text-brand-blue/60 hover:text-brand-gold'}`}
                   >
                     <Share2 size={16} className={copied ? 'animate-pulse' : ''} />
                     {copied ? 'Link Copied' : 'Share Story'}
                   </button>
-                  <button 
+                  <button
                     onClick={() => setIsLiked(!isLiked)}
-                    className={`flex items-center gap-2 font-bold text-xs uppercase tracking-[0.2em] transition-colors ${isLiked ? 'text-red-500' : 'text-brand-blue/60 hover:text-red-500'}`}
+                    className={`flex items-center gap-3 font-bold text-[10px] uppercase tracking-[0.2em] transition-colors ${isLiked ? 'text-red-500' : 'text-brand-blue/60 hover:text-red-500'}`}
                   >
                     <Heart size={16} fill={isLiked ? 'currentColor' : 'none'} />
                     {isLiked ? 'Liked' : 'Like'}
@@ -160,38 +177,32 @@ const BlogPostDetail = () => {
                 </div>
               </motion.div>
             </div>
-
-            <div className="lg:col-span-5 hidden lg:block">
-              <p className="text-xl text-brand-blue/60 font-light leading-relaxed italic border-l-2 border-brand-gold pl-6">
-                {post.excerpt}
-              </p>
-            </div>
           </div>
         </div>
       </header>
 
       {/* Featured Image - Wide/Asymmetric */}
-      <section className="max-w-7xl mx-auto px-4 md:px-6 mb-20">
+      <section className="max-w-7xl mx-auto px-4 md:px-6 mb-20 overflow-hidden">
         <motion.div
           initial={{ clipPath: 'inset(0 100% 0 0)' }}
           animate={{ clipPath: 'inset(0 0% 0 0)' }}
           transition={{ duration: 1, ease: "easeInOut" }}
           className="relative h-[45vh] md:h-[80vh] rounded-2xl overflow-hidden shadow-2xl"
         >
-          <img 
-            src={post.image} 
-            alt="Featured" 
+          <img
+            src={post.image}
+            alt="Featured"
             fetchPriority="high"
             width="1200"
             height="800"
-            className="w-full h-full object-cover" 
+            className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 ring-1 ring-inset ring-brand-blue/10 rounded-2xl" />
         </motion.div>
       </section>
 
       {/* Article Content Area */}
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 relative">
+      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 relative overflow-hidden">
 
         {/* Sticky Social Tools */}
         <aside className="lg:col-span-1 hidden lg:block">
@@ -202,7 +213,7 @@ const BlogPostDetail = () => {
             >
               <Heart size={20} fill={isLiked ? 'currentColor' : 'none'} />
             </button>
-            <button 
+            <button
               onClick={handleShare}
               className={`p-3 rounded-full border transition-all ${copied ? 'bg-brand-gold border-brand-gold text-brand-blue' : 'border-brand-blue/10 text-brand-blue hover:border-brand-gold'}`}
               title="Share post"
@@ -215,35 +226,49 @@ const BlogPostDetail = () => {
         </aside>
 
         {/* Main Text */}
-        <main className="lg:col-span-8 lg:col-start-3">
-          <motion.article 
+        <main className="lg:col-span-8 lg:col-start-3 w-full overflow-hidden">
+          <motion.article
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="prose prose-base md:prose-lg lg:prose-xl max-w-none 
-            prose-headings:font-display prose-headings:text-brand-blue
-            prose-p:text-brand-blue/80 prose-p:leading-[1.8]
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="prose prose-base md:prose-lg lg:prose-xl max-w-none break-words
+            prose-headings:font-display prose-headings:text-brand-blue prose-headings:tracking-tight
+            prose-p:text-brand-blue/80 prose-p:leading-[2] prose-p:mb-8
             prose-blockquote:border-none prose-blockquote:p-0
-            prose-strong:text-brand-blue prose-img:max-w-full prose-img:h-auto prose-img:rounded-2xl prose-img:mx-auto prose-a:text-brand-gold prose-a:no-underline hover:prose-a:underline
+            prose-strong:text-brand-blue prose-strong:font-bold
+            prose-img:max-w-full prose-img:h-auto prose-img:rounded-3xl prose-img:mx-auto prose-img:shadow-2xl prose-img:my-16
+            prose-a:text-brand-gold prose-a:no-underline hover:prose-a:underline prose-a:font-semibold transition-all
           ">
-            {/* Custom Quote Component for within content */}
-            <div className="my-12 py-10 border-y border-brand-gold/20 relative">
-              <Quote className="absolute -top-4 left-1/2 -translate-x-1/2 text-brand-gold bg-brand-cream px-2" size={32} />
-              <p className="text-3xl font-display text-center text-brand-blue leading-snug">
-                Traditional flavors meets modern wellness in every bite at Udupi Vrindavan.
+            {/* Premium Quote Component - Responsive Refinement */}
+            <div className="my-12 md:my-24 relative px-6 py-12 md:px-20 md:py-16 text-center bg-white/40 backdrop-blur-md rounded-3xl md:rounded-[3rem] border border-brand-gold/10 shadow-sm overflow-hidden group">
+              {/* Decorative backgrounds - hidden on very small screens to avoid clutter */}
+              <div className="absolute top-0 right-0 w-24 md:w-32 h-24 md:h-32 bg-brand-gold/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:bg-brand-gold/10 transition-colors" />
+              <div className="absolute bottom-0 left-0 w-24 md:w-32 h-24 md:h-32 bg-brand-gold/5 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl group-hover:bg-brand-gold/10 transition-colors" />
+
+              <Quote className="mx-auto text-brand-gold mb-6 md:mb-8 opacity-40 group-hover:scale-110 transition-transform duration-500 scale-75 md:scale-100" size={48} fill="currentColor" />
+
+              <p className="text-xl md:text-4xl font-display text-brand-blue leading-snug md:leading-tight relative z-10 italic">
+                "Traditional flavors meet modern wellness in every bite at Udupi Vrindavan."
               </p>
+
+              <div className="mt-8 flex items-center justify-center gap-3 md:gap-4">
+                <div className="h-px w-8 md:w-12 bg-brand-gold/30" />
+                <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.4em] font-bold text-brand-gold">Our Philosophy</span>
+                <div className="h-px w-8 md:w-12 bg-brand-gold/30" />
+              </div>
             </div>
 
             <div
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
-              className="drop-cap"
+              className="drop-cap-first"
             />
           </motion.article>
 
           {/* Tags / Meta */}
-          <div className="mt-16 pt-8 border-t border-brand-blue/10 flex flex-wrap gap-3">
-            {['Authentic', 'Healthy', 'Karnataka'].map(tag => (
-              <span key={tag} className="px-4 py-1 rounded-full bg-white border border-brand-blue/5 text-xs font-bold text-brand-blue/60 uppercase">
+          <div className="mt-20 pt-10 border-t border-brand-blue/10 flex flex-wrap gap-4 px-2">
+            {['Authentic', 'Healthy', 'Karnataka', 'Wellness'].map(tag => (
+              <span key={tag} className="px-6 py-2 rounded-full bg-white border border-brand-blue/5 text-[10px] font-bold text-brand-blue/60 uppercase tracking-widest hover:border-brand-gold/30 hover:text-brand-gold transition-all cursor-default">
                 #{tag}
               </span>
             ))}
@@ -251,24 +276,94 @@ const BlogPostDetail = () => {
         </main>
       </div>
 
-      {/* Related Stories - Horizontal Scroll Style */}
-      <section className="mt-32 bg-brand-blue py-24 text-brand-cream overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 mb-16">
-          <h2 className="text-4xl md:text-5xl font-display mb-4">Continue Your Journey</h2>
-          <p className="text-brand-cream/60">More stories from our {post.category} collection.</p>
-        </div>
+      {/* Related Stories - Premium Grid Redesign */}
+      <section className="mt-32 bg-brand-blue py-32 text-brand-cream relative overflow-hidden">
+        {/* Decorative background elements */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-gold/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-brand-gold/5 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2" />
 
-        <div className="flex gap-8 overflow-x-auto px-6 md:px-[calc((100vw-1280px)/2)] no-scrollbar pb-10">
-          {relatedPosts.map((p) => (
-            <Link to={`/blog/${p.slug}`} key={p.id} className="min-w-[300px] md:min-w-[450px] group">
-              <div className="relative aspect-[16/10] overflow-hidden rounded-2xl mb-6">
-                <img src={p.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="" />
-                <div className="absolute inset-0 bg-brand-blue/20 group-hover:bg-transparent transition-colors" />
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
+            <div>
+              <motion.span
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="text-brand-gold font-bold tracking-[0.4em] uppercase text-[10px] block mb-4"
+              >
+                Curated Suggestions
+              </motion.span>
+              <h2 className="text-4xl md:text-6xl font-display leading-[1.1]">Continue Your Journey</h2>
+            </div>
+            <p className="text-brand-cream/60 max-w-md text-sm md:text-base leading-relaxed">
+              Explore more hand-picked stories from our universe of {post.category} and authentic living.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {relatedPosts.map((p, index) => (
+              <motion.div
+                key={p.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <Link to={`/blog/${p.slug}`} className="group block">
+                  <div className="relative aspect-[16/11] overflow-hidden rounded-3xl mb-8 shadow-2xl">
+                    <img
+                      src={p.image}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
+                      alt={p.title}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-blue/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+
+                    {/* Floating Category Tag */}
+                    <div className="absolute top-6 left-6">
+                      <span className="px-4 py-1.5 bg-brand-cream/10 backdrop-blur-md border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest text-brand-cream">
+                        {p.category}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="px-2">
+                    <div className="flex items-center gap-4 text-brand-gold/60 text-[10px] font-bold uppercase tracking-widest mb-4">
+                      <span>{p.date}</span>
+                      <div className="w-1 h-1 rounded-full bg-brand-gold/30" />
+                      <span>{p.readTime}</span>
+                    </div>
+                    <h3 className="text-2xl font-display group-hover:text-brand-gold transition-colors mb-4 line-clamp-2 leading-tight">
+                      {p.title}
+                    </h3>
+                    <p className="text-brand-cream/50 line-clamp-2 text-sm leading-relaxed mb-6">
+                      {p.excerpt}
+                    </p>
+
+                    <div className="flex items-center gap-2 text-brand-gold font-bold text-xs uppercase tracking-[0.2em] group-hover:gap-4 transition-all duration-300">
+                      <span>Read Story</span>
+                      <ArrowLeft size={16} className="rotate-180" />
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Bottom Call to Action */}
+          <div className="mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full border border-brand-gold/30 flex items-center justify-center">
+                <span className="text-brand-gold font-display text-xl leading-none">V</span>
               </div>
-              <h3 className="text-2xl font-display group-hover:text-brand-gold transition-colors mb-2">{p.title}</h3>
-              <p className="text-brand-cream/50 line-clamp-2 text-sm leading-relaxed">{p.excerpt}</p>
+              <div>
+                <span className="block text-xs font-bold uppercase tracking-widest text-brand-cream/40">Established</span>
+                <span className="text-sm font-semibold">Udupi Vrindavan Journal</span>
+              </div>
+            </div>
+            <Link to="/blog" className="px-10 py-4 bg-brand-gold text-brand-blue font-bold text-xs uppercase tracking-[0.3em] rounded-full hover:bg-white transition-colors duration-300">
+              Browse All Stories
             </Link>
-          ))}
+          </div>
         </div>
       </section>
     </div>
