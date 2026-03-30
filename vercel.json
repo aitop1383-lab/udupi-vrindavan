@@ -3,6 +3,10 @@
     {
       "source": "/api/wp/:path*",
       "destination": "http://d7v.021.myftpupload.com/wp-json/wp/v2/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
