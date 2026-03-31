@@ -36,17 +36,30 @@ const PageLoader = () => <div className="h-screen bg-brand-cream flex items-cent
   <div className="w-12 h-12 border-2 border-brand-blue/10 border-t-brand-gold rounded-full animate-spin" />
 </div>;
 
-// ⚡ Global Scroll Logic (Handles Pathname and Hash)
+// 🔗 Path to ID mapping for virtual routes
+const SECTION_MAP: Record<string, string> = {
+  '/about-us': 'about-us',
+  '/heritage': 'heritage',
+  '/our-commitment': 'our-commitment',
+  '/contact-us': 'contact-us',
+};
+
+// ⚡ Global Scroll Logic (Handles Pathname, Hash, and Virtual Routes)
 const ScrollHandler = () => {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    if (!hash) {
-      // Normal page navigation: Reset to top
+    // Determine target ID: prioritize hash, then virtual route mapping
+    let targetId = hash.replace('#', '');
+    if (!targetId && SECTION_MAP[pathname]) {
+      targetId = SECTION_MAP[pathname];
+    }
+
+    if (!targetId) {
+      // Normal page navigation or landing on root: Reset to top
       window.scrollTo(0, 0);
     } else {
-      // Hash navigation: Wait for element (helps with lazy loading)
-      const targetId = hash.replace('#', '');
+      // Section navigation: Wait for element (helps with lazy loading)
       let attempts = 0;
       
       const tryScroll = () => {
@@ -82,6 +95,21 @@ const ScrollHandler = () => {
   return null;
 };
 
+// 🏠 Main Landing Page Content (Components are shared across virtual routes)
+const MainLanding = () => (
+  <main>
+    <Home />
+    <AboutUs />
+    <Heritage />
+    <Process />
+    <SignatureMenu />
+    <Commitment />
+    <Testimonials />
+    <CRMForm />
+    <ReachUs />
+  </main>
+);
+
 export default function App() {
   return (
     <Router>
@@ -90,19 +118,14 @@ export default function App() {
         <Navbar />
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            <Route path="/" element={
-              <main>
-                <Home />
-                <AboutUs />
-                <Heritage />
-                <Process />
-                <SignatureMenu />
-                <Commitment />
-                <Testimonials />
-                <CRMForm />
-                <ReachUs />
-              </main>
-            } />
+            {/* Home & Virtual Section Routes */}
+            <Route path="/" element={<MainLanding />} />
+            <Route path="/about-us" element={<MainLanding />} />
+            <Route path="/heritage" element={<MainLanding />} />
+            <Route path="/our-commitment" element={<MainLanding />} />
+            <Route path="/contact-us" element={<MainLanding />} />
+
+            {/* Sub-pages */}
             <Route path="/visit-udupi" element={<VisitUdupi />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />

@@ -11,7 +11,7 @@ import { SOCIAL_LINKS, DELIVERY_PARTNERS, CONTACT_DETAILS } from '../data/siteCo
 
 const ReachUs = () => {
   return (
-    <section id="contact" className="py-32 bg-white relative overflow-hidden">
+    <section id="contact-us" className="py-32 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
 
