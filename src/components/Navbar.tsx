@@ -35,11 +35,20 @@ const Navbar = () => {
    * - For hash links ("/#about"): match pathname "/" AND location.hash.
    */
   const isActive = (href: string): boolean => {
-    if (href.includes('#')) {
-      const [path, hash] = href.split('#');
-      return location.pathname === (path || '/') && location.hash === `#${hash}`;
+    const [path, hash] = href.split('#');
+    const targetPath = path || '/';
+
+    if (hash) {
+      // Hash link is active ONLY if both pathname and hash match
+      return location.pathname === targetPath && location.hash === `#${hash}`;
     }
-    // Exact pathname match; treat "/" only as home root
+
+    // For the root home link "/", only show as active if there's no hash
+    if (href === '/') {
+      return location.pathname === '/' && !location.hash;
+    }
+
+    // For other links like "/blog", standard pathname match
     return location.pathname === href;
   };
 
@@ -49,7 +58,7 @@ const Navbar = () => {
    * External links are always plain <a>.
    */
   const isRouterLink = (href: string): boolean =>
-    href.startsWith('/') && !href.includes('#') && !href.startsWith('http');
+    href.startsWith('/') && !href.startsWith('http');
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${navbarBg}`}>
@@ -97,15 +106,8 @@ const Navbar = () => {
                 )}
               </Link>
             ) : (
-              // Hash links → plain <a> so browser scrolls to anchor
-              <a key={link.name} href={link.href} className={linkClass}>
+              <a key={link.name} href={link.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
                 {link.name}
-                {active && (
-                  <motion.span
-                    layoutId="nav-indicator"
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-brand-gold rounded-full"
-                  />
-                )}
               </a>
             );
           })}
@@ -163,6 +165,8 @@ const Navbar = () => {
                   <a
                     key={link.name}
                     href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={mobileClass}
                     onClick={() => setIsMenuOpen(false)}
                   >

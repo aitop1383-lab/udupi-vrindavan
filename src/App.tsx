@@ -5,8 +5,8 @@
 
 import React, { Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ScrollToTop from './components/ScrollToTop';
+import { useLocation, BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 
 // 🏡 Standard imports (Instant rendering)
 import Home from './pages/Home';
@@ -36,10 +36,56 @@ const PageLoader = () => <div className="h-screen bg-brand-cream flex items-cent
   <div className="w-12 h-12 border-2 border-brand-blue/10 border-t-brand-gold rounded-full animate-spin" />
 </div>;
 
+// ⚡ Global Scroll Logic (Handles Pathname and Hash)
+const ScrollHandler = () => {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (!hash) {
+      // Normal page navigation: Reset to top
+      window.scrollTo(0, 0);
+    } else {
+      // Hash navigation: Wait for element (helps with lazy loading)
+      const targetId = hash.replace('#', '');
+      let attempts = 0;
+      
+      const tryScroll = () => {
+        const element = document.getElementById(targetId);
+        if (element) {
+          const offset = 85; 
+          const bodyRect = document.body.getBoundingClientRect().top;
+          const elementRect = element.getBoundingClientRect().top;
+          const elementPosition = elementRect - bodyRect;
+          const offsetPosition = elementPosition - offset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+          return true;
+        }
+        return false;
+      };
+
+      // Try once
+      if (!tryScroll()) {
+        const interval = setInterval(() => {
+          attempts++;
+          if (tryScroll() || attempts > 20) {
+            clearInterval(interval);
+          }
+        }, 100);
+      }
+    }
+  }, [pathname, hash]);
+
+  return null;
+};
+
 export default function App() {
   return (
     <Router>
-      <ScrollToTop />
+      <ScrollHandler />
       <div className="min-h-screen selection:bg-brand-gold selection:text-brand-blue">
         <Navbar />
         <Suspense fallback={<PageLoader />}>
