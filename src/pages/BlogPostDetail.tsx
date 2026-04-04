@@ -82,7 +82,6 @@ const BlogPostDetail = () => {
             <div className="h-32 w-full bg-brand-blue/10 rounded-2xl animate-pulse" />
           </div>
         </div>
-        <div className="h-[45vh] md:h-[80vh] w-full bg-brand-blue/10 rounded-2xl animate-pulse mb-20" />
       </div>
     </div>
   );
@@ -158,8 +157,8 @@ const BlogPostDetail = () => {
                   </div>
                 </div>
 
-                {/* Mobile Social Actions */}
-                <div className="flex lg:hidden items-center gap-4 sm:gap-8 mt-10 p-4 bg-white/50 backdrop-blur-sm rounded-2xl border border-brand-blue/5 flex-wrap">
+                {/* Social Actions */}
+                <div className="flex items-center gap-4 sm:gap-8 mt-10 p-4 bg-white/50 backdrop-blur-sm rounded-2xl border border-brand-blue/5 flex-wrap">
                   <button
                     onClick={handleShare}
                     className={`flex items-center gap-3 font-bold text-[10px] uppercase tracking-[0.2em] transition-colors ${copied ? 'text-brand-gold' : 'text-brand-blue/60 hover:text-brand-gold'}`}
@@ -181,52 +180,13 @@ const BlogPostDetail = () => {
         </div>
       </header>
 
-      {/* Featured Image - Wide/Asymmetric */}
-      <section className="max-w-7xl mx-auto px-4 md:px-6 mb-20 overflow-hidden">
-        <motion.div
-          initial={{ clipPath: 'inset(0 100% 0 0)' }}
-          animate={{ clipPath: 'inset(0 0% 0 0)' }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-          className="relative h-[45vh] md:h-[80vh] rounded-2xl overflow-hidden shadow-2xl"
-        >
-          <img
-            src={post.image}
-            alt="Featured"
-            fetchPriority="high"
-            width="1200"
-            height="800"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 ring-1 ring-inset ring-brand-blue/10 rounded-2xl" />
-        </motion.div>
-      </section>
+
 
       {/* Article Content Area */}
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 relative">
-
-        {/* Sticky Social Tools */}
-        <aside className="lg:col-span-1 hidden lg:block h-full min-h-[500px]">
-          <div className="sticky top-40 flex flex-col gap-8 items-center">
-            <button
-              onClick={() => setIsLiked(!isLiked)}
-              className={`p-3 rounded-full border transition-all ${isLiked ? 'bg-red-500 border-red-500 text-white' : 'border-brand-blue/10 text-brand-blue hover:border-brand-gold'}`}
-            >
-              <Heart size={20} fill={isLiked ? 'currentColor' : 'none'} />
-            </button>
-            <button
-              onClick={handleShare}
-              className={`p-3 rounded-full border transition-all ${copied ? 'bg-brand-gold border-brand-gold text-brand-blue' : 'border-brand-blue/10 text-brand-blue hover:border-brand-gold'}`}
-              title="Share post"
-            >
-              <Share2 size={20} className={copied ? 'animate-pulse' : ''} />
-            </button>
-            <div className="h-20 w-px bg-brand-blue/10" />
-            <span className="[writing-mode:vertical-lr] text-[10px] uppercase tracking-[0.3em] font-bold text-brand-blue/40">Share Story</span>
-          </div>
-        </aside>
+      <div className="max-w-7xl mx-auto px-6 relative">
 
         {/* Main Text */}
-        <main className="lg:col-span-8 lg:col-start-3 w-full overflow-hidden">
+        <main className="w-full overflow-hidden">
           <motion.article
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -294,7 +254,7 @@ const BlogPostDetail = () => {
                   <div className="relative aspect-[16/11] overflow-hidden rounded-3xl mb-8 shadow-2xl">
                     <img
                       src={p.image}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
+                      className={`w-full h-full transition-transform duration-1000 ease-out group-hover:scale-110 ${p.image === '/logo.png' ? 'object-contain p-6' : 'object-cover'}`}
                       alt={p.title}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-blue/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />

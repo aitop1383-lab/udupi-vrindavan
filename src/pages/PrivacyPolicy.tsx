@@ -10,7 +10,7 @@ import { Helmet } from 'react-helmet-async';
  */
 const PrivacyPolicy = () => {
   return (
-    <div className="bg-[#fdfcf7] min-h-screen pt-28 pb-20 texture-bg">
+    <div className="bg-[#fdfcf7] min-h-screen pt-24 md:pt-28 pb-16 md:pb-20 texture-bg">
       <Helmet>
         <title>Privacy Policy | Udupi Vrindavan</title>
         <meta name="description" content="Read our privacy policy to understand how we collect, use, and protect your personal information at Udupi Vrindavan." />
@@ -41,7 +41,7 @@ const PrivacyPolicy = () => {
           {/* Introduction */}
           <section>
             <p>
-              At <strong>Udupi Vrindavan</strong>, accessible from <a href="https://udupivrindavan.com/" className="text-brand-gold underline font-bold">https://udupivrindavan.com/</a>, 
+              At <strong>Udupi Vrindavan</strong>, accessible from <a href="https://udupivrindavan.com/" className="text-brand-gold underline font-bold break-all">https://udupivrindavan.com/</a>, 
               one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of 
               information that is collected and recorded by Udupi Vrindavan and how we use it.
             </p>
@@ -74,7 +74,7 @@ const PrivacyPolicy = () => {
               phone number, the contents of the message and/or attachments you may send us, and any other information 
               you may choose to provide.
             </p>
-            <div className="bg-white p-8 rounded-3xl border border-brand-blue/5 shadow-sm my-8">
+            <div className="bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl border border-brand-blue/5 shadow-sm my-8">
               <h4 className="text-brand-blue font-bold mb-6 uppercase text-xs tracking-widest">Personal Information we collect from users:</h4>
               <ul className="grid md:grid-cols-2 gap-4 list-none p-0">
                 {[
@@ -94,7 +94,7 @@ const PrivacyPolicy = () => {
           </section>
 
           {/* How We Use Your Information */}
-          <section className="bg-brand-blue text-brand-cream p-8 md:p-12 rounded-[3.5rem] shadow-xl">
+          <section className="bg-brand-blue text-brand-cream p-6 md:p-12 rounded-3xl md:rounded-[3.5rem] shadow-xl">
             <h2 className="text-3xl font-display text-brand-gold mb-8 italic">How we use your information</h2>
             <ul className="space-y-4 opacity-90 text-lg">
               {[
@@ -142,7 +142,7 @@ const PrivacyPolicy = () => {
           </section>
 
           {/* Browser Policies */}
-          <section className="bg-white p-8 md:p-12 rounded-[3.5rem] border border-brand-gold/20 shadow-sm">
+          <section className="bg-white p-6 md:p-12 rounded-3xl md:rounded-[3.5rem] border border-brand-gold/20 shadow-sm">
             <h2 className="text-3xl font-display text-brand-blue mb-8">Updated Browser Policies</h2>
             <div className="grid md:grid-cols-1 gap-8">
               <div className="flex gap-6">
@@ -194,7 +194,7 @@ const PrivacyPolicy = () => {
                 "The right to erasure", "The right to restrict processing",
                 "The right to object to processing", "The right to data portability"
               ].map((right, idx) => (
-                <div key={idx} className="flex gap-4 p-4 bg-white rounded-2xl shadow-sm border border-brand-blue/5">
+                <div key={idx} className="flex gap-4 p-4 bg-white rounded-2xl md:rounded-3xl shadow-sm border border-brand-blue/5">
                   <div className="text-brand-gold font-bold">0{idx + 1}</div>
                   <div className="text-sm font-semibold text-brand-blue">{right}</div>
                 </div>
@@ -213,14 +213,14 @@ const PrivacyPolicy = () => {
           </section>
 
           {/* Footer Contact Card */}
-          <section className="bg-brand-blue text-brand-cream p-10 rounded-[3rem] text-center relative overflow-hidden">
+          <section className="bg-brand-blue text-brand-cream p-8 md:p-10 rounded-3xl md:rounded-[3rem] text-center relative overflow-hidden">
             <div className="absolute top-0 right-0 opacity-10 -translate-y-1/2 translate-x-1/2">
               <Mail size={300} />
             </div>
             <h2 className="text-3xl font-display text-brand-gold mb-6 italic">Contact Us</h2>
             <p className="text-xl mb-8 opacity-80">Questions about your privacy? Reach out to our team.</p>
             <div className="space-y-2">
-              <a href="mailto:info@UdupiVrindavan.com" className="text-2xl font-bold hover:text-brand-gold transition-colors block">
+              <a href="mailto:info@UdupiVrindavan.com" className="text-lg md:text-2xl font-bold hover:text-brand-gold transition-colors block break-all">
                 info@UdupiVrindavan.com
               </a>
               <p className="font-bold text-brand-gold mt-4">Udupi Vrindavan Restaurant LLC</p>

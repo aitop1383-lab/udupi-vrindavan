@@ -3,6 +3,7 @@ import { BlogPost } from '../types/blog';
 export const INITIAL_BLOG_POSTS: BlogPost[] = [
   {
     id: '1',
+    slug: 'the-art-of-madi',
     title: 'The Art of Madi: Tradition of Sacred Food',
     excerpt: 'Explore the profound spiritual and hygiene practices behind Udupi’s centuries-old culinary traditions.',
     content: `
@@ -19,12 +20,13 @@ export const INITIAL_BLOG_POSTS: BlogPost[] = [
     `,
     author: 'Chief Chef Arjun',
     date: 'March 25, 2024',
-    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2070&auto=format&fit=crop',
+    image: '/logo.png',
     category: 'Tradition',
     readTime: '5 min read'
   },
   {
     id: '2',
+    slug: 'coconut-oil-hero',
     title: 'Why Coconut Oil is the Hero of our Kitchen',
     excerpt: 'Discover the health benefits and authentic flavor profile that pure coconut oil brings to every Udupi dish.',
     content: `
@@ -41,12 +43,13 @@ export const INITIAL_BLOG_POSTS: BlogPost[] = [
     `,
     author: 'Chinmay K.',
     date: 'March 20, 2024',
-    image: 'https://images.unsplash.com/photo-1606787366850-de6330128bfc?q=80&w=2070&auto=format&fit=crop',
+    image: '/logo.png',
     category: 'Health',
     readTime: '4 min read'
   },
   {
     id: '3',
+    slug: '7-temples-of-udupi',
     title: 'Navigating the 7 Temples of Udupi',
     excerpt: 'A traveler’s guide to the spiritual epicenter of the South—the sacred temple circuit of Udupi.',
     content: `
@@ -63,7 +66,7 @@ export const INITIAL_BLOG_POSTS: BlogPost[] = [
     `,
     author: 'Vikas Rao',
     date: 'March 15, 2024',
-    image: 'https://images.unsplash.com/photo-1590766940554-6d2c673e4a6d?q=80&w=2070&auto=format&fit=crop',
+    image: '/logo.png',
     category: 'Culture',
     readTime: '6 min read'
   }

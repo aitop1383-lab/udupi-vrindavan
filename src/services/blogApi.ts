@@ -22,7 +22,7 @@ const getFeaturedImage = (wpPost: any): string => {
     media?.media_details?.sizes?.large?.source_url ||
     media?.media_details?.sizes?.medium?.source_url ||
     media?.source_url ||
-    'https://images.unsplash.com/photo-1512621776951-a57141f2eefd'
+    '/logo.png'
   );
 };
 

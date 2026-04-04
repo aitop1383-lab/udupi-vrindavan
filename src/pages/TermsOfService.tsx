@@ -22,7 +22,7 @@ import { Helmet } from 'react-helmet-async';
  */
 const TermsOfService = () => {
   return (
-    <div className="bg-[#fdfcf7] min-h-screen pt-28 pb-20 font-sans texture-bg">
+    <div className="bg-[#fdfcf7] min-h-screen pt-24 md:pt-28 pb-16 md:pb-20 font-sans texture-bg">
       <Helmet>
         <title>Terms Of Use | Udupi Vrindavan</title>
         <meta name="description" content="Review the terms and conditions for using Udupi Vrindavan's website and services." />
@@ -51,7 +51,7 @@ const TermsOfService = () => {
           className="prose prose-lg max-w-none text-brand-blue/80 leading-relaxed space-y-12"
         >
           {/* Welcome Intro */}
-          <section className="text-center md:text-left bg-brand-blue/5 p-8 rounded-[2.5rem] border border-brand-blue/5">
+          <section className="text-center md:text-left bg-brand-blue/5 p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] border border-brand-blue/5">
             <p className="text-lg md:text-xl m-0">
               Welcome to <strong>Udupi Vrindavan</strong>. By accessing or using our website, you agree to comply with and be bound by the following terms and conditions of use. Please read these terms carefully before using our site.
             </p>
@@ -59,7 +59,7 @@ const TermsOfService = () => {
 
           {/* 1 & 2: Acceptance and Changes */}
           <div className="grid md:grid-cols-2 gap-8">
-            <section className="bg-white p-8 rounded-[2.5rem] border border-brand-blue/5 shadow-sm">
+            <section className="bg-white p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] border border-brand-blue/5 shadow-sm">
               <div className="flex items-center gap-3 mb-4">
                 <CheckCircle className="text-brand-gold" size={24} />
                 <h3 className="text-xl font-bold text-brand-blue m-0 font-display">1. Acceptance of Terms</h3>
@@ -69,7 +69,7 @@ const TermsOfService = () => {
               </p>
             </section>
 
-            <section className="bg-white p-8 rounded-[2.5rem] border border-brand-blue/5 shadow-sm">
+            <section className="bg-white p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] border border-brand-blue/5 shadow-sm">
               <div className="flex items-center gap-3 mb-4">
                 <RefreshCw className="text-brand-gold" size={24} />
                 <h3 className="text-xl font-bold text-brand-blue m-0 font-display">2. Changes to Terms</h3>
@@ -81,7 +81,7 @@ const TermsOfService = () => {
           </div>
 
           {/* 3. Use of the Website */}
-          <section className="bg-brand-blue text-brand-cream p-8 md:p-12 rounded-[3.5rem] shadow-xl">
+          <section className="bg-brand-blue text-brand-cream p-6 md:p-12 rounded-3xl md:rounded-[3.5rem] shadow-xl">
             <div className="flex items-center gap-4 mb-8">
               <User className="text-brand-gold" size={32} />
               <h2 className="text-3xl font-display text-brand-gold m-0 italic">3. Use of the Website</h2>
@@ -136,7 +136,7 @@ const TermsOfService = () => {
           </section>
 
           {/* 6, 7, 8: Legal Protections */}
-          <section className="space-y-8 bg-brand-cream/30 p-8 md:p-12 rounded-[3rem]">
+          <section className="space-y-8 bg-brand-cream/30 p-6 md:p-12 rounded-3xl md:rounded-[3rem]">
             <div className="flex gap-6 items-start">
               <ExternalLink className="text-brand-gold mt-1 shrink-0" size={24} />
               <div>
@@ -163,7 +163,7 @@ const TermsOfService = () => {
           </section>
 
           {/* 9. Governing Law */}
-          <section className="text-center p-10 bg-white border border-brand-gold/20 rounded-[3rem] shadow-xl">
+          <section className="text-center p-6 md:p-10 bg-white border border-brand-gold/20 rounded-3xl md:rounded-[3rem] shadow-xl">
             <Gavel className="text-brand-blue mx-auto mb-4" />
             <h2 className="text-2xl font-display text-brand-blue mb-4">9. Governing Law</h2>
             <p className="text-base font-medium">
@@ -172,14 +172,14 @@ const TermsOfService = () => {
           </section>
 
           {/* 10. Contact Section */}
-          <section className="bg-brand-blue text-brand-cream p-12 rounded-[3.5rem] text-center relative overflow-hidden shadow-2xl">
+          <section className="bg-brand-blue text-brand-cream p-8 md:p-12 rounded-3xl md:rounded-[3.5rem] text-center relative overflow-hidden shadow-2xl">
             <Mail className="text-brand-gold/10 absolute -right-10 -bottom-10" size={250} />
             <div className="relative z-10">
               <h2 className="text-3xl font-display text-brand-gold mb-6 italic">10. Contact Us</h2>
               <p className="text-lg mb-8 opacity-80">If you have any questions or concerns about these Terms of Use, please reach out.</p>
               <a 
                 href="mailto:info@UdupiVrindavan.com" 
-                className="bg-brand-gold text-brand-blue px-10 py-4 rounded-full font-bold hover:bg-white transition-all inline-block shadow-lg"
+                className="bg-brand-gold text-brand-blue px-6 md:px-10 py-3 md:py-4 rounded-full font-bold hover:bg-white transition-all inline-block shadow-lg text-sm md:text-base break-words"
               >
                 info@UdupiVrindavan.com
               </a>

@@ -27,7 +27,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
           loading="lazy"
           width="400"
           height="250"
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className={`w-full h-full transition-transform duration-700 group-hover:scale-105 ${post.image === '/logo.png' ? 'object-contain p-6' : 'object-cover'}`}
         />
         {/* Category Badge - using brand colors */}
         <div className="absolute top-4 left-4">
