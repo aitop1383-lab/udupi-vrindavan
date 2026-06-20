@@ -1,5 +1,7 @@
 import { BlogPost } from '../types/blog';
 
+const DEFAULT_GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyaBHnmNalAdlbWn7y5mcuSxWiIrKQUxlOa6ElBaXXmYt86IP-173Zm7yfwSExhdIgpLA/exec';
+
 // =========================================================================
 // ⚙️ DEFAULT PRODUCTION DATABASE CONFIGURATION
 // Active Backend: Google Sheets Apps Script (Supabase is disabled)
@@ -21,7 +23,7 @@ export const DEFAULT_CONFIG = {
   // supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || '', // DISABLED
   supabaseUrl: '',
   supabaseAnonKey: '',
-  googleSheetsUrl: (import.meta as any).env?.VITE_GOOGLE_SHEETS_URL || ''   // e.g. 'https://script.google.com/macros/s/xxxxxx/exec'
+  googleSheetsUrl: (import.meta as any).env?.VITE_GOOGLE_SHEETS_URL || DEFAULT_GOOGLE_SHEETS_URL
 };
 
 // =========================================================================
