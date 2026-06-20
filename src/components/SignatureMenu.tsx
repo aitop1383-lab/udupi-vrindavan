@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRightCircle, ChevronRight } from 'lucide-react';
 
@@ -8,6 +8,9 @@ const SignatureMenu = () => {
   const startX = useRef(0);
   const scrollLeft = useRef(0);
 
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
   const categories = [
     { name: "Combos", img: "/categories/Combos.jpg", link: "https://order.udupivrindavan.com/shop/?category=355129" },
     { name: "Dosa", img: "/categories/Dosa.jpg", link: "https://order.udupivrindavan.com/shop/?category=355128" },
@@ -16,6 +19,36 @@ const SignatureMenu = () => {
     { name: "Hot Beverages", img: "/categories/Hot Beverages.jpg", link: "https://order.udupivrindavan.com/shop/?category=355131" },
     { name: "Cold Beverages", img: "/categories/Cold Beverages.jpg", link: "https://order.udupivrindavan.com/shop/?category=355133" },
   ];
+
+  const checkScrollLimits = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    setCanScrollLeft(scrollLeft > 10);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+  };
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    checkScrollLimits();
+    
+    el.addEventListener('scroll', checkScrollLimits);
+    window.addEventListener('resize', checkScrollLimits);
+    return () => {
+      el.removeEventListener('scroll', checkScrollLimits);
+      window.removeEventListener('resize', checkScrollLimits);
+    };
+  }, []);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (!scrollRef.current) return;
+    const scrollAmount = 400;
+    const target = scrollRef.current.scrollLeft + (direction === 'left' ? -scrollAmount : scrollAmount);
+    scrollRef.current.scrollTo({
+      left: target,
+      behavior: 'smooth'
+    });
+  };
 
   // ── Drag-to-scroll handlers ──────────────────────────────
   const onMouseDown = (e: React.MouseEvent) => {
@@ -29,11 +62,13 @@ const SignatureMenu = () => {
   const onMouseLeave = () => {
     isDragging.current = false;
     if (scrollRef.current) scrollRef.current.style.cursor = 'grab';
+    checkScrollLimits();
   };
 
   const onMouseUp = () => {
     isDragging.current = false;
     if (scrollRef.current) scrollRef.current.style.cursor = 'grab';
+    checkScrollLimits();
   };
 
   const onMouseMove = (e: React.MouseEvent) => {
@@ -42,6 +77,7 @@ const SignatureMenu = () => {
     const x = e.pageX - scrollRef.current.offsetLeft;
     const walk = (x - startX.current) * 1.4;
     scrollRef.current.scrollLeft = scrollLeft.current - walk;
+    checkScrollLimits();
   };
 
   return (
@@ -65,7 +101,39 @@ const SignatureMenu = () => {
         </div>
 
         {/* Draggable Horizontal Slider */}
-        <div className="relative group">
+        <div className="relative group/slider">
+          {/* Left Arrow Button */}
+          <div className="hidden lg:block absolute left-[-60px] top-[calc(50%-40px)] -translate-y-1/2 z-20">
+            <button
+              onClick={() => scroll('left')}
+              disabled={!canScrollLeft}
+              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg border transition-all duration-300 ${
+                canScrollLeft 
+                  ? 'bg-brand-blue border-brand-blue text-brand-gold hover:bg-brand-gold hover:text-brand-blue hover:scale-110 cursor-pointer' 
+                  : 'bg-brand-blue/5 border-brand-blue/5 text-brand-blue/20 cursor-not-allowed'
+              }`}
+              title="Scroll Left"
+            >
+              <ChevronRight className="rotate-180" size={24} />
+            </button>
+          </div>
+
+          {/* Right Arrow Button */}
+          <div className="hidden lg:block absolute right-[-60px] top-[calc(50%-40px)] -translate-y-1/2 z-20">
+            <button
+              onClick={() => scroll('right')}
+              disabled={!canScrollRight}
+              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg border transition-all duration-300 ${
+                canScrollRight 
+                  ? 'bg-brand-blue border-brand-blue text-brand-gold hover:bg-brand-gold hover:text-brand-blue hover:scale-110 cursor-pointer' 
+                  : 'bg-brand-blue/5 border-brand-blue/5 text-brand-blue/20 cursor-not-allowed'
+              }`}
+              title="Scroll Right"
+            >
+              <ChevronRight size={24} />
+            </button>
+          </div>
+
           <div
             ref={scrollRef}
             className="flex overflow-x-auto gap-8 pb-12 no-scrollbar snap-x snap-mandatory select-none"

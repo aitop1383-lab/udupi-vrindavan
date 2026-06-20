@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Instagram, Facebook, Youtube, MapPin, Phone, Mail, Clock, ChevronRight } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
@@ -13,6 +13,16 @@ import { SOCIAL_LINKS, NAV_LINKS, CONTACT_DETAILS } from '../data/siteConfig';
  * operating hours, and contact details.
  */
 const Footer = () => {
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <footer className="bg-brand-blue text-brand-cream pt-20 md:pt-32 pb-12 relative overflow-hidden">
@@ -186,23 +196,36 @@ const Footer = () => {
 
 
         {/* --- Back to Top Button (Animated) --- */}
-        <motion.button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          animate={{
-            boxShadow: [
-              '0 0 0 0px rgba(212,166,90,0)',
-              '0 0 0 8px rgba(212,166,90,0.25)',
-              '0 0 0 16px rgba(212,166,90,0)',
-            ],
-          }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-          whileHover={{ scale: 1.15, y: -2 }}
-          whileTap={{ scale: 0.9 }}
-          className="fixed bottom-6 right-6 w-12 h-12 bg-brand-gold rounded-2xl flex items-center justify-center text-brand-blue shadow-xl z-50"
-          title="Back to top"
-        >
-          <ChevronRight className="-rotate-90" size={24} />
-        </motion.button>
+        <AnimatePresence>
+          {showScrollTop && (
+            <motion.button
+              key="back-to-top"
+              initial={{ opacity: 0, scale: 0.5, y: 20 }}
+              animate={{ 
+                opacity: 1, 
+                scale: 1, 
+                y: 0,
+                boxShadow: [
+                  '0 0 0 0px rgba(212,166,90,0)',
+                  '0 0 0 8px rgba(212,166,90,0.25)',
+                  '0 0 0 16px rgba(212,166,90,0)',
+                ],
+              }}
+              exit={{ opacity: 0, scale: 0.5, y: 20 }}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              transition={{
+                boxShadow: { duration: 2.5, repeat: Infinity, ease: 'easeInOut' },
+                default: { duration: 0.3 }
+              }}
+              whileHover={{ scale: 1.15, y: -2 }}
+              whileTap={{ scale: 0.9 }}
+              className="fixed bottom-6 right-6 w-12 h-12 bg-brand-gold rounded-2xl flex items-center justify-center text-brand-blue shadow-xl z-50 cursor-pointer"
+              title="Back to top"
+            >
+              <ChevronRight className="-rotate-90" size={24} />
+            </motion.button>
+          )}
+        </AnimatePresence>
 
       </div>
     </footer>

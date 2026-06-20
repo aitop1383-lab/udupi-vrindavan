@@ -1,0 +1,32 @@
+declare module 'react-icons/io5' {
+  export const IoCameraOutline: any;
+  export const IoAddCircleOutline: any;
+  export const IoScanOutline: any;
+  export const IoMailOutline: any;
+  export const IoCallOutline: any;
+  export const IoBulbOutline: any;
+  export const IoChatbubbleEllipsesOutline: any;
+  export const IoLockClosedOutline: any;
+  export const IoCreateOutline: any;
+  export const IoListOutline: any;
+  export const IoEyeOutline: any;
+  export const IoCheckmarkCircleOutline: any;
+  export const IoCloudUploadOutline: any;
+  export const IoArrowForwardOutline: any;
+  export const IoSparklesOutline: any;
+  export const IoArrowBackOutline: any;
+  export const IoInformationCircleOutline: any;
+  export const IoTrashOutline: any;
+  export const IoSettingsOutline: any;
+  export const IoRefreshOutline: any;
+  export const IoCloudDoneOutline: any;
+  export const IoAlertCircleOutline: any;
+  export const IoPencilOutline: any;
+  export const IoWarningOutline: any;
+  export const IoBookOutline: any;
+  export const IoStatsChartOutline: any;
+  export const IoCalendarOutline: any;
+  export const IoCloseOutline: any;
+  export const IoImageOutline: any;
+  export const IoLinkOutline: any;
+}

@@ -1,6 +1,6 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Map, Plane, Train, Car, Compass, Images, Star, Utensils } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Map, Plane, Train, Car, Compass, Images, Star, Utensils, X, ChevronRight } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { 
   UDUPI_FEATURES, 
@@ -12,6 +12,59 @@ import {
 } from "../data/siteConfig";
 
 const VisitUdupi = () => {
+  const [isPlannerOpen, setIsPlannerOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'day1' | 'day2' | 'day3'>('day1');
+  const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (activeImageIndex === null) return;
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setActiveImageIndex(null);
+      } else if (e.key === "ArrowRight") {
+        setActiveImageIndex((prev) => (prev !== null ? (prev + 1) % CULTURE_GALLERY.length : null));
+      } else if (e.key === "ArrowLeft") {
+        setActiveImageIndex((prev) => (prev !== null ? (prev - 1 + CULTURE_GALLERY.length) % CULTURE_GALLERY.length : null));
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeImageIndex]);
+
+  const itineraries = {
+    day1: {
+      title: "1-Day Spiritual Pilgrimage",
+      tagline: "Focus on sacred temples and traditional Satvik dining",
+      steps: [
+        { time: "06:00 AM", activity: "Temple Darshan", detail: "Start early to witness the divine morning arati and view the deity through the historic Kanakana Kindi." },
+        { time: "08:30 AM", activity: "Traditional Breakfast", detail: "Relish legendary Ghee Podi Idlis and piping hot Filter Kaapi at the local eateries near the Car Street." },
+        { time: "12:00 PM", activity: "Satvik Lunch at Bhojana Shala", detail: "Experience the ultimate community feast served on banana leaves inside the temple premises." },
+        { time: "04:30 PM", activity: "Sunset at Malpe Beach", detail: "Relax on the silver sands of Malpe Beach and capture the stunning coastal sunset." }
+      ]
+    },
+    day2: {
+      title: "2-Day Nature & Coastline Explorer",
+      tagline: "Discover unique basaltic islands, backwaters, and lighthouses",
+      steps: [
+        { time: "Day 1 - 09:00 AM", activity: "St. Mary's Island Ferry", detail: "Take a boat from Malpe to explore the geological marvel of hexagonal basaltic lava rock formations." },
+        { time: "Day 1 - 05:00 PM", activity: "Kapu Beach Lighthouse", detail: "Climb the historic 1901 lighthouse for a panoramic view of the Arabian Sea at sunset." },
+        { time: "Day 2 - 07:30 AM", activity: "Kemmannu Backwater Kayaking", detail: "Paddle through the serene mangrove-lined backwater canals and cross the hanging bridge." },
+        { time: "Day 2 - 04:00 PM", activity: "Delta Beach Hangout", detail: "Walk where the Suvarna river meets the sea, enjoying fresh coconut water and peace." }
+      ]
+    },
+    day3: {
+      title: "3-Day Ultimate Culinary & Heritage",
+      tagline: "A comprehensive immersion into cuisine, monuments, and spiritual roots",
+      steps: [
+        { time: "Day 1", activity: "Mitra Samaj & Pajaka Heritage", detail: "Enjoy authentic breakfast at Mitra Samaj, then visit Pajaka Kshetra, the birthplace of saint Sri Madhvacharya." },
+        { time: "Day 2", activity: "Island Excursion & Neer Dosa Dinner", detail: "Spend the day at St. Mary's Island, and end it with a soft, lacy Neer Dosa dinner in town." },
+        { time: "Day 3", activity: "Karkala & Moodabidri Monuments", detail: "Drive inland to see the Gommateshwara monolith in Karkala and the stunning 1000-pillar temple in Moodabidri." }
+      ]
+    }
+  };
+
   return (
     <div className="bg-[#fdfcf7] min-h-screen pt-16 md:pt-20 overflow-x-hidden font-sans selection:bg-brand-gold/30 texture-bg">
       <Helmet>
@@ -206,6 +259,7 @@ const VisitUdupi = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
+                onClick={() => setActiveImageIndex(i)}
                 className="relative overflow-hidden rounded-[1.5rem] md:rounded-[2.5rem] shadow-2xl group cursor-pointer"
               >
                 <img src={`/VisitUdupi_Gallery/${item.src}`} className="w-full group-hover:scale-110 transition duration-1000" alt={item.label} />
@@ -250,11 +304,185 @@ const VisitUdupi = () => {
         </h3>
         <motion.button 
           whileHover={{ scale: 1.05, backgroundColor: '#002E54', color: '#fff' }}
-          className="mt-10 md:mt-16 bg-brand-gold text-brand-blue px-8 md:px-12 py-4 md:py-5 rounded-full font-bold uppercase tracking-[0.2em] md:tracking-[0.3em] text-[10px] md:text-sm shadow-2xl transition-all"
+          onClick={() => setIsPlannerOpen(true)}
+          className="mt-10 md:mt-16 bg-brand-gold text-brand-blue px-8 md:px-12 py-4 md:py-5 rounded-full font-bold uppercase tracking-[0.2em] md:tracking-[0.3em] text-[10px] md:text-sm shadow-2xl transition-all cursor-pointer"
         >
           Explore Trip Planner
         </motion.button>
       </section>
+
+      {/* --- ITINERARY MODAL --- */}
+      <AnimatePresence>
+        {isPlannerOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-brand-blue/80 backdrop-blur-md flex items-center justify-center p-4"
+            onClick={() => setIsPlannerOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="bg-[#fdfcf7] border-4 border-brand-gold/30 rounded-[2.5rem] shadow-2xl p-6 md:p-10 max-w-4xl w-full max-h-[85vh] overflow-y-auto relative text-brand-blue"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setIsPlannerOpen(false)}
+                className="absolute top-5 right-5 text-brand-blue hover:text-brand-gold bg-brand-blue/5 p-2 rounded-full hover:bg-brand-blue/10 transition-all cursor-pointer"
+                title="Close"
+              >
+                <X size={24} />
+              </button>
+
+              {/* Title */}
+              <div className="text-center mb-8">
+                <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-xs mb-2 block font-sans">
+                  Curated Guide
+                </span>
+                <h3 className="text-3xl md:text-5xl font-display leading-tight">
+                  Udupi <span className="italic text-brand-gold font-display font-serif">Itinerary Planner</span>
+                </h3>
+                <div className="w-24 h-0.5 bg-brand-gold/30 mx-auto mt-4"></div>
+              </div>
+
+              {/* Tabs */}
+              <div className="flex flex-wrap justify-center gap-3 mb-8 font-sans">
+                {(Object.keys(itineraries) as Array<keyof typeof itineraries>).map((key) => (
+                  <button
+                    key={key}
+                    onClick={() => setActiveTab(key)}
+                    className={`px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
+                      activeTab === key
+                        ? "bg-brand-blue text-brand-cream shadow-md scale-105"
+                        : "bg-white text-brand-blue/60 hover:text-brand-blue hover:bg-white/80 border border-brand-blue/10"
+                    }`}
+                  >
+                    {itineraries[key].title.split(" ")[0]} ({key === 'day1' ? '1 Day' : key === 'day2' ? '2 Days' : '3 Days'})
+                  </button>
+                ))}
+              </div>
+
+              {/* Tab Content */}
+              <div className="bg-white p-6 md:p-8 rounded-[2rem] border border-brand-blue/5 shadow-inner">
+                <h4 className="text-2xl font-bold font-display mb-2">
+                  {itineraries[activeTab].title}
+                </h4>
+                <p className="text-brand-blue/60 text-sm italic mb-8 border-l-2 border-brand-gold/30 pl-4 font-sans">
+                  {itineraries[activeTab].tagline}
+                </p>
+
+                {/* Timeline */}
+                <div className="relative border-l-2 border-dashed border-brand-gold/40 ml-4 pl-8 space-y-8">
+                  {itineraries[activeTab].steps.map((step, idx) => (
+                    <div key={idx} className="relative">
+                      {/* Timeline dot */}
+                      <div className="absolute left-[-41px] top-1.5 w-6 h-6 rounded-full bg-brand-gold border-4 border-brand-cream flex items-center justify-center shadow-md">
+                        <div className="w-1.5 h-1.5 rounded-full bg-brand-blue"></div>
+                      </div>
+                      
+                      <div>
+                        <span className="inline-block bg-brand-blue/5 text-brand-blue text-xs font-bold px-3 py-1 rounded-full mb-2 uppercase tracking-wider font-sans">
+                          {step.time}
+                        </span>
+                        <h5 className="text-lg font-bold tracking-tight text-brand-blue font-display">
+                          {step.activity}
+                        </h5>
+                        <p className="text-brand-blue/70 text-sm leading-relaxed mt-1 font-light font-sans">
+                          {step.detail}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Travel Advisory Footer */}
+              <div className="mt-8 text-center bg-brand-blue/5 p-5 rounded-2xl border border-brand-blue/5">
+                <p className="text-xs text-brand-blue/60 leading-relaxed font-light font-sans">
+                  💡 <strong>Tip:</strong> Always check temple darshan timings before visiting. Standard dress codes apply for temple entry (men: dhoti/shawl, women: saree/salwar).
+                </p>
+              </div>
+
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* --- LIGHTBOX MODAL --- */}
+      <AnimatePresence>
+        {activeImageIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[110] bg-brand-blue/95 backdrop-blur-xl flex flex-col items-center justify-center p-4 select-none"
+            onClick={() => setActiveImageIndex(null)}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setActiveImageIndex(null)}
+              className="absolute top-6 right-6 text-white hover:text-brand-gold bg-white/10 p-3 rounded-full hover:bg-white/20 transition-all cursor-pointer z-[120]"
+              title="Close Viewer"
+            >
+              <X size={28} />
+            </button>
+
+            {/* Left Navigation Arrow */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveImageIndex((prev) => (prev !== null ? (prev - 1 + CULTURE_GALLERY.length) % CULTURE_GALLERY.length : null));
+              }}
+              className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 text-white hover:text-brand-gold bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all cursor-pointer z-[120]"
+              title="Previous Image"
+            >
+              <ChevronRight className="rotate-180" size={28} />
+            </button>
+
+            {/* Right Navigation Arrow */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveImageIndex((prev) => (prev !== null ? (prev + 1) % CULTURE_GALLERY.length : null));
+              }}
+              className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 text-white hover:text-brand-gold bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all cursor-pointer z-[120]"
+              title="Next Image"
+            >
+              <ChevronRight size={28} />
+            </button>
+
+            {/* Image Card Container */}
+            <motion.div
+              initial={{ scale: 0.95, y: 10 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 10 }}
+              className="relative max-w-4xl w-full flex flex-col items-center gap-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl max-h-[70vh] flex items-center justify-center bg-black/40">
+                <img
+                  src={`/VisitUdupi_Gallery/${CULTURE_GALLERY[activeImageIndex].src}`}
+                  alt={CULTURE_GALLERY[activeImageIndex].label}
+                  className="max-w-full max-h-[70vh] object-contain"
+                />
+              </div>
+              
+              {/* Caption & Counter */}
+              <div className="text-center text-white px-6 max-w-2xl">
+                <p className="text-brand-gold uppercase tracking-[0.2em] text-[10px] md:text-xs mb-2 font-sans font-bold">
+                  Image {activeImageIndex + 1} of {CULTURE_GALLERY.length}
+                </p>
+                <h4 className="text-xl md:text-2xl font-display italic font-semibold">
+                  {CULTURE_GALLERY[activeImageIndex].label}
+                </h4>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

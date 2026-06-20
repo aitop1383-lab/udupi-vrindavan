@@ -9,7 +9,7 @@ import { FaTripadvisor } from "react-icons/fa";
  */
 
 export const CONTACT_DETAILS = {
-    address: "FB04, WASL Opal, Street 26, Al Karama, Dubai, UAE",
+    address: "Udupi Vrindavan Restaurant LLC, FB04, WASL Opal, Street 26, Al Karama, Dubai, UAE",
     phone: "+971 42 7253 23",
     whatsapp: "+971 56 301 8186",
     email: "info@UdupiVrindavan.com",
@@ -86,6 +86,7 @@ export const NAV_LINKS = [
     { name: "Heritage", href: "/heritage" },
     { name: "Our Commitment", href: "/our-commitment" },
     { name: "Blog", href: "/blog" },
+
     { name: "Contact Us", href: "/contact-us" },
     { name: "Order Online", href: "https://order.udupivrindavan.com" }
 ];
@@ -229,7 +230,7 @@ export const VIDEO_REVIEWS = [
 export const UDUPI_FEATURES = [
     {
         title: "Spiritual Heritage",
-        desc: "Experience the 13th-century Sri Krishna Temple, the epicenter of Dvaita philosophy and sacred traditions."
+        desc: "Experience the 13th-century Temple, the epicenter of Dvaita philosophy and sacred traditions."
     },
     {
         title: "Coastal Beauty",
@@ -262,7 +263,7 @@ export const TRAVEL_MODES = [
 export const MUST_VISIT_PLACES = [
     {
         img: "/VisitUdupi_Gallery/temple.jpeg",
-        title: "Sri Krishna Temple",
+        title: "Temple",
         desc: "A divine sanctuary featuring the unique 'Kanakana Kindi' window."
     },
     {

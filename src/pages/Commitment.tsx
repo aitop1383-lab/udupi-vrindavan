@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, Users, Coins, GraduationCap, ArrowRightCircle } from 'lucide-react';
 // Importing the data from siteConfig
 import { EMPLOYEE_BENEFITS } from '../data/siteConfig';
 
 const Commitment = () => {
+  const [lang, setLang] = useState<'en' | 'kn'>('en');
+
   // Helper to map icons to specific titles
   const getIcon = (title: string) => {
     switch (title) {
@@ -26,24 +28,56 @@ const Commitment = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         
         {/* Header Section */}
-        <div className="text-center mb-16 md:mb-24">
+        <div className="text-center mb-10 md:mb-16">
           <motion.span
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
             className="text-brand-gold font-bold tracking-[0.3em] uppercase text-xs mb-4 block"
           >
-            Our Promise
+            {lang === 'kn' ? 'ನಮ್ಮ ವಾಗ್ದಾನ' : 'Our Promise'}
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             className="text-4xl sm:text-5xl md:text-6xl text-brand-blue leading-tight mb-6"
           >
-            Commitment to <span className="italic text-brand-gold">Employees</span>
+            {lang === 'kn' ? (
+              <>ಸಿಬ್ಬಂದಿ <span className="italic text-brand-gold font-display">ಬದ್ಧತೆ</span></>
+            ) : (
+              <>Commitment to <span className="italic text-brand-gold font-display">Employees</span></>
+            )}
           </motion.h2>
           
           <div className="flex items-center justify-center gap-4">
             <div className="w-12 h-px bg-brand-gold/30"></div>
-            <p className="text-sm uppercase tracking-widest text-brand-gold font-bold">The Provider of Food Shall Be Happy</p>
+            <p className="text-sm uppercase tracking-widest text-brand-gold font-bold">
+              {lang === 'kn' ? 'ಅನ್ನದಾತಾ ಸುಖೀಭವ' : 'The Provider of Food Shall Be Happy'}
+            </p>
             <div className="w-12 h-px bg-brand-gold/30"></div>
+          </div>
+        </div>
+
+        {/* Language Toggle Switch */}
+        <div className="flex justify-center mb-16">
+          <div className="bg-brand-blue/5 p-1 rounded-full border border-brand-blue/10 flex items-center gap-1">
+            <button
+              onClick={() => setLang('en')}
+              className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
+                lang === 'en'
+                  ? 'bg-brand-blue text-brand-cream shadow-md'
+                  : 'text-brand-blue/60 hover:text-brand-blue'
+              }`}
+            >
+              English
+            </button>
+            <button
+              onClick={() => setLang('kn')}
+              className={`px-6 py-2.5 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${
+                lang === 'kn'
+                  ? 'bg-brand-blue text-brand-cream shadow-md'
+                  : 'text-brand-blue/60 hover:text-brand-blue'
+              }`}
+            >
+              ಕನ್ನಡ
+            </button>
           </div>
         </div>
 
@@ -63,18 +97,21 @@ const Commitment = () => {
                     {getIcon(benefit.title)}
                   </div>
                   <div>
-                    <h3 className="text-2xl md:text-3xl font-bold">{benefit.title}</h3>
-                    <p className="text-brand-gold/80 text-sm uppercase tracking-widest mt-1 font-semibold">Core Benefit</p>
+                    <h3 className="text-2xl md:text-3xl font-bold font-display">
+                      {lang === 'kn' ? (benefit as any).kannadaTitle : benefit.title}
+                    </h3>
+                    <p className="text-brand-gold/80 text-sm uppercase tracking-widest mt-1 font-semibold">
+                      {lang === 'kn' ? 'ಮುಖ್ಯ ಸೌಲಭ್ಯ' : 'Core Benefit'}
+                    </p>
                   </div>
                 </div>
               </div>
 
               <div className="p-6 md:p-10 lg:p-12">
                 <div className="max-w-4xl mx-auto">
-                  {/* English Items Only - Clean Single Column Layout */}
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
-                    {benefit.items.map((item, i) => (
-                      <li key={i} className="flex gap-4 items-start">
+                    {(lang === 'kn' ? (benefit as any).kannadaItems : benefit.items).map((item, i) => (
+                      <li key={i} className="flex gap-4 items-start animate-fade-in">
                         <ArrowRightCircle className="w-6 h-6 text-brand-gold flex-shrink-0 mt-0.5" />
                         <span className="text-brand-blue/80 text-base md:text-lg leading-relaxed">{item}</span>
                       </li>
@@ -93,8 +130,12 @@ const Commitment = () => {
             className="text-center bg-white/50 backdrop-blur-sm px-10 py-8 rounded-[2rem] border border-brand-gold/20 shadow-inner"
           >
             <div className="w-24 h-0.5 bg-brand-gold mx-auto mb-4"></div>
-            <p className="text-brand-blue text-xl md:text-2xl font-display mb-2">Our staff are the soul of our organization</p>
-            <p className="text-brand-gold uppercase tracking-widest text-[10px] font-bold opacity-70">Udupi Vrindavan Hospitality Group</p>
+            <p className="text-brand-blue text-xl md:text-2xl font-display mb-2">
+              {lang === 'kn' ? 'ನಮ್ಮ ಸಿಬ್ಬಂದಿಯೇ ನಮ್ಮ ಸಂಸ್ಥೆಯ ಜೀವಾಳ' : 'Our staff are the soul of our organization'}
+            </p>
+            <p className="text-brand-gold uppercase tracking-widest text-[10px] font-bold opacity-70">
+              {lang === 'kn' ? 'ಉಡುಪಿ ಬೃಂದಾವನ ಹಾಸ್ಪಿಟಾಲಿಟಿ ಗ್ರೂಪ್' : 'Udupi Vrindavan Hospitality Group'}
+            </p>
           </motion.div>
         </div>
       </div>

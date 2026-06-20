@@ -1,12 +1,28 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 /**
  * Heritage Component
  * Highlights the cultural roots and culinary traditions of Udupi.
  * Features: Reversed grid on mobile, floating animated badges, and parallax background shapes.
  */
+const HERITAGE_IMAGES = [
+  "/Lunch.jpg",
+  "/ourheritage.jpeg",
+  "/categories/Dosa.jpg"
+];
+
 const Heritage = () => {
+  const [currentIdx, setCurrentIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIdx((prev) => (prev + 1) % HERITAGE_IMAGES.length);
+    }, 6000); // cycle every 6 seconds
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section id="heritage" className="py-32 bg-brand-blue text-brand-cream relative overflow-hidden">
       
@@ -68,20 +84,35 @@ const Heritage = () => {
             className="order-1 md:order-2 relative"
           >
             {/* Main Image Container with a distinct 3rem border radius */}
-            <div className="rounded-[3rem] overflow-hidden shadow-2xl border-2 border-brand-gold/20 aspect-square">
-              <img
-                src="/Lunch.jpg"
-                alt="Traditional Udupi Lunch"
-                className="w-full h-full object-cover hover:scale-110 transition-transform duration-1000"
-                referrerPolicy="no-referrer"
-              />
+            <div className="rounded-[3rem] overflow-hidden shadow-2xl border-2 border-brand-gold/20 aspect-square relative bg-brand-blue/20">
+              <AnimatePresence mode="popLayout">
+                <motion.img
+                  key={currentIdx}
+                  src={HERITAGE_IMAGES[currentIdx]}
+                  alt="Traditional Udupi Heritage"
+                  initial={{ opacity: 0, scale: 1.0 }}
+                  animate={{ 
+                    opacity: 1, 
+                    scale: 1.12,
+                    transition: {
+                      opacity: { duration: 1.2, ease: "easeInOut" },
+                      scale: { duration: 6, ease: "linear" }
+                    }
+                  }}
+                  exit={{ 
+                    opacity: 0,
+                    transition: { duration: 1.2, ease: "easeInOut" }
+                  }}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </AnimatePresence>
             </div>
 
             {/* Floating Guarantee Badge: Features a continuous vertical floating animation */}
             <motion.div
               animate={{ y: [0, 20, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-10 -right-10 w-32 h-32 bg-brand-gold rounded-full flex items-center justify-center shadow-2xl z-20 p-2"
+              className="absolute -top-10 -right-10 w-32 h-32 bg-brand-gold rounded-full flex items-center justify-center shadow-2xl z-20 p-2 pointer-events-none"
             >
               <div className="text-brand-blue text-center leading-tight">
                 <span className="block text-2xl font-bold">100%</span>

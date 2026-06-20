@@ -64,8 +64,7 @@ const CRMForm = () => {
     if (!validate()) return;
 
     setStatus("loading");
-    const scriptURL =
-      "https://script.google.com/macros/s/AKfycbwwG3Z_KW5NAF22aMhnASbcJ0ZG2r0RhXmprv-XbYz4r_1gxXSN-zkM9lSVs0updLvInw/exec";
+    const scriptURL = import.meta.env.VITE_CRM_SCRIPT_URL as string;
 
     try {
       await fetch(scriptURL, {

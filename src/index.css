@@ -168,3 +168,47 @@
 .shake {
   animation: shake 0.2s ease-in-out 0s 2;
 }
+
+/* ─── Premium Skeleton Shimmer Animations ───────────────── */
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(15, 47, 74, 0.03) 25%,
+    rgba(15, 47, 74, 0.08) 37%,
+    rgba(15, 47, 74, 0.03) 63%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease infinite;
+}
+
+.shimmer-gold {
+  background: linear-gradient(
+    90deg,
+    rgba(212, 166, 90, 0.08) 25%,
+    rgba(212, 166, 90, 0.2) 37%,
+    rgba(212, 166, 90, 0.08) 63%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease infinite;
+}
+
+.shimmer-dark {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.12) 37%,
+    rgba(255, 255, 255, 0.04) 63%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease infinite;
+}
