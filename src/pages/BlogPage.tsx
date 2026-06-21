@@ -61,28 +61,28 @@ const BlogPage = () => {
       {/* ══════════════════════════════
           HERO SECTION
       ══════════════════════════════ */}
-      <section className="relative pt-28 pb-16 md:pt-36 md:pb-20 overflow-hidden">
+      <section className="relative pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden">
         {/* Background blobs */}
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-gold/6 rounded-full blur-[160px] -translate-y-1/3 translate-x-1/4 pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-blue/5 rounded-full blur-[120px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            <div className="inline-flex items-center gap-2.5 bg-brand-gold/10 border border-brand-gold/20 text-brand-gold font-bold text-[10px] uppercase tracking-[0.35em] px-5 py-2.5 rounded-full mb-8">
+            <div className="inline-flex items-center gap-2.5 bg-brand-gold/10 border border-brand-gold/20 text-brand-gold font-bold text-[9px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.35em] px-4 sm:px-5 py-2.5 rounded-full mb-6 sm:mb-8">
               <BookOpen size={13} />
               Udupi Vrindavan Journal
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-display font-bold text-brand-blue leading-[1.08] tracking-tight mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-display font-bold text-brand-blue leading-[1.08] tracking-tight mb-5 sm:mb-6">
               Stories, Flavors<br />
               <span className="text-brand-gold">&amp; Heritage</span>
             </h1>
 
-            <p className="text-brand-blue/55 text-lg md:text-xl max-w-2xl mx-auto font-sans leading-relaxed mb-10">
+            <p className="text-brand-blue/55 text-base md:text-xl max-w-2xl mx-auto font-sans leading-relaxed mb-8 sm:mb-10">
               Authentic traditions, seasonal recipes, and cultural stories from the heart of Udupi — served fresh from Al Karama, Dubai.
             </p>
 
@@ -107,14 +107,14 @@ const BlogPage = () => {
       ══════════════════════════════ */}
       <div className="sticky top-0 z-20 bg-brand-cream/95 backdrop-blur-md border-b border-brand-blue/5 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 md:px-6 py-3">
-          <div className="flex flex-col md:flex-row gap-3 items-center justify-between">
+          <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
             {/* Category Pills */}
-            <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+            <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 md:flex-wrap md:overflow-visible md:pb-0 md:justify-start">
               {CATEGORIES.map(cat => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer border ${
+                  className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer border ${
                     activeCategory === cat
                       ? 'bg-brand-blue text-brand-cream border-brand-blue shadow-sm'
                       : 'bg-white text-brand-blue/60 hover:text-brand-blue hover:border-brand-gold/30 border-brand-blue/10'
@@ -151,7 +151,7 @@ const BlogPage = () => {
       {/* ══════════════════════════════
           CONTENT AREA
       ══════════════════════════════ */}
-      <div className="max-w-6xl mx-auto px-6 py-14">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-14">
 
         {/* Loading */}
         {isLoading && (
@@ -193,8 +193,8 @@ const BlogPage = () => {
                 </div>
 
                 <a href={`/blog/${featuredPost.slug}`} className="group block">
-                  <div className="relative rounded-[2.5rem] overflow-hidden shadow-[0_20px_60px_rgba(15,47,74,0.12)] bg-brand-blue">
-                    <div className="grid md:grid-cols-2 min-h-[400px]">
+                  <div className="relative rounded-3xl md:rounded-[2.5rem] overflow-hidden shadow-[0_20px_60px_rgba(15,47,74,0.12)] bg-brand-blue">
+                    <div className="grid md:grid-cols-2 md:min-h-[400px]">
                       {/* Image */}
                       <div className="relative overflow-hidden order-2 md:order-1">
                         <img
@@ -206,7 +206,7 @@ const BlogPage = () => {
                         <div className="absolute inset-0 bg-gradient-to-r from-brand-blue/60 to-transparent md:hidden" />
                       </div>
                       {/* Content */}
-                      <div className="order-1 md:order-2 p-8 md:p-12 flex flex-col justify-center">
+                      <div className="order-1 md:order-2 p-6 sm:p-8 md:p-12 flex flex-col justify-center">
                         <span className="inline-flex items-center gap-2 text-brand-gold font-bold text-[10px] uppercase tracking-[0.3em] mb-5">
                           <span className="w-1.5 h-1.5 rounded-full bg-brand-gold" />
                           {featuredPost.category}
@@ -217,8 +217,8 @@ const BlogPage = () => {
                         <p className="text-brand-cream/60 text-sm leading-relaxed line-clamp-3 mb-6">
                           {featuredPost.excerpt}
                         </p>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3 text-brand-cream/40 text-[10px] font-medium">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                          <div className="flex flex-wrap items-center gap-3 text-brand-cream/40 text-[10px] font-medium">
                             <span>{featuredPost.date}</span>
                             <span>·</span>
                             <span>{featuredPost.readTime}</span>

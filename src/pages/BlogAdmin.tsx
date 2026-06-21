@@ -237,7 +237,7 @@ const ContentToolbar = ({
 
       {/* Inline URL paste row — appears on fallback or 🖼 URL click */}
       {showUrlPaste && (
-        <div className="flex items-center gap-2 px-3 py-2 bg-brand-blue/[0.03] border-t border-brand-blue/8">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 px-3 py-2 bg-brand-blue/[0.03] border-t border-brand-blue/8">
           <span className={`text-[10px] font-bold shrink-0 ${uploadError ? 'text-red-500' : 'text-brand-blue/50'}`}>
             {uploadError || 'Image URL:'}
           </span>
@@ -251,7 +251,7 @@ const ContentToolbar = ({
               if (e.key === 'Escape') { setShowUrlPaste(false); setUrlPasteValue(''); setUploadError(''); }
             }}
             placeholder="https://i.ibb.co/… or https://example.com/image.jpg"
-            className="flex-1 px-3 py-1.5 bg-white border border-brand-blue/10 rounded-lg text-xs text-brand-blue focus:border-brand-gold focus:outline-none font-mono"
+            className="w-full min-w-0 flex-1 px-3 py-1.5 bg-white border border-brand-blue/10 rounded-lg text-xs text-brand-blue focus:border-brand-gold focus:outline-none font-mono"
           />
           <button
             type="button"
@@ -314,8 +314,8 @@ const ImageGuide = () => (
 
 /** Numbered step header */
 const StepCard = ({ number, title, desc, children }: { number: number; title: string; desc: string; children: React.ReactNode }) => (
-  <div className="bg-white/80 backdrop-blur-md border border-brand-blue/5 rounded-[2rem] p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-6 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-brand-gold/20">
-    <div className="flex items-center gap-4 pb-4 border-b border-brand-blue/5">
+  <div className="bg-white/80 backdrop-blur-md border border-brand-blue/5 rounded-2xl md:rounded-[2rem] p-4 sm:p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-5 md:space-y-6 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-brand-gold/20">
+    <div className="flex items-start sm:items-center gap-3 sm:gap-4 pb-4 border-b border-brand-blue/5">
       <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-gold to-brand-gold/80 text-white text-sm font-black flex items-center justify-center shrink-0 shadow-lg shadow-brand-gold/20">
         {number}
       </div>
@@ -324,7 +324,7 @@ const StepCard = ({ number, title, desc, children }: { number: number; title: st
         <p className="text-[11px] text-brand-blue/50 font-medium mt-0.5">{desc}</p>
       </div>
     </div>
-    <div className="pt-2">
+    <div className="pt-1 sm:pt-2">
       {children}
     </div>
   </div>
@@ -337,7 +337,7 @@ const ContentStats = ({ text }: { text: string }) => {
   const chars = plain.length;
   const readTime = Math.max(1, Math.ceil(words / 220));
   return (
-    <div className="flex items-center gap-4 px-3 py-2 bg-brand-blue/[0.04] border border-brand-blue/10 border-t-0 rounded-b-2xl text-[10px] text-brand-blue/50 font-bold">
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 px-3 py-2 bg-brand-blue/[0.04] border border-brand-blue/10 border-t-0 rounded-b-2xl text-[10px] text-brand-blue/50 font-bold">
       <span>Words: <span className="text-brand-blue">{words}</span></span>
       <span>Chars: <span className="text-brand-blue">{chars}</span></span>
       <span>Est. Read: <span className="text-brand-blue">~{readTime} min</span></span>
@@ -661,7 +661,7 @@ const BlogAdmin = () => {
   ════════════════════════════════ */
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-brand-cream flex items-center justify-center p-6 relative overflow-hidden">
+      <div className="min-h-screen bg-brand-cream flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-gold/10 blur-[120px] rounded-full" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-brand-blue/5 blur-[120px] rounded-full" />
         <Helmet>
@@ -671,14 +671,14 @@ const BlogAdmin = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-white/95 backdrop-blur-2xl p-8 md:p-12 rounded-[2.5rem] shadow-[0_30px_80px_rgba(15,47,74,0.1)] w-full max-w-md border border-white relative z-10"
+          className="bg-white/95 backdrop-blur-2xl p-6 sm:p-8 md:p-12 rounded-3xl md:rounded-[2.5rem] shadow-[0_30px_80px_rgba(15,47,74,0.1)] w-full max-w-md border border-white relative z-10"
         >
           <div className="flex justify-center mb-8">
             <div className="w-20 h-20 bg-brand-gold/10 rounded-3xl flex items-center justify-center rotate-3">
               <Lock className="text-brand-gold" size={40} />
             </div>
           </div>
-          <h1 className="text-3xl font-display font-bold text-brand-blue text-center mb-3">Management Portal</h1>
+          <h1 className="text-2xl sm:text-3xl font-display font-bold text-brand-blue text-center mb-3">Management Portal</h1>
           <p className="text-brand-blue/50 text-center mb-10 font-sans">
             Enter your passkey to access the admin dashboard.
           </p>
@@ -721,7 +721,7 @@ const BlogAdmin = () => {
      ── MAIN DASHBOARD
   ════════════════════════════════ */
   return (
-    <div className="min-h-screen bg-brand-cream py-24 px-4 relative overflow-hidden flex items-start justify-center font-sans">
+    <div className="min-h-screen bg-brand-cream py-20 sm:py-24 px-3 sm:px-4 relative overflow-hidden flex items-start justify-center font-sans">
       <div className="absolute top-[-10%] right-[-5%] w-[50%] h-[50%] bg-brand-gold/5 blur-[150px] rounded-full" />
       <div className="absolute bottom-[-10%] left-[-5%] w-[50%] h-[50%] bg-brand-blue/5 blur-[150px] rounded-full" />
 
@@ -734,7 +734,7 @@ const BlogAdmin = () => {
         layout
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-4xl bg-white/95 backdrop-blur-2xl rounded-[2.5rem] p-6 md:p-10 shadow-[0_30px_80px_rgba(15,47,74,0.1)] border border-white relative z-10"
+        className="w-full max-w-4xl bg-white/95 backdrop-blur-2xl rounded-3xl md:rounded-[2.5rem] p-4 sm:p-6 md:p-10 shadow-[0_30px_80px_rgba(15,47,74,0.1)] border border-white relative z-10"
       >
         <AnimatePresence mode="wait">
 
@@ -760,7 +760,7 @@ const BlogAdmin = () => {
               </div>
 
               {/* Stats Strip */}
-              <div className="grid grid-cols-3 gap-3 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
                 <div className="bg-brand-blue text-brand-cream rounded-2xl p-4 flex flex-col items-center justify-center gap-1 shadow-lg">
                   <BookOpen size={20} className="text-brand-gold" />
                   <span className="text-xl font-black">{posts.length > 0 ? posts.length : '—'}</span>
@@ -814,7 +814,7 @@ const BlogAdmin = () => {
               exit={{ opacity: 0, x: 20 }}
             >
               {/* Header */}
-              <div className="flex items-center justify-between mb-8 pb-4 border-b border-brand-blue/5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-8 pb-4 border-b border-brand-blue/5">
                 <button onClick={() => setView('menu')} className="flex items-center gap-2 text-brand-blue/60 hover:text-brand-gold transition-colors font-bold text-xs uppercase tracking-wider cursor-pointer">
                   <ArrowLeft size={18} /> Back
                 </button>
@@ -822,7 +822,7 @@ const BlogAdmin = () => {
                   <h2 className="text-xl font-display font-bold text-brand-blue">Write New Post</h2>
                   <p className="text-[10px] text-brand-blue/40 mt-0.5">Complete all 3 steps to publish</p>
                 </div>
-                <div className="w-20" />
+                <div className="hidden sm:block w-20" />
               </div>
 
               {publishStatus === 'success' ? (
@@ -982,7 +982,7 @@ const BlogAdmin = () => {
                   )}
 
                   {/* Action Buttons */}
-                  <div className="flex gap-3 pt-2">
+                  <div className="flex flex-col sm:flex-row gap-3 pt-2">
                     <button
                       type="submit"
                       disabled={publishStatus === 'publishing'}
@@ -997,7 +997,7 @@ const BlogAdmin = () => {
                     <button
                       type="button"
                       onClick={() => setView('menu')}
-                      className="px-8 bg-brand-blue/5 border border-brand-blue/5 rounded-2xl font-bold text-brand-blue hover:bg-brand-blue/10 transition-colors text-sm cursor-pointer"
+                      className="px-8 py-4 sm:py-0 bg-brand-blue/5 border border-brand-blue/5 rounded-2xl font-bold text-brand-blue hover:bg-brand-blue/10 transition-colors text-sm cursor-pointer"
                     >
                       Cancel
                     </button>
@@ -1017,7 +1017,7 @@ const BlogAdmin = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
             >
-              <div className="flex items-center justify-between mb-7 pb-4 border-b border-brand-blue/5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-7 pb-4 border-b border-brand-blue/5">
                 <button onClick={() => setView('menu')} className="flex items-center gap-2 text-brand-blue/60 hover:text-brand-gold transition-colors font-bold text-xs uppercase tracking-wider cursor-pointer">
                   <ArrowLeft size={18} /> Back
                 </button>
@@ -1048,15 +1048,15 @@ const BlogAdmin = () => {
                   <p className="text-xs text-brand-blue/40 max-w-xs mx-auto">Create your first article using "Write New Post" or check your database connection settings.</p>
                 </div>
               ) : (
-                <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-1.5">
+                <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-0 sm:pr-1.5">
                   {posts.map((post) => (
                     <motion.div
                       key={post.id}
                       layout
-                      className="flex items-center justify-between p-5 bg-white rounded-[2rem] border border-brand-blue/5 hover:shadow-[0_15px_40px_rgba(15,47,74,0.08)] hover:border-brand-gold/20 transition-all duration-300 gap-4"
+                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 sm:p-5 bg-white rounded-2xl sm:rounded-[2rem] border border-brand-blue/5 hover:shadow-[0_15px_40px_rgba(15,47,74,0.08)] hover:border-brand-gold/20 transition-all duration-300 gap-4"
                     >
                       {/* Thumbnail + info */}
-                      <div className="flex items-center gap-4 min-w-0 flex-1">
+                      <div className="flex items-center gap-4 min-w-0 flex-1 w-full">
                         <div className="w-16 h-16 bg-brand-blue/5 rounded-xl overflow-hidden shrink-0 shadow-sm">
                           <img
                             src={post.image}
@@ -1077,7 +1077,7 @@ const BlogAdmin = () => {
                       </div>
 
                       {/* Actions */}
-                      <div className="flex items-center gap-2 shrink-0">
+                      <div className="flex items-center justify-end gap-2 shrink-0 w-full sm:w-auto">
                         <a href={`/blog/${post.slug}`} target="_blank" rel="noopener noreferrer"
                           className="p-2.5 bg-brand-blue/5 text-brand-blue hover:bg-brand-gold hover:text-brand-blue rounded-xl transition-all" title="View Live Post">
                           <Eye size={16} />
@@ -1114,7 +1114,7 @@ const BlogAdmin = () => {
               exit={{ opacity: 0, x: 20 }}
             >
               {/* Header */}
-              <div className="flex items-center justify-between mb-8 pb-4 border-b border-brand-blue/5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-8 pb-4 border-b border-brand-blue/5">
                 <button onClick={() => { setView('list'); setEditingPost(null); }}
                   className="flex items-center gap-2 text-brand-blue/60 hover:text-brand-gold transition-colors font-bold text-xs uppercase tracking-wider cursor-pointer">
                   <ArrowLeft size={18} /> Back to List
@@ -1123,7 +1123,7 @@ const BlogAdmin = () => {
                   <h2 className="text-xl font-display font-bold text-brand-blue">Edit Post</h2>
                   <p className="text-[10px] text-brand-blue/40 mt-0.5 truncate max-w-[200px]">/{editOriginalSlug}</p>
                 </div>
-                <div className="w-24" />
+                <div className="hidden sm:block w-24" />
               </div>
 
               {editStatus === 'success' ? (
@@ -1285,7 +1285,7 @@ const BlogAdmin = () => {
                   )}
 
                   {/* Action Buttons */}
-                  <div className="flex gap-3 pt-2">
+                  <div className="flex flex-col sm:flex-row gap-3 pt-2">
                     <button
                       type="submit"
                       disabled={editStatus === 'saving'}
@@ -1298,7 +1298,7 @@ const BlogAdmin = () => {
                     <button
                       type="button"
                       onClick={() => { setView('list'); setEditingPost(null); }}
-                      className="px-8 bg-brand-blue/5 border border-brand-blue/5 rounded-2xl font-bold text-brand-blue hover:bg-brand-blue/10 transition-colors text-sm cursor-pointer"
+                      className="px-8 py-4 sm:py-0 bg-brand-blue/5 border border-brand-blue/5 rounded-2xl font-bold text-brand-blue hover:bg-brand-blue/10 transition-colors text-sm cursor-pointer"
                     >
                       Cancel
                     </button>
@@ -1317,9 +1317,9 @@ const BlogAdmin = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
-              className="max-h-[70vh] overflow-y-auto pr-2"
+              className="max-h-[70vh] overflow-y-auto pr-0 sm:pr-2"
             >
-              <div className="flex items-center justify-between mb-8 pb-4 border-b border-brand-blue/5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-8 pb-4 border-b border-brand-blue/5">
                 <button onClick={() => setView('menu')} className="flex items-center gap-2 text-brand-blue/60 hover:text-brand-gold transition-colors font-bold text-xs uppercase tracking-wider cursor-pointer">
                   <ArrowLeft size={18} /> Back to Dashboard
                 </button>
@@ -1438,7 +1438,7 @@ function doPost(e) {
               exit={{ opacity: 0, x: 20 }}
               className="text-left font-sans"
             >
-              <div className="flex items-center justify-between mb-8 pb-4 border-b border-brand-blue/5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-8 pb-4 border-b border-brand-blue/5">
                 <button onClick={() => setView('menu')} className="flex items-center gap-2 text-brand-blue/60 hover:text-brand-gold transition-colors font-bold text-xs uppercase tracking-wider cursor-pointer">
                   <ArrowLeft size={18} /> Back to Dashboard
                 </button>
@@ -1446,7 +1446,7 @@ function doPost(e) {
               </div>
 
               {/* Active Backend Banner */}
-              <div className="flex items-center gap-3 p-4 mb-8 bg-green-50 border border-green-100 rounded-2xl">
+              <div className="flex items-start sm:items-center gap-3 p-4 mb-8 bg-green-50 border border-green-100 rounded-2xl">
                 <div className="p-2 bg-green-100 rounded-xl">
                   <CloudCheck className="text-green-600" size={18} />
                 </div>
@@ -1458,8 +1458,8 @@ function doPost(e) {
 
               <form onSubmit={handleSaveSettings} className="space-y-6">
                 {/* Google Sheets URL Input */}
-                <div className="bg-white border border-brand-blue/8 rounded-3xl p-6 space-y-5 shadow-sm">
-                  <div className="flex items-center gap-3 pb-4 border-b border-brand-blue/5">
+                <div className="bg-white border border-brand-blue/8 rounded-2xl sm:rounded-3xl p-4 sm:p-6 space-y-5 shadow-sm">
+                  <div className="flex items-start sm:items-center gap-3 pb-4 border-b border-brand-blue/5">
                     <div className="p-2 bg-brand-gold/10 rounded-xl">
                       <List className="text-brand-gold" size={18} />
                     </div>
@@ -1547,7 +1547,7 @@ function doPost(e) {
               exit={{ opacity: 0, x: 20 }}
               className="text-left font-sans"
             >
-              <div className="flex items-center justify-between mb-8 pb-4 border-b border-brand-blue/5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-8 pb-4 border-b border-brand-blue/5">
                 <button onClick={() => setView('menu')} className="flex items-center gap-2 text-brand-blue/60 hover:text-brand-gold transition-colors font-bold text-xs uppercase tracking-wider cursor-pointer">
                   <ArrowLeft size={18} /> Back to Dashboard
                 </button>
@@ -1573,11 +1573,11 @@ function doPost(e) {
                   </p>
                 </div>
               ) : (
-                <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+                <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-0 sm:pr-2">
                   {reservations.map((res: any) => (
                     <div
                       key={res.id}
-                      className={`p-6 rounded-[2rem] border transition-all duration-300 bg-white relative hover:shadow-[0_15px_40px_rgba(15,47,74,0.08)] ${res.status === 'Confirmed' ? 'border-green-100 hover:border-green-200'
+                      className={`p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] border transition-all duration-300 bg-white relative hover:shadow-[0_15px_40px_rgba(15,47,74,0.08)] ${res.status === 'Confirmed' ? 'border-green-100 hover:border-green-200'
                           : res.status === 'Cancelled' ? 'border-red-100 hover:border-red-200'
                             : 'border-brand-blue/5 hover:border-brand-gold/30'
                         }`}
@@ -1604,7 +1604,7 @@ function doPost(e) {
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs mb-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs mb-4">
                         <div>
                           <span className="text-brand-blue/40 font-semibold block">Date</span>
                           <span className="font-bold text-brand-blue mt-0.5 block">
@@ -1631,9 +1631,9 @@ function doPost(e) {
                         </div>
                       )}
 
-                      <div className="flex items-center justify-between border-t border-brand-blue/5 pt-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-brand-blue/5 pt-4">
                         <span className="text-[10px] text-brand-blue/30 font-light">Received: {res.createdAt}</span>
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap gap-2">
                           {res.status === 'Pending' && (
                             <>
                               <button onClick={() => handleUpdateReservationStatus(res.id, 'Confirmed')}
@@ -1688,23 +1688,23 @@ function doPost(e) {
 
 /* ─── Menu Button Component ─── */
 const MenuButton = ({ label, desc, onClick, href, icon, primary = false, internal = false }: any) => {
-  const CardClass = `group w-full flex items-center justify-between p-5 rounded-[1.25rem] transition-all border text-left cursor-pointer ${primary
+  const CardClass = `group w-full flex items-center justify-between gap-4 p-4 sm:p-5 rounded-[1.25rem] transition-all border text-left cursor-pointer ${primary
       ? 'bg-brand-blue text-brand-cream border-brand-blue shadow-[0_12px_35px_rgba(15,47,74,0.2)] hover:shadow-[0_20px_40px_rgba(15,47,74,0.25)]'
       : 'bg-white text-brand-blue border-brand-blue/5 shadow-sm hover:shadow-[0_10px_30px_rgba(15,47,74,0.08)] hover:border-brand-gold/30'
     }`;
 
   const InnerContent = (
     <>
-      <div className="flex items-center gap-4">
-        <div className={`p-3 rounded-2xl transition-colors ${primary ? 'bg-white/10 shadow-inner' : 'bg-brand-gold/10 shadow-inner shadow-brand-gold/20'}`}>
+      <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+        <div className={`p-3 rounded-2xl transition-colors shrink-0 ${primary ? 'bg-white/10 shadow-inner' : 'bg-brand-gold/10 shadow-inner shadow-brand-gold/20'}`}>
           {icon}
         </div>
-        <div>
+        <div className="min-w-0">
           <div className="text-[17px] font-bold font-display leading-tight">{label}</div>
           <div className={`text-[11px] mt-1 font-medium ${primary ? 'text-brand-cream/70' : 'text-brand-blue/50'}`}>{desc}</div>
         </div>
       </div>
-      <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all group-hover:scale-110 ${primary ? 'bg-brand-gold/20 text-brand-gold' : 'bg-brand-blue/5 text-brand-blue/50 group-hover:bg-brand-gold/10 group-hover:text-brand-gold'}`}>
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all group-hover:scale-110 shrink-0 ${primary ? 'bg-brand-gold/20 text-brand-gold' : 'bg-brand-blue/5 text-brand-blue/50 group-hover:bg-brand-gold/10 group-hover:text-brand-gold'}`}>
         <ArrowRight className="transition-transform group-hover:translate-x-0.5" size={16} />
       </div>
     </>

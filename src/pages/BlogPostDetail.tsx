@@ -9,6 +9,8 @@ import DOMPurify from 'dompurify';
 
 /* ─── Tiny utility: strip HTML tags ─── */
 const stripHtml = (s: string) => s.replace(/<[^>]*>/g, '');
+const LIKED_POSTS_KEY = 'udupi_liked_posts';
+const LIKE_COUNTS_KEY = 'udupi_like_counts';
 
 const BlogPostDetail = () => {
   const { slug } = useParams();
@@ -51,29 +53,15 @@ const BlogPostDetail = () => {
         if (!data) { navigate('/blog'); return; }
         setPost(data);
 
-        // Check if liked in localStorage
+        // Keep likes local to avoid third-party CORS failures in the browser.
         try {
-          const likedPosts = JSON.parse(localStorage.getItem('udupi_liked_posts') || '[]');
-          if (likedPosts.includes(data.id)) {
-            setIsLiked(true);
-          }
+          const postId = String(data.id);
+          const likedPosts = JSON.parse(localStorage.getItem(LIKED_POSTS_KEY) || '[]');
+          const counts = JSON.parse(localStorage.getItem(LIKE_COUNTS_KEY) || '{}');
+          setIsLiked(likedPosts.map(String).includes(postId));
+          setLikeCount(typeof counts[postId] === 'number' ? counts[postId] : 0);
         } catch (e) {
-          console.error('LocalStorage liked_posts parse error', e);
-        }
-
-        // Fetch real likes count from CounterAPI
-        try {
-          const res = await fetch(`https://api.counterapi.dev/v1/UdupiVrindavanBlog/likes_post_${data.id}`);
-          if (res.ok) {
-            const json = await res.json();
-            if (json && typeof json.value === 'number') {
-              setLikeCount(json.value);
-            }
-          } else {
-            setLikeCount(0);
-          }
-        } catch (e) {
-          console.error('CounterAPI likes fetch error', e);
+          console.error('LocalStorage likes parse error', e);
           setLikeCount(0);
         }
 
@@ -106,33 +94,28 @@ const BlogPostDetail = () => {
     }
   };
 
-  const handleLike = async () => {
+  const handleLike = () => {
     if (!post) return;
-    const postId = post.id;
+    const postId = String(post.id);
     const wasLiked = isLiked;
-
-    // Toggle states locally for instant responsiveness
-    setIsLiked(!wasLiked);
-    setLikeCount(c => wasLiked ? Math.max(0, c - 1) : c + 1);
+    const nextLiked = !wasLiked;
 
     try {
-      // Update localStorage
-      const likedPosts = JSON.parse(localStorage.getItem('udupi_liked_posts') || '[]');
-      if (wasLiked) {
-        // Remove from liked
-        const updated = likedPosts.filter((id: string | number) => id !== postId);
-        localStorage.setItem('udupi_liked_posts', JSON.stringify(updated));
-        // Hit decrement endpoint
-        await fetch(`https://api.counterapi.dev/v1/UdupiVrindavanBlog/likes_post_${postId}/down`);
-      } else {
-        // Add to liked
-        likedPosts.push(postId);
-        localStorage.setItem('udupi_liked_posts', JSON.stringify(likedPosts));
-        // Hit increment endpoint
-        await fetch(`https://api.counterapi.dev/v1/UdupiVrindavanBlog/likes_post_${postId}/up`);
-      }
+      const likedPosts = JSON.parse(localStorage.getItem(LIKED_POSTS_KEY) || '[]').map(String);
+      const counts = JSON.parse(localStorage.getItem(LIKE_COUNTS_KEY) || '{}');
+      const nextLikedPosts = nextLiked
+        ? Array.from(new Set([...likedPosts, postId]))
+        : likedPosts.filter((id: string) => id !== postId);
+      const nextCount = nextLiked
+        ? Math.max(1, Number(counts[postId] || 0) + 1)
+        : Math.max(0, Number(counts[postId] || 0) - 1);
+
+      localStorage.setItem(LIKED_POSTS_KEY, JSON.stringify(nextLikedPosts));
+      localStorage.setItem(LIKE_COUNTS_KEY, JSON.stringify({ ...counts, [postId]: nextCount }));
+      setIsLiked(nextLiked);
+      setLikeCount(nextCount);
     } catch (e) {
-      console.error('Error liking post', e);
+      console.error('Error saving like locally', e);
     }
   };
 
@@ -283,7 +266,7 @@ const BlogPostDetail = () => {
       {/* ══════════════════════════════════════════════
           HERO  — magazine split: image left + meta right
       ══════════════════════════════════════════════ */}
-      <div ref={heroRef} className="relative w-full overflow-hidden bg-brand-blue flex flex-col justify-end" style={{ minHeight: 'min(82vh, 720px)' }}>
+      <div ref={heroRef} className="relative w-full overflow-hidden bg-brand-blue flex flex-col justify-end min-h-[560px] md:min-h-[min(82vh,720px)]">
         {/* Parallax image — left 60% */}
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <img
@@ -318,7 +301,7 @@ const BlogPostDetail = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ opacity: heroOpacity }}
-          className="relative lg:absolute bottom-0 right-0 w-full lg:w-[55%] px-6 lg:px-14 pb-12 lg:pb-20 pt-36 lg:pt-0 flex flex-col justify-end z-10"
+          className="relative lg:absolute bottom-0 right-0 w-full lg:w-[55%] px-4 sm:px-6 lg:px-14 pb-10 sm:pb-12 lg:pb-20 pt-36 lg:pt-0 flex flex-col justify-end z-10"
         >
           {/* Category badge */}
           <div className="flex items-center gap-3 mb-5">
@@ -330,7 +313,7 @@ const BlogPostDetail = () => {
 
           {/* Title */}
           <h1
-            className="text-3xl md:text-4xl lg:text-5xl xl:text-[3rem] font-display text-white leading-[1.12] tracking-tight mb-7 max-w-xl"
+            className="text-3xl sm:text-4xl lg:text-5xl xl:text-[3rem] font-display text-white leading-[1.12] tracking-tight mb-7 max-w-xl"
             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.title) }}
           />
 
@@ -340,7 +323,7 @@ const BlogPostDetail = () => {
           </p>
 
           {/* Meta bar */}
-          <div className="flex flex-wrap items-center gap-5 border-t border-white/10 pt-6">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-5 border-t border-white/10 pt-6">
             <div className="flex items-center gap-2.5">
               <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-gold/30 to-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-sm font-black">
                 {post.author.charAt(0)}
@@ -398,7 +381,7 @@ const BlogPostDetail = () => {
                 prose-headings:font-display prose-headings:text-brand-blue prose-headings:tracking-tight prose-headings:leading-snug
                 prose-h2:text-2xl md:prose-h2:text-3xl prose-h2:mt-14 prose-h2:mb-5 prose-h2:pb-3 prose-h2:border-b prose-h2:border-brand-blue/8
                 prose-h3:text-xl prose-h3:mt-10 prose-h3:mb-3 prose-h3:text-brand-blue/90
-                prose-p:text-brand-blue/70 prose-p:leading-[2] prose-p:mb-7 prose-p:text-[17px]
+                prose-p:text-brand-blue/70 prose-p:leading-[1.85] md:prose-p:leading-[2] prose-p:mb-6 md:prose-p:mb-7 prose-p:text-base md:prose-p:text-[17px]
                 prose-strong:text-brand-blue prose-strong:font-bold
                 prose-em:text-brand-blue/60 prose-em:not-italic prose-em:font-medium
                 prose-blockquote:border-l-[5px] prose-blockquote:border-brand-gold prose-blockquote:pl-7 prose-blockquote:py-1 prose-blockquote:bg-brand-gold/[0.04] prose-blockquote:rounded-r-3xl prose-blockquote:not-italic prose-blockquote:my-10 prose-blockquote:pr-6
@@ -432,7 +415,7 @@ const BlogPostDetail = () => {
 
             {/* Author card — full width at article bottom */}
             <div className="mt-8 rounded-3xl overflow-hidden border border-brand-blue/8 shadow-sm">
-              <div className="bg-brand-blue px-6 py-4 flex items-center gap-4">
+              <div className="bg-brand-blue px-4 sm:px-6 py-4 flex flex-wrap sm:flex-nowrap items-center gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-gold/30 to-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-xl font-display font-bold shrink-0">
                   {post.author.charAt(0)}
                 </div>
@@ -446,7 +429,7 @@ const BlogPostDetail = () => {
                 </span>
               </div>
               {/* Share bar */}
-              <div className="bg-white px-6 py-4 flex flex-wrap items-center gap-3">
+              <div className="bg-white px-4 sm:px-6 py-4 flex flex-wrap items-center gap-3 lg:hidden">
                 <p className="text-brand-blue/50 text-sm font-medium mr-2 flex-1 min-w-0">Enjoyed this story? Share it!</p>
                 <button
                   onClick={handleShare}
