@@ -1,29 +1,8 @@
 import { BlogPost } from '../types/blog';
 
-const DEFAULT_GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyaBHnmNalAdlbWn7y5mcuSxWiIrKQUxlOa6ElBaXXmYt86IP-173Zm7yfwSExhdIgpLA/exec';
-
-// =========================================================================
-// ⚙️ DEFAULT PRODUCTION DATABASE CONFIGURATION
-// Active Backend: Google Sheets Apps Script (Supabase is disabled)
-// To enable Supabase, re-enable the Supabase code blocks below.
-// =========================================================================
-
-// ── Supabase support is currently DISABLED ──
-// Uncomment all /* SUPABASE_START */ … /* SUPABASE_END */ blocks to re-enable.
-
-const getInitialMode = (): 'google_sheets' => {
-  // Locked to Google Sheets only.
-  // Supabase mode has been commented out for this deployment.
-  return 'google_sheets';
-};
-
 export const DEFAULT_CONFIG = {
-  mode: getInitialMode(),
-  // supabaseUrl: import.meta.env.VITE_SUPABASE_URL || '',       // DISABLED
-  // supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || '', // DISABLED
-  supabaseUrl: '',
-  supabaseAnonKey: '',
-  googleSheetsUrl: (import.meta as any).env?.VITE_GOOGLE_SHEETS_URL || DEFAULT_GOOGLE_SHEETS_URL
+  mode: 'google_sheets' as const,
+  googleSheetsUrl: (import.meta as any).env?.VITE_GOOGLE_SHEETS_URL || ''
 };
 
 // =========================================================================
@@ -38,9 +17,7 @@ const getSavedConfig = () => {
     if (stored) {
       const parsed = JSON.parse(stored);
       return {
-        mode: 'google_sheets' as const,          // Always Google Sheets
-        supabaseUrl: '',                          // Disabled
-        supabaseAnonKey: '',                      // Disabled
+        mode: 'google_sheets' as const,
         googleSheetsUrl: parsed.googleSheetsUrl || DEFAULT_CONFIG.googleSheetsUrl
       };
     }
@@ -54,13 +31,7 @@ const savedConfig = getSavedConfig();
 
 export const BLOG_CONFIG = {
   get mode() { return 'google_sheets' as const; },
-  set mode(_val: string) { /* Supabase disabled — mode is locked to google_sheets */ },
-
-  get supabaseUrl() { return ''; },       // Disabled
-  set supabaseUrl(_val: string) {},        // Disabled
-
-  get supabaseAnonKey() { return ''; },   // Disabled
-  set supabaseAnonKey(_val: string) {},    // Disabled
+  set mode(_val: string) { },
 
   get googleSheetsUrl() { return savedConfig.googleSheetsUrl || DEFAULT_CONFIG.googleSheetsUrl; },
   set googleSheetsUrl(val: string) { savedConfig.googleSheetsUrl = val; saveConfig(); },
@@ -70,8 +41,6 @@ const saveConfig = () => {
   try {
     localStorage.setItem('udupi_blog_config', JSON.stringify({
       mode: 'google_sheets',
-      supabaseUrl: '',
-      supabaseAnonKey: '',
       googleSheetsUrl: savedConfig.googleSheetsUrl
     }));
   } catch (e) {
@@ -80,12 +49,8 @@ const saveConfig = () => {
 };
 
 export const updateBlogConfig = (newConfig: {
-  mode: 'supabase' | 'google_sheets' | 'both';
-  supabaseUrl: string;
-  supabaseAnonKey: string;
   googleSheetsUrl: string;
 }) => {
-  // Supabase settings are ignored — only Google Sheets URL is saved.
   savedConfig.googleSheetsUrl = newConfig.googleSheetsUrl;
   saveConfig();
 };
@@ -100,7 +65,7 @@ const calculateReadTime = (content: string): string => {
 // 🧼 Normalizes raw DB keys to lowercase to avoid Google Sheets case discrepancies
 const normalizePostKeys = (rawPost: any): BlogPost => {
   if (!rawPost) return {} as BlogPost;
-  
+
   const normalized: any = {};
   Object.keys(rawPost).forEach(key => {
     normalized[key.toLowerCase()] = rawPost[key];
@@ -124,26 +89,6 @@ const normalizePostKeys = (rawPost: any): BlogPost => {
   };
 };
 
-// ── SUPABASE_START (commented out) ──
-// const fetchFromSupabase = async (config: any): Promise<BlogPost[]> => {
-//   if (!config.supabaseUrl || !config.supabaseAnonKey) return [];
-//   try {
-//     const response = await fetch(`${config.supabaseUrl}/rest/v1/posts?select=*&order=id.desc`, {
-//       headers: {
-//         'apikey': config.supabaseAnonKey,
-//         'Authorization': `Bearer ${config.supabaseAnonKey}`
-//       }
-//     });
-//     if (!response.ok) return [];
-//     const data = await response.json();
-//     return Array.isArray(data) ? data.map(normalizePostKeys) : [];
-//   } catch (err) {
-//     console.error('Supabase fetch failed:', err);
-//     return [];
-//   }
-// };
-// ── SUPABASE_END ──
-
 // 🛰 Google Sheets Fetch
 const fetchFromGoogleSheets = async (config: any): Promise<BlogPost[]> => {
   if (!config.googleSheetsUrl) return [];
@@ -157,10 +102,6 @@ const fetchFromGoogleSheets = async (config: any): Promise<BlogPost[]> => {
     return [];
   }
 };
-
-// ── SUPABASE_START (commented out) ──
-// const publishToSupabase = async (newPost: BlogPost, config: any): Promise<boolean> => { ... };
-// ── SUPABASE_END ──
 
 // 📤 Google Sheets Publish
 const publishToGoogleSheets = async (newPost: BlogPost, config: any): Promise<boolean> => {
@@ -178,10 +119,6 @@ const publishToGoogleSheets = async (newPost: BlogPost, config: any): Promise<bo
   }
 };
 
-// ── SUPABASE_START (commented out) ──
-// const deleteFromSupabase = async (id: string, config: any): Promise<boolean> => { ... };
-// ── SUPABASE_END ──
-
 // 🗑 Google Sheets Delete
 const deleteFromGoogleSheets = async (id: string, config: any): Promise<boolean> => {
   if (!config.googleSheetsUrl) return false;
@@ -198,10 +135,6 @@ const deleteFromGoogleSheets = async (id: string, config: any): Promise<boolean>
     return false;
   }
 };
-
-// ── SUPABASE_START (commented out) ──
-// const updateInSupabase = async (post: BlogPost, config: any): Promise<boolean> => { ... };
-// ── SUPABASE_END ──
 
 // ✏️ Google Sheets Update
 const updateInGoogleSheets = async (post: BlogPost, config: any): Promise<boolean> => {
@@ -299,7 +232,7 @@ export const blogApi = {
   async getPostBySlug(slug: string, forceRefresh = false): Promise<BlogPost | null> {
     const posts = await this.getPosts(forceRefresh);
     const cleanSlug = decodeURIComponent(slug).trim().toLowerCase();
-    
+
     return posts.find(p => {
       const pSlug = p.slug ? p.slug.trim().toLowerCase() : '';
       const generatedSlugFromTitle = p.title.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
@@ -309,9 +242,7 @@ export const blogApi = {
 
   // ✅ TEST CONNECTION (Google Sheets only)
   async testConnection(config: {
-    mode: 'supabase' | 'google_sheets' | 'both';
-    supabaseUrl: string;
-    supabaseAnonKey: string;
+    mode: 'google_sheets';
     googleSheetsUrl: string;
   }): Promise<boolean> {
     try {

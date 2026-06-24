@@ -20,7 +20,6 @@ const BlogPostDetail = lazy(() => import('./pages/BlogPostDetail'));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogAdmin = lazy(() => import("./pages/BlogAdmin"));
 
-
 // 🚀 Lazy Loading for Home Sections (below-the-fold)
 const AboutUs = lazy(() => import('./pages/AboutUs'));
 const Heritage = lazy(() => import('./pages/Heritage'));
@@ -66,32 +65,17 @@ const PageLoader = () => (
   </div>
 );
 
-// 🔗 Path to ID mapping for virtual routes
-const SECTION_MAP: Record<string, string> = {
-  '/about-us': 'about-us',
-  '/heritage': 'heritage',
-  '/our-commitment': 'our-commitment',
-  '/contact-us': 'contact-us',
-};
-
-// ⚡ Global Scroll Logic (Handles Pathname, Hash, and Virtual Routes)
+// ⚡ Global Scroll Logic (Handles Hash scrolling for lazy loaded components)
 const ScrollHandler = () => {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    // Determine target ID: prioritize hash, then virtual route mapping
     let targetId = hash.replace('#', '');
-    if (!targetId && SECTION_MAP[pathname]) {
-      targetId = SECTION_MAP[pathname];
-    }
 
     if (!targetId) {
-      // Normal page navigation or landing on root: Reset to top
       window.scrollTo(0, 0);
     } else {
-      // Section navigation: Wait for element (helps with lazy loading)
       let attempts = 0;
-      
       const tryScroll = () => {
         const element = document.getElementById(targetId);
         if (element) {
@@ -110,7 +94,6 @@ const ScrollHandler = () => {
         return false;
       };
 
-      // Try once
       if (!tryScroll()) {
         const interval = setInterval(() => {
           attempts++;
@@ -125,18 +108,20 @@ const ScrollHandler = () => {
   return null;
 };
 
-// 🏠 Main Landing Page Content (Components are shared across virtual routes)
+// 🏠 Main Landing Page Content
 const MainLanding = () => (
   <main>
     <Home />
-    <AboutUs />
-    <Heritage />
-    <Process />
-    <SignatureMenu />
-    <Commitment />
-    <Testimonials />
-    <CRMForm />
-    <ReachUs />
+    <Suspense fallback={<div className="h-64 flex items-center justify-center text-brand-blue/50">Loading section...</div>}>
+      <AboutUs />
+      <Heritage />
+      <Process />
+      <SignatureMenu />
+      <Commitment />
+      <Testimonials />
+      <CRMForm />
+      <ReachUs />
+    </Suspense>
   </main>
 );
 
@@ -146,27 +131,23 @@ export default function App() {
       <ScrollHandler />
       <div className="min-h-screen selection:bg-brand-gold selection:text-brand-blue">
         <Navbar />
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            {/* Home & Virtual Section Routes */}
-            <Route path="/" element={<MainLanding />} />
-            <Route path="/about-us" element={<MainLanding />} />
-            <Route path="/heritage" element={<MainLanding />} />
-            <Route path="/our-commitment" element={<MainLanding />} />
-            <Route path="/contact-us" element={<MainLanding />} />
-
-            {/* Sub-pages */}
-            <Route path="/visit-udupi" element={<VisitUdupi />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/blog/:slug" element={<BlogPostDetail />} />
-            <Route path="/blog/admin" element={<BlogAdmin />} />
-
-            <Route path="/legacy-blog" element={<Blog />} />
-          </Routes>
+        <Routes>
+          <Route path="/" element={<MainLanding />} />
+          
+          {/* Sub-pages wrapped in Suspense so they don't block the initial layout */}
+          <Route path="/visit-udupi" element={<Suspense fallback={<PageLoader />}><VisitUdupi /></Suspense>} />
+          <Route path="/privacy-policy" element={<Suspense fallback={<PageLoader />}><PrivacyPolicy /></Suspense>} />
+          <Route path="/terms-of-service" element={<Suspense fallback={<PageLoader />}><TermsOfService /></Suspense>} />
+          <Route path="/blog" element={<Suspense fallback={<PageLoader />}><BlogPage /></Suspense>} />
+          <Route path="/blog/:slug" element={<Suspense fallback={<PageLoader />}><BlogPostDetail /></Suspense>} />
+          <Route path="/blog/admin" element={<Suspense fallback={<PageLoader />}><BlogAdmin /></Suspense>} />
+          
+          <Route path="/legacy-blog" element={<Suspense fallback={<PageLoader />}><Blog /></Suspense>} />
+        </Routes>
+        
+        <Suspense fallback={<div className="h-20" />}>
+          <Footer />
         </Suspense>
-        <Footer />
       </div>
     </Router>
   );
