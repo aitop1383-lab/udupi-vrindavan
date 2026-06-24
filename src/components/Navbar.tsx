@@ -48,15 +48,15 @@ const Navbar = () => {
     {
       name: "Our Story",
       dropdown: [
-        { name: "About Us", href: "/about-us" },
-        { name: "Heritage", href: "/heritage" },
-        { name: "Our Commitment", href: "/our-commitment" }
+        { name: "About Us", href: "/#about-us" },
+        { name: "Heritage", href: "/#heritage" },
+        { name: "Our Commitment", href: "/#our-commitment" }
       ]
     },
     { name: "Visit Udupi", href: "/visit-udupi" },
     { name: "Blog", href: "/blog" },
 
-    { name: "Contact Us", href: "/contact-us" },
+    { name: "Contact Us", href: "/#contact-us" },
     { name: "Order Online", href: "https://order.udupivrindavan.com" }
   ];
 

@@ -82,12 +82,12 @@ export const DELIVERY_PARTNERS = [
 export const NAV_LINKS = [
     { name: "Home", href: "/" },
     { name: "Visit Udupi", href: "/visit-udupi" },
-    { name: "About Us", href: "/about-us" },
-    { name: "Heritage", href: "/heritage" },
-    { name: "Our Commitment", href: "/our-commitment" },
+    { name: "About Us", href: "/#about-us" },
+    { name: "Heritage", href: "/#heritage" },
+    { name: "Our Commitment", href: "/#our-commitment" },
     { name: "Blog", href: "/blog" },
 
-    { name: "Contact Us", href: "/contact-us" },
+    { name: "Contact Us", href: "/#contact-us" },
     { name: "Order Online", href: "https://order.udupivrindavan.com" }
 ];
 
