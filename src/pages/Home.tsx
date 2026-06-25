@@ -100,8 +100,8 @@ const Home = () => {
         {/* Decorative Skewed Shape */}
         <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-gold/5 -skew-x-12 translate-x-1/4" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full py-20">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 w-full py-12 md:py-20">
+          <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
 
             {/* ── LEFT: Content ── */}
             <m.div

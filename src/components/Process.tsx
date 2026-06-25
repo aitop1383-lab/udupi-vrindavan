@@ -9,17 +9,17 @@ import { FOOD_JOURNEY_STEPS } from '../data/siteConfig';
  */
 const Process = () => {
   return (
-    <section className="py-32 bg-brand-cream relative overflow-hidden">
+    <section className="py-16 lg:py-32 bg-brand-cream relative overflow-hidden">
       {/* Decorative Top Border */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-gold/30 to-transparent"></div>
 
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
         {/* Section Header */}
-        <div className="text-center mb-24">
+        <div className="text-center mb-12 lg:mb-24">
           <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-xs mb-4 block">
             The Journey
           </span>
-          <h2 className="text-5xl md:text-6xl text-brand-blue">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl text-brand-blue">
             The Food <span className="italic text-brand-gold">You Eat</span>
           </h2>
         </div>
@@ -33,7 +33,7 @@ const Process = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }} // Staggered entry effect
-              className="relative p-10 bg-white border-b-4 border-transparent hover:border-brand-gold transition-all duration-500 group shadow-sm hover:shadow-2xl"
+              className="relative p-8 lg:p-10 bg-white border-b-4 border-transparent hover:border-brand-gold transition-all duration-500 group shadow-sm hover:shadow-2xl"
               style={{ borderRadius: '0px 40px 0px 40px' }} // Custom leaf-style shape
             >
               {/* Large Background Watermark Number */}
@@ -41,10 +41,15 @@ const Process = () => {
                 {step.id}
               </div>
 
-              {/* Content Details */}
-              <h4 className="text-2xl font-bold mb-4 text-brand-blue tracking-tight">
-                {step.title}
-              </h4>
+              {/* Icon & Title */}
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 bg-brand-gold/10 rounded-2xl flex items-center justify-center text-brand-gold shrink-0">
+                  <step.icon size={24} />
+                </div>
+                <h4 className="text-2xl font-bold text-brand-blue tracking-tight">
+                  {step.title}
+                </h4>
+              </div>
               <p className="text-brand-blue/70 leading-relaxed italic">
                 "{step.desc}"
               </p>

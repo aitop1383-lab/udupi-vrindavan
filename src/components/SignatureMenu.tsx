@@ -81,8 +81,8 @@ const SignatureMenu = () => {
   };
 
   return (
-    <section id="menu" className="py-32 bg-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="menu" className="py-16 lg:py-32 bg-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-10">
@@ -90,7 +90,7 @@ const SignatureMenu = () => {
             <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px] mb-4 block">
               Our Specialties
             </span>
-            <h2 className="text-5xl md:text-7xl text-brand-blue leading-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-7xl text-brand-blue leading-tight">
               Explore Our <br />
               <span className="italic text-brand-gold font-display">Categories</span>
             </h2>

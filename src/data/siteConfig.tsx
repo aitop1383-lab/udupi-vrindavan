@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, Facebook, Youtube } from 'lucide-react';
+import { Instagram, Facebook, Youtube, Users, Utensils, Leaf, Heart, Flame, Star } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faWhatsapp, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FaTripadvisor } from "react-icons/fa";
@@ -101,32 +101,38 @@ export const FOOD_JOURNEY_STEPS = [
     {
         id: "01",
         title: "Hire the Best",
-        desc: "We only hire experienced cooks from Karnataka. They collectively have decades of experience."
+        desc: "We only hire experienced cooks from Karnataka. They collectively have decades of experience.",
+        icon: Users
     },
     {
         id: "02",
         title: "Right Equipment",
-        desc: "Our dosa tawa, idli steamer and many specialised equipment are imported from India."
+        desc: "Our dosa tawa, idli steamer and many specialised equipment are imported from India.",
+        icon: Utensils
     },
     {
         id: "03",
         title: "Quality Sourcing",
-        desc: "Our suppliers, from Karnataka, deliver vegetables every day and ingredients weekly. So you always eat the freshest food."
+        desc: "Our suppliers, from Karnataka, deliver vegetables every day and ingredients weekly. So you always eat the freshest food.",
+        icon: Leaf
     },
     {
         id: "04",
         title: "Your Preferences",
-        desc: "Our Kannada speaking Front of House staff inform the cooks of your preferences (less salt, no onion, spiciness etc.)"
+        desc: "Our Kannada speaking Front of House staff inform the cooks of your preferences (less salt, no onion, spiciness etc.)",
+        icon: Heart
     },
     {
         id: "05",
         title: "Cook with Love",
-        desc: "Working 10 hours in front of kitchen fire isn’t easy!! We take care of our employees very well so that their happiness reflects into the food."
+        desc: "Working 10 hours in front of kitchen fire isn’t easy!! We take care of our employees very well so that their happiness reflects into the food.",
+        icon: Flame
     },
     {
         id: "06",
         title: "Star Hospitality",
-        desc: "Our Front of House staff always strive to fulfil your culinary expectations. Though all speak Kannada, they can speak multiple languages!"
+        desc: "Our Front of House staff always strive to fulfil your culinary expectations. Though all speak Kannada, they can speak multiple languages!",
+        icon: Star
     },
 ];
 

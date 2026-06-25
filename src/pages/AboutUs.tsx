@@ -60,8 +60,8 @@ const AboutUs = () => {
   };
 
   return (
-    <section id="about-us" className="py-32 texture-bg relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="about-us" className="py-16 lg:py-32 texture-bg relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* ── Philosophy Section ── */}
         <div className="grid md:grid-cols-2 gap-20 items-center">
@@ -104,8 +104,8 @@ const AboutUs = () => {
             <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-xs mb-4 block">
               Our Philosophy
             </span>
-            <h2 className="text-5xl md:text-6xl mb-10 text-brand-blue leading-tight">
-              The Heart of <br /><span className="italic text-brand-gold">Hospitality</span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl mb-8 lg:mb-10 text-brand-blue leading-tight">
+              The Heart of <br className="hidden md:block" /><span className="italic text-brand-gold">Hospitality</span>
             </h2>
 
             {/* Pull Quote */}
@@ -135,7 +135,7 @@ const AboutUs = () => {
             hidden: { opacity: 0 },
             show: { opacity: 1, transition: { staggerChildren: 0.15 } },
           }}
-          className="mt-32 px-4 max-w-7xl mx-auto"
+          className="mt-20 lg:mt-32 px-4 max-w-7xl mx-auto"
         >
           {/* Top Badge */}
           <div className="mb-16 w-full flex justify-center px-4">
@@ -149,7 +149,7 @@ const AboutUs = () => {
               <div className="absolute bottom-0 right-0 w-10 h-10 border-b-4 border-r-4 border-brand-blue opacity-60 rounded-br-sm" />
               <div className="border border-brand-blue/10 m-1.5 p-10 flex flex-col items-center text-center">
                 <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain mb-6 opacity-80" />
-                <p className="text-4xl md:text-6xl font-display text-brand-gold italic mb-4 tracking-tight">
+                <p className="text-3xl sm:text-4xl md:text-6xl font-display text-brand-gold italic mb-3 lg:mb-4 tracking-tight">
                   "ಅನ್ನಂ ಬ್ರಹ್ಮ"
                 </p>
                 <p className="text-sm md:text-base uppercase tracking-[0.5em] text-brand-blue/50 font-bold">
@@ -198,7 +198,7 @@ const AboutUs = () => {
                   <h3 className="text-brand-blue/50 text-[10px] font-bold tracking-[0.4em] uppercase">
                     UDUPI VRINDAVAN
                   </h3>
-                  <p className="text-3xl md:text-4xl font-bold text-brand-blue leading-tight">
+                  <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-brand-blue leading-tight">
                     {quote.sanskrit}
                   </p>
                   <p className="text-xl font-normal text-brand-blue/90 font-display">

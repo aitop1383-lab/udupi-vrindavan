@@ -11,8 +11,8 @@ import { SOCIAL_LINKS, DELIVERY_PARTNERS, CONTACT_DETAILS } from '../data/siteCo
 
 const ReachUs = () => {
   return (
-    <section id="contact-us" className="py-32 bg-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="contact-us" className="py-16 lg:py-32 bg-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
 
           {/* --- LEFT SIDE: Content & Information --- */}
@@ -28,7 +28,7 @@ const ReachUs = () => {
               <span className="text-brand-gold font-bold tracking-[0.4em] uppercase text-xs mb-4 block">
                 Connect
               </span>
-              <h2 className="text-5xl md:text-6xl text-brand-blue font-display mb-12 leading-tight">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl text-brand-blue font-display mb-10 md:mb-12 leading-tight">
                 Reach <span className="italic text-brand-gold">Us</span>
               </h2>
 

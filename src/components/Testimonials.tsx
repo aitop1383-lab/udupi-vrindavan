@@ -19,13 +19,13 @@ const Testimonials = () => {
   const needsTruncation = (text: string) => text.length > 130;
 
   return (
-    <section className="py-24 bg-brand-cream text-brand-blue overflow-hidden relative">
+    <section id="testimonials" className="py-16 lg:py-24 bg-brand-cream text-brand-blue overflow-hidden relative">
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none texture-bg"></div>
 
       {/* Header */}
       <div className="max-w-7xl mx-auto px-6 mb-16 relative z-10 text-center">
         <span className="text-brand-gold font-bold tracking-[0.4em] uppercase text-xs mb-4 block">Our Wall of Love</span>
-        <h2 className="text-5xl md:text-6xl mb-6 text-brand-blue font-display">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl mb-4 lg:mb-6 text-brand-blue font-display">
           Feedback from <span className="italic text-brand-gold">our patrons</span>
         </h2>
         <div className="w-24 h-1 bg-brand-gold/30 mx-auto rounded-full"></div>

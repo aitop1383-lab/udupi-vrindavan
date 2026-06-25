@@ -13,8 +13,16 @@ interface AdminLoginProps {
 export const AdminLogin: React.FC<AdminLoginProps> = ({ passkey, setPasskey, handleLogin, error }) => {
   return (
     <div className="min-h-screen bg-brand-cream flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-gold/10 blur-[120px] rounded-full" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-brand-blue/5 blur-[120px] rounded-full" />
+      <motion.div 
+        animate={{ scale: [1, 1.2, 1], x: [0, 50, 0], y: [0, 30, 0] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-brand-gold/15 blur-[120px] rounded-full pointer-events-none" 
+      />
+      <motion.div 
+        animate={{ scale: [1, 1.3, 1], x: [0, -40, 0], y: [0, -50, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-brand-blue/10 blur-[120px] rounded-full pointer-events-none" 
+      />
       <Helmet>
         <title>Access Control | Udupi Vrindavan</title>
         <meta name="robots" content="noindex, nofollow" />

@@ -24,7 +24,7 @@ const Heritage = () => {
   }, []);
 
   return (
-    <section id="heritage" className="py-32 bg-brand-blue text-brand-cream relative overflow-hidden">
+    <section id="heritage" className="py-16 lg:py-32 bg-brand-blue text-brand-cream relative overflow-hidden">
       
       {/* Decorative Background: Skewed white overlay with low opacity for depth */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-white/5 -skew-x-12 translate-x-1/2"></div>
@@ -44,8 +44,8 @@ const Heritage = () => {
             <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-xs mb-4 block">
               Our Roots
             </span>
-            <h2 className="text-5xl md:text-6xl mb-10 text-brand-gold leading-tight">
-              The Heritage <br />of <span className="italic text-brand-cream">Udupi</span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl mb-8 lg:mb-10 text-brand-gold leading-tight">
+              The Heritage <br className="hidden md:block" />of <span className="italic text-brand-cream">Udupi</span>
             </h2>
             
             <div className="space-y-8 opacity-90 text-lg leading-relaxed">

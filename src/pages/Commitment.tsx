@@ -81,43 +81,45 @@ const Commitment = () => {
           </div>
         </div>
 
-        {/* Benefits Cards */}
-        <div className="space-y-12 lg:space-y-20">
+        {/* Benefits Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
           {EMPLOYEE_BENEFITS.map((benefit, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="group bg-white rounded-3xl shadow-xl overflow-hidden border border-brand-gold/10 hover:border-brand-gold/30 transition-all duration-500"
+              transition={{ delay: idx * 0.1 }}
+              className="group bg-white rounded-[2.5rem] p-8 md:p-10 shadow-[0_20px_40px_rgba(15,47,74,0.05)] border border-brand-gold/10 hover:border-brand-gold/40 hover:shadow-[0_20px_60px_rgba(212,166,90,0.15)] transition-all duration-500 relative overflow-hidden flex flex-col"
             >
-              <div className="bg-brand-blue p-6 md:p-8 text-brand-cream relative">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 relative z-10">
-                  <div className="w-16 h-16 bg-brand-gold rounded-2xl flex items-center justify-center text-brand-blue shadow-lg transform group-hover:scale-110 transition-transform duration-300">
-                    {getIcon(benefit.title)}
-                  </div>
-                  <div>
-                    <h3 className="text-2xl md:text-3xl font-bold font-display">
-                      {lang === 'kn' ? (benefit as any).kannadaTitle : benefit.title}
-                    </h3>
-                    <p className="text-brand-gold/80 text-sm uppercase tracking-widest mt-1 font-semibold">
-                      {lang === 'kn' ? 'ಮುಖ್ಯ ಸೌಲಭ್ಯ' : 'Core Benefit'}
-                    </p>
-                  </div>
+              {/* Decorative gradient blob */}
+              <div className="absolute -top-20 -right-20 w-48 h-48 bg-brand-gold/10 rounded-full blur-3xl group-hover:bg-brand-gold/20 transition-colors duration-500"></div>
+              
+              <div className="flex items-center gap-6 mb-8 relative z-10">
+                <div className="w-16 h-16 bg-brand-blue/5 rounded-2xl flex items-center justify-center text-brand-gold group-hover:bg-brand-gold group-hover:text-brand-cream group-hover:scale-110 transition-all duration-500 shadow-sm group-hover:shadow-xl shrink-0">
+                  {getIcon(benefit.title)}
+                </div>
+                <div>
+                  <h3 className="text-2xl md:text-3xl font-bold font-display text-brand-blue">
+                    {lang === 'kn' ? (benefit as any).kannadaTitle : benefit.title}
+                  </h3>
+                  <p className="text-brand-gold text-xs uppercase tracking-[0.2em] mt-1 font-bold">
+                    {lang === 'kn' ? 'ಮುಖ್ಯ ಸೌಲಭ್ಯ' : 'Core Benefit'}
+                  </p>
                 </div>
               </div>
 
-              <div className="p-6 md:p-10 lg:p-12">
-                <div className="max-w-4xl mx-auto">
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
-                    {(lang === 'kn' ? (benefit as any).kannadaItems : benefit.items).map((item, i) => (
-                      <li key={i} className="flex gap-4 items-start animate-fade-in">
-                        <ArrowRightCircle className="w-6 h-6 text-brand-gold flex-shrink-0 mt-0.5" />
-                        <span className="text-brand-blue/80 text-base md:text-lg leading-relaxed">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <div className="relative z-10 flex-grow">
+                <ul className="space-y-5">
+                  {(lang === 'kn' ? (benefit as any).kannadaItems : benefit.items).map((item, i) => (
+                    <li key={i} className="flex gap-4 items-start">
+                      <div className="mt-1 bg-brand-gold/20 p-1 rounded-full text-brand-gold shrink-0 group-hover:bg-brand-gold group-hover:text-white transition-colors duration-300">
+                        <ArrowRightCircle className="w-4 h-4" />
+                      </div>
+                      <span className="text-brand-blue/80 text-base leading-relaxed">{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </motion.div>
           ))}

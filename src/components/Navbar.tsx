@@ -50,7 +50,9 @@ const Navbar = () => {
       dropdown: [
         { name: "About Us", href: "/#about-us" },
         { name: "Heritage", href: "/#heritage" },
-        { name: "Our Commitment", href: "/#our-commitment" }
+        { name: "Signature Menu", href: "/#menu" },
+        { name: "Our Commitment", href: "/#our-commitment" },
+        { name: "Testimonials", href: "/#testimonials" }
       ]
     },
     { name: "Visit Udupi", href: "/visit-udupi" },
@@ -153,11 +155,10 @@ const Navbar = () => {
                               key={subLink.name}
                               to={subLink.href}
                               onClick={() => setActiveDropdown(null)}
-                              className={`px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all ${
-                                subActive
-                                  ? 'bg-brand-gold text-brand-blue shadow-sm'
-                                  : `${subtextColor} ${dropdownTextHover}`
-                              }`}
+                              className={`px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all ${subActive
+                                ? 'bg-brand-gold text-brand-blue shadow-sm'
+                                : `${subtextColor} ${dropdownTextHover}`
+                                }`}
                             >
                               {subLink.name}
                             </Link>
@@ -232,9 +233,8 @@ const Navbar = () => {
                     <div key={link.name} className="flex flex-col">
                       <button
                         onClick={() => setMobileStoryOpen(!mobileStoryOpen)}
-                        className={`text-lg font-medium py-2 border-b border-white/5 flex items-center justify-between cursor-pointer w-full text-left ${
-                          active ? 'text-brand-gold' : 'text-brand-cream'
-                        }`}
+                        className={`text-lg font-medium py-2 border-b border-white/5 flex items-center justify-between cursor-pointer w-full text-left ${active ? 'text-brand-gold' : 'text-brand-cream'
+                          }`}
                       >
                         <span>{link.name}</span>
                         <ChevronDown size={18} className={`transition-transform duration-300 ${mobileStoryOpen ? 'rotate-180 text-brand-gold' : 'text-brand-cream/50'}`} />
@@ -254,9 +254,8 @@ const Navbar = () => {
                                   key={subLink.name}
                                   to={subLink.href}
                                   onClick={() => setIsMenuOpen(false)}
-                                  className={`text-base font-medium py-2.5 border-b border-white/5 last:border-0 transition-colors ${
-                                    subActive ? 'text-brand-gold font-bold' : 'text-brand-cream/80 hover:text-brand-gold'
-                                  }`}
+                                  className={`text-base font-medium py-2.5 border-b border-white/5 last:border-0 transition-colors ${subActive ? 'text-brand-gold font-bold' : 'text-brand-cream/80 hover:text-brand-gold'
+                                    }`}
                                 >
                                   {subLink.name}
                                 </Link>
@@ -270,9 +269,8 @@ const Navbar = () => {
                 }
 
                 const active = isActive(link.href);
-                const mobileClass = `text-lg font-medium py-2 border-b border-white/5 transition-colors ${
-                  active ? 'text-brand-gold font-bold' : 'text-brand-cream'
-                }`;
+                const mobileClass = `text-lg font-medium py-2 border-b border-white/5 transition-colors ${active ? 'text-brand-gold font-bold' : 'text-brand-cream'
+                  }`;
 
                 return isRouterLink(link.href) ? (
                   <Link
