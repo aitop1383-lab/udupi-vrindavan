@@ -29,10 +29,10 @@ const Process = () => {
           {FOOD_JOURNEY_STEPS.map((step, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30, filter: 'blur(4px)' }}
+              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }} // Staggered entry effect
+              transition={{ duration: 0.6, delay: idx * 0.1, ease: 'easeOut' }} // Staggered entry effect with blur-in
               className="relative p-8 lg:p-10 bg-white border-b-4 border-transparent hover:border-brand-gold transition-all duration-500 group shadow-sm hover:shadow-2xl"
               style={{ borderRadius: '0px 40px 0px 40px' }} // Custom leaf-style shape
             >

@@ -28,6 +28,19 @@ const Testimonials = () => {
         <h2 className="text-4xl md:text-5xl lg:text-6xl mb-4 lg:mb-6 text-brand-blue font-display">
           Feedback from <span className="italic text-brand-gold">our patrons</span>
         </h2>
+
+        {/* Google Rating Badge */}
+        <div className="inline-flex flex-wrap items-center justify-center gap-2.5 bg-brand-gold/10 border border-brand-gold/35 rounded-full px-5 py-2.5 text-[11px] sm:text-xs font-bold text-brand-blue mb-8 shadow-sm">
+          <FontAwesomeIcon icon={faGoogle} className="text-brand-gold text-sm" />
+          <span>4.9 / 5.0 Google Rating</span>
+          <span className="text-brand-blue/20">|</span>
+          <div className="flex gap-0.5 text-brand-gold">
+            {[...Array(5)].map((_, i) => <Star key={i} size={11} fill="currentColor" strokeWidth={0} />)}
+          </div>
+          <span className="text-brand-blue/20">|</span>
+          <span className="text-brand-blue/60 font-medium">Based on 500+ reviews</span>
+        </div>
+
         <div className="w-24 h-1 bg-brand-gold/30 mx-auto rounded-full"></div>
       </div>
 
@@ -51,14 +64,14 @@ const Testimonials = () => {
                 <div className="flex gap-1 text-brand-gold mb-6">
                   {[...Array(5)].map((_, i) => <Star key={i} size={15} fill="currentColor" strokeWidth={0} />)}
                 </div>
-                
+
                 <p className={`text-lg md:text-xl font-light italic leading-relaxed text-brand-blue/90 mb-4 ${!expandedStates[idx] ? 'line-clamp-4' : ''}`}>
                   "{review.text}"
                 </p>
-                
+
                 {needsTruncation(review.text) && (
-                  <button 
-                    onClick={() => toggleExpand(idx)} 
+                  <button
+                    onClick={() => toggleExpand(idx)}
                     className="text-brand-gold text-[11px] font-black uppercase tracking-[0.1em] border-b-2 border-brand-gold/20 hover:border-brand-gold transition-all pb-1"
                   >
                     {expandedStates[idx] ? 'Show Less' : 'Read More'}
@@ -66,13 +79,19 @@ const Testimonials = () => {
                 )}
               </div>
 
-              <div className="flex items-center gap-5 mt-10 border-t border-brand-blue/5 pt-8 relative z-10">
-                <div className="w-14 h-14 rounded-full bg-brand-blue text-brand-gold flex items-center justify-center font-bold text-xl shadow-lg shrink-0">
-                  {review.name.charAt(0)}
+              <div className="flex items-center justify-between mt-10 border-t border-brand-blue/5 pt-8 relative z-10">
+                <div className="flex items-center gap-5 overflow-hidden">
+                  <div className="w-14 h-14 rounded-full bg-brand-blue text-brand-gold flex items-center justify-center font-bold text-xl shadow-lg shrink-0">
+                    {review.name.charAt(0)}
+                  </div>
+                  <div className="overflow-hidden">
+                    <h4 className="font-bold text-brand-blue text-base md:text-lg leading-tight truncate">{review.name}</h4>
+                    <p className="text-[10px] md:text-[11px] text-brand-blue/50 uppercase tracking-widest font-semibold mt-1 truncate">{review.role}</p>
+                  </div>
                 </div>
-                <div className="overflow-hidden">
-                  <h4 className="font-bold text-brand-blue text-base md:text-lg leading-tight truncate">{review.name}</h4>
-                  <p className="text-[10px] md:text-[11px] text-brand-blue/50 uppercase tracking-widest font-semibold mt-1">{review.role}</p>
+                {/* Verified Google Review Icon */}
+                <div className="w-9 h-9 rounded-full bg-brand-gold/10 border border-brand-gold/20 flex items-center justify-center text-brand-gold shrink-0 shadow-sm" title="Verified Google Review">
+                  <FontAwesomeIcon icon={faGoogle} className="text-xs" />
                 </div>
               </div>
             </div>
@@ -98,18 +117,31 @@ const Testimonials = () => {
               key={idx}
               whileHover={{ y: -15, scale: 1.02 }}
               onClick={() => setActiveVideo(video.videoUrl)}
-              className="group relative w-[180px] md:w-[280px] aspect-[9/16] rounded-[2.5rem] overflow-hidden border-[6px] border-white shadow-2xl cursor-pointer flex-shrink-0"
+              className="group relative w-[190px] md:w-[290px] aspect-[9/16] rounded-[2.5rem] overflow-hidden border-[6px] border-white shadow-2xl cursor-pointer flex-shrink-0"
             >
-              <img src={video.thumbnail} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-brand-blue/90 opacity-70 group-hover:opacity-90 transition-opacity"></div>
-              
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/30 group-hover:bg-brand-gold group-hover:border-brand-gold transition-all duration-500 shadow-2xl">
-                  <Play className="text-white ml-1 fill-white" size={30} />
+              {/* Thumbnail Image */}
+              <img
+                src={video.thumbnail}
+                alt={video.caption}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+              />
+              {/* Dark overlay for readability */}
+              <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-brand-blue/90 opacity-70 group-hover:opacity-85 transition-opacity duration-300 z-10"></div>
+
+              {/* Pulsating Play Button */}
+              <div className="absolute inset-0 flex items-center justify-center z-20">
+                <div className="relative flex items-center justify-center">
+                  {/* Ping Ring Effect */}
+                  <div className="absolute inset-0 rounded-full bg-white/20 animate-ping group-hover:bg-brand-gold/30" />
+                  {/* Main Play Icon Circle */}
+                  <div className="relative w-16 h-16 md:w-20 md:h-20 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/30 group-hover:bg-brand-gold group-hover:border-brand-gold transition-all duration-500 shadow-2xl">
+                    <Play className="text-white ml-1 fill-white group-hover:scale-110 transition-transform" size={26} />
+                  </div>
                 </div>
               </div>
-              
-              <div className="absolute bottom-6 left-0 right-0 px-6 text-center opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+
+              {/* Hover Badge */}
+              <div className="absolute bottom-6 left-0 right-0 px-6 text-center opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 z-20">
                 <span className="text-white text-[9px] font-black uppercase tracking-[0.2em] bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">Patron Story</span>
               </div>
             </motion.div>
@@ -120,9 +152,9 @@ const Testimonials = () => {
       {/* Google Button */}
       <div className="mt-8 text-center relative z-10">
         <motion.a
-          whileHover={{ 
-            scale: 1.05, 
-            backgroundColor: '#D4AF37', 
+          whileHover={{
+            scale: 1.05,
+            backgroundColor: '#D4AF37',
             color: '#002E54',
             boxShadow: '0 20px 40px rgba(212,175,55,0.3)'
           }}
@@ -140,24 +172,24 @@ const Testimonials = () => {
       {/* Video Modal */}
       <AnimatePresence>
         {activeVideo && (
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }} 
-            className="fixed inset-0 z-[100] bg-brand-blue/95 backdrop-blur-2xl flex items-center justify-center p-6" 
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-brand-blue/95 backdrop-blur-2xl flex items-center justify-center p-6"
             onClick={() => setActiveVideo(null)}
           >
-            <motion.button 
-               whileHover={{ rotate: 90, scale: 1.1 }}
-               className="absolute top-8 right-8 text-white bg-white/10 p-4 rounded-full border border-white/20 hover:bg-brand-gold transition-all"
+            <motion.button
+              whileHover={{ rotate: 90, scale: 1.1 }}
+              className="absolute top-8 right-8 text-white bg-white/10 p-4 rounded-full border border-white/20 hover:bg-brand-gold transition-all"
             >
               <X size={32} />
             </motion.button>
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.8, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="w-full max-w-[420px] aspect-[9/16] rounded-[3.5rem] overflow-hidden shadow-2xl bg-black border-[8px] border-white/10" 
+              className="w-full max-w-[420px] aspect-[9/16] rounded-[3.5rem] overflow-hidden shadow-2xl bg-black border-[8px] border-white/10"
               onClick={e => e.stopPropagation()}
             >
               <video src={activeVideo} controls autoPlay className="w-full h-full object-cover"></video>

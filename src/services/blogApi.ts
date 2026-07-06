@@ -78,11 +78,24 @@ const normalizePostKeys = (rawPost: any): BlogPost => {
     excerpt: normalized.excerpt ? String(normalized.excerpt) : '',
     content: normalized.content ? String(normalized.content) : '',
     author: normalized.author ? String(normalized.author) : 'Udupi Vrindavan',
-    date: normalized.date ? String(normalized.date) : new Date().toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric'
-    }),
+    date: (() => {
+      if (!normalized.date) {
+        return new Date().toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric'
+        });
+      }
+      const parsed = new Date(normalized.date);
+      if (!isNaN(parsed.getTime())) {
+        return parsed.toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric'
+        });
+      }
+      return String(normalized.date);
+    })(),
     image: normalized.image ? String(normalized.image) : '/logo.png',
     category: normalized.category ? String(normalized.category) : 'Tradition',
     readTime: normalized.readtime || normalized.readTime || '3 min read'

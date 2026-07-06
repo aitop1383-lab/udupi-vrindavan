@@ -5,6 +5,7 @@
 
 import React, { Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
+import ScrollToTop from './components/ScrollToTop';
 import { useLocation, BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 
@@ -131,6 +132,7 @@ export default function App() {
       <ScrollHandler />
       <div className="min-h-screen selection:bg-brand-gold selection:text-brand-blue">
         <Navbar />
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<MainLanding />} />
           
