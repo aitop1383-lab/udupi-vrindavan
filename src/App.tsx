@@ -147,6 +147,7 @@ export default function App() {
           <Route path="/legacy-blog" element={<Suspense fallback={<PageLoader />}><Blog /></Suspense>} />
         </Routes>
         
+        {/*  Footer is lazy loaded to avoid blocking the initial render */}
         <Suspense fallback={<div className="h-20" />}>
           <Footer />
         </Suspense>
