@@ -122,7 +122,7 @@ const Testimonials = () => {
               {/* Thumbnail Image */}
               <img
                 src={video.thumbnail}
-                alt={video.caption}
+                alt={`Video testimonial thumbnail ${video.id} for Udupi Vrindavan guests`}
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
               />
               {/* Dark overlay for readability */}

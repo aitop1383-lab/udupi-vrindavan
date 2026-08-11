@@ -12,6 +12,10 @@ import { SOCIAL_LINKS, NAV_LINKS, CONTACT_DETAILS } from '../data/siteConfig';
  * operating hours, and contact details.
  */
 const Footer = () => {
+  const renderSocialIcon = (social: (typeof SOCIAL_LINKS)[number], size: number) =>
+    social.isLucide
+      ? React.createElement(social.icon as React.ElementType, { size })
+      : <FontAwesomeIcon icon={social.icon as any} />;
 
   return (
     <footer className="bg-brand-blue text-brand-cream pt-20 md:pt-32 pb-12 relative overflow-hidden">
@@ -33,14 +37,24 @@ const Footer = () => {
               Taste Karnataka, <span className="italic text-brand-gold">from our kitchen.</span>
             </h3>
           </div>
-          <a
-            href="https://order.udupivrindavan.com/outlet/99670498269910"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0 bg-brand-gold text-brand-blue px-10 py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-white transition-all shadow-xl hover:scale-105 duration-200"
-          >
-            Order Online
-          </a>
+          <div className="flex flex-wrap items-center justify-center md:justify-end gap-3">
+            <a
+              href="https://order.udupivrindavan.com/outlet/99670498269910"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 bg-brand-gold text-brand-blue px-10 py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-white transition-all shadow-xl hover:scale-105 duration-200"
+            >
+              Order Online
+            </a>
+            <a
+              href={CONTACT_DETAILS.googleMapsDirect}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 border border-brand-gold/40 text-brand-cream px-6 py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-brand-gold/10 transition-all"
+            >
+              Get Directions
+            </a>
+          </div>
         </div>
 
         {/* --- Main Grid Structure --- */}
@@ -70,7 +84,7 @@ const Footer = () => {
                 <SocialIcon
                   key={social.id}
                   link={social.href}
-                  icon={social.isLucide ? <social.icon size={18} /> : <FontAwesomeIcon icon={social.icon} />}
+                  icon={renderSocialIcon(social, 18)}
                 />
               ))}
             </div>
@@ -199,6 +213,7 @@ const SocialIcon: React.FC<{ link: string; icon: any; key?: string }> = ({ link,
     href={link}
     target="_blank"
     rel="noopener noreferrer"
+    aria-label="Open Udupi Vrindavan social profile"
     className="w-10 h-10 rounded-xl border border-brand-cream/10 flex items-center justify-center hover:bg-brand-gold hover:text-brand-blue transition transform hover:scale-110 duration-300"
   >
     {icon}

@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { m, LazyMotion, domAnimation } from 'framer-motion';
 import { Utensils, ChevronRight } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
+import Seo from '../components/Seo';
+import { SITE_METADATA } from '../data/siteConfig';
+import { homeBreadcrumbSchema, restaurantSchema, websiteSchema, ORDER_URL } from '../data/seoSchemas';
 
 // ─── Animated Counter Hook ──────────────────────────────────
 const useCounter = (target: number, duration = 1800, start = false) => {
@@ -60,7 +62,7 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const } },
 };
 
 // ─── Component ──────────────────────────────────────────────
@@ -85,15 +87,14 @@ const Home = () => {
   return (
     <LazyMotion features={domAnimation}>
       <section className="relative min-h-screen flex items-center overflow-hidden bg-brand-cream pt-10">
-        <Helmet>
-          <title>Udupi Vrindavan | Authentic Karnataka Vegetarian Cuisine</title>
-          <meta name="description" content="Experience the authentic taste of Udupi and Karnataka at Udupi Vrindavan Restaurant. Healthy, fresh, and tasty vegetarian food." />
-          <meta property="og:title" content="Udupi Vrindavan | Authentic Karnataka Vegetarian Cuisine" />
-          <meta property="og:description" content="Experience the authentic taste of Udupi and Karnataka. Pure Satvik tradition Meets modern wellness." />
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://udupivrindavan.com" />
-          <meta name="twitter:card" content="summary_large_image" />
-        </Helmet>
+        <Seo
+          title="Udupi restaurant in Dubai | Authentic South Indian vegetarian food"
+          description="Visit Udupi Vrindavan in Al Karama for authentic Udupi and South Indian vegetarian dishes, including dosa, idli, vada, and healthy Karnataka cuisine."
+          canonicalPath="/"
+          image="/Butter-Dosa.jpg"
+          type="website"
+          jsonLd={[restaurantSchema, websiteSchema, homeBreadcrumbSchema]}
+        />
         {/* Background Texture */}
         <div className="absolute inset-0 z-0 opacity-30 texture-bg" />
 
@@ -121,9 +122,9 @@ const Home = () => {
                 variants={itemVariants}
                 className="text-4xl md:text-6xl lg:text-7xl text-brand-blue leading-[0.9] mb-8 font-display"
               >
-                Eating Food<br />
-                <span className="text-brand-gold italic">Cooked at</span> <br />
-                <span className="text-brand-blue">Home is best</span>
+                Authentic <span className="text-brand-gold">Udupi</span> <br />
+                <span className="text-brand-blue">Vegetarian Food</span><br />
+                in Dubai
               </m.h1>
 
               {/* Description */}
@@ -131,7 +132,7 @@ const Home = () => {
                 variants={itemVariants}
                 className="text-xl text-brand-blue/70 mb-12 max-w-lg leading-relaxed font-light"
               >
-                Food cooked and eaten at home with family is the best. The next best place should offer you the same health and taste. After all, no one wants to spend money to get ill. At Udupi Vrindavan Restaurant, you will get to experience healthy, fresh and tasty food. You can listen to your favourite songs, talk to our Front of House staff in Kannada and enjoy the delicacies that remind you of Udupi and the wider Karnataka region.
+                Discover a trusted Udupi restaurant in Dubai offering pure vegetarian South Indian dishes such as dosa, idli, vada, and more. From healthy breakfast favourites to comforting lunch and dinner plates, Udupi Vrindavan brings the flavours of Karnataka to Al Karama.
               </m.p>
 
               {/* CTA Buttons */}
@@ -141,7 +142,7 @@ const Home = () => {
               >
                 {/* Order Online */}
                 <m.a
-                  href="https://order.udupivrindavan.com/outlet/99670498269910"
+                  href={ORDER_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="relative group overflow-hidden bg-brand-blue text-brand-cream px-8 py-4 rounded-full font-bold text-xl transition-all shadow-2xl hover:shadow-brand-blue/30 w-full sm:w-auto text-center"
@@ -197,7 +198,7 @@ const Home = () => {
               <div className="relative z-10 rounded-[4rem] overflow-hidden shadow-2xl cascading-image-reverse aspect-[4/4] m-4">
                   <img
                     src="/Butter-Dosa.jpg"
-                    alt="Signature Udupi Dosa"
+                    alt="Butter dosa served at Udupi Vrindavan, a classic Udupi restaurant dish"
                     fetchPriority="high"
                     width="600"
                     height="600"

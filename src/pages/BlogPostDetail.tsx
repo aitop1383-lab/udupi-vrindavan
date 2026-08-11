@@ -4,8 +4,10 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { BlogPost } from '../types/blog';
 import { Calendar, Clock, ArrowLeft, Share2, Heart, BookOpen, ChevronRight, LinkIcon } from 'lucide-react';
 import { blogApi } from '../services/blogApi';
-import { Helmet } from 'react-helmet-async';
+import Seo from '../components/Seo';
 import DOMPurify from 'dompurify';
+import { SITE_METADATA } from '../data/siteConfig';
+import { breadcrumbSchema } from '../data/seoSchemas';
 
 /* ─── Tiny utility: strip HTML tags ─── */
 const stripHtml = (s: string) => s.replace(/<[^>]*>/g, '');
@@ -243,19 +245,45 @@ const BlogPostDetail = () => {
   /* ════════════════════════════════════════
      MAIN RENDER
   ════════════════════════════════════════ */
+  const cleanTitle = stripHtml(post.title);
+  const cleanExcerpt = stripHtml(post.excerpt);
+  const articleImage = post.image?.startsWith('http') ? post.image : `${SITE_METADATA.siteUrl}${post.image || '/logo.png'}`;
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: cleanTitle,
+    description: cleanExcerpt,
+    image: articleImage,
+    author: {
+      '@type': 'Organization',
+      name: post.author || SITE_METADATA.siteName
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_METADATA.siteName,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_METADATA.siteUrl}/logo.png`
+      }
+    },
+    mainEntityOfPage: `${SITE_METADATA.siteUrl}/blog/${post.slug}`
+  };
+  const postBreadcrumbSchema = breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' },
+    { name: cleanTitle, path: `/blog/${post.slug}` }
+  ]);
+
   return (
     <div className="bg-brand-cream min-h-screen">
-      <Helmet>
-        <title>{stripHtml(post.title)} | Udupi Vrindavan</title>
-        <meta name="description" content={stripHtml(post.excerpt)} />
-        <link rel="canonical" href={`https://udupivrindavan.com/blog/${post.slug}`} />
-        <meta property="og:title" content={stripHtml(post.title)} />
-        <meta property="og:description" content={stripHtml(post.excerpt)} />
-        <meta property="og:type" content="article" />
-        <meta property="og:image" content={post.image} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={post.image} />
-      </Helmet>
+      <Seo
+        title={cleanTitle}
+        description={cleanExcerpt}
+        canonicalPath={`/blog/${post.slug}`}
+        image={post.image}
+        type="article"
+        jsonLd={[articleSchema, postBreadcrumbSchema]}
+      />
 
       {/* ── Gold reading progress bar ── */}
       <div

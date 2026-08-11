@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Map, Plane, Train, Car, Compass, Images, Star, Utensils, X, ChevronRight } from "lucide-react";
-import { Helmet } from "react-helmet-async";
+import Seo from "../components/Seo";
+import { breadcrumbSchema } from "../data/seoSchemas";
 import { 
   UDUPI_FEATURES, 
   TRAVEL_MODES, 
@@ -65,17 +66,21 @@ const VisitUdupi = () => {
     }
   };
 
+  const visitBreadcrumbSchema = breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Visit Udupi', path: '/visit-udupi' }
+  ]);
+
   return (
     <div className="bg-[#fdfcf7] min-h-screen pt-16 md:pt-20 overflow-x-hidden font-sans selection:bg-brand-gold/30 texture-bg">
-      <Helmet>
-        <title>Visit Udupi | Explore the Coast of Karnataka</title>
-        <meta name="description" content="Discover the spiritual and culinary heart of Karnataka. Plan your journey to Udupi's pristine beaches and sacred temples." />
-        <meta property="og:title" content="Visit Udupi | Explore the Coast of Karnataka" />
-        <meta property="og:description" content="A guide to exploring Udupi's heritage, culture, and world-famous cuisine." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://udupivrindavan.com/visit-udupi" />
-        <meta name="twitter:card" content="summary_large_image" />
-      </Helmet>
+      <Seo
+        title="Visit Udupi | Udupi food, South Indian heritage and Karnataka cuisine"
+        description="Explore Udupi's temple heritage, coastal beauty, and vegetarian cuisine, then visit Udupi Vrindavan in Al Karama, Dubai for authentic South Indian food."
+        canonicalPath="/visit-udupi"
+        image="/VisitUdupi_Gallery/udupi.webp"
+        type="website"
+        jsonLd={visitBreadcrumbSchema}
+      />
       
       {/* --- HERO: Cinematic Entrance --- */}
       <section className="relative h-[80vh] md:h-[95vh] flex items-center justify-center overflow-hidden">
@@ -88,7 +93,7 @@ const VisitUdupi = () => {
           <img 
             src="/VisitUdupi_Gallery/udupi.webp" 
             className="w-full h-full object-cover" 
-            alt="Udupi" 
+            alt="Scenic Udupi coastline and temple town views"
             fetchPriority="high"
             loading="eager"
             width="1920"
@@ -178,13 +183,13 @@ const VisitUdupi = () => {
                 whileHover={{ scale: 1.02 }}
                 className="absolute top-0 right-0 w-[85%] h-[85%] rounded-[2rem] md:rounded-[4rem] overflow-hidden shadow-2xl z-10 border-4 md:border-8 border-white"
               >
-                <img src="/VisitUdupi_Gallery/templewater.jpeg" className="w-full h-full object-cover" alt="Temple Tank" />
+                <img src="/VisitUdupi_Gallery/templewater.jpeg" className="w-full h-full object-cover" alt="Temple tank reflecting the heritage of Udupi" loading="lazy" />
               </motion.div>
               <motion.div 
                 whileHover={{ scale: 1.05, rotate: -2 }}
                 className="absolute bottom-0 left-0 w-[55%] h-[55%] rounded-[1.5rem] md:rounded-[3rem] overflow-hidden shadow-2xl z-20 border-4 md:border-8 border-[#fdfcf7]"
               >
-                <img src="/VisitUdupi_Gallery/top-view-ocen.jpeg" className="w-full h-full object-cover" alt="Ocean View" />
+                <img src="/VisitUdupi_Gallery/top-view-ocen.jpeg" className="w-full h-full object-cover" alt="Ocean view over the Arabian Sea near Udupi" loading="lazy" />
               </motion.div>
             </div>
           </div>

@@ -584,12 +584,12 @@ const BlogAdmin = () => {
   /* ── Delete ── */
   const handleDeletePost = async (post: BlogPost) => {
     if (!window.confirm(`Are you sure you want to delete "${post.title}"? This cannot be undone.`)) return;
-    setDeleteStatus(prev => ({ ...prev, [post.id]: 'deleting' }));
+    setDeleteStatus(prev => ({ ...prev, [post.id]: 'deleting' as const }));
     try {
       await blogApi.deletePost(String(post.id));
       setPosts(prev => prev.filter(p => p.id !== post.id));
     } catch (err) { console.error(err); }
-    finally { setDeleteStatus(prev => ({ ...prev, [post.id]: 'idle' })); }
+    finally { setDeleteStatus(prev => ({ ...prev, [post.id]: 'idle' as const })); }
   };
 
   /* ── Publish ── */
@@ -626,8 +626,6 @@ const BlogAdmin = () => {
     try {
       const isConnected = await blogApi.testConnection({
         mode: 'google_sheets',
-        supabaseUrl: '',
-        supabaseAnonKey: '',
         googleSheetsUrl: googleSheetsUrl.trim(),
       });
       if (isConnected) {
@@ -647,9 +645,6 @@ const BlogAdmin = () => {
     e.preventDefault();
     setSaveStatus('saving');
     updateBlogConfig({
-      mode: 'google_sheets',
-      supabaseUrl: '',
-      supabaseAnonKey: '',
       googleSheetsUrl: googleSheetsUrl.trim()
     });
     setTimeout(() => {

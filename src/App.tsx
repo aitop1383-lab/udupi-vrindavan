@@ -6,7 +6,7 @@
 import React, { Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
-import { useLocation, BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useLocation, BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 // 🏡 Standard imports (Instant rendering)
@@ -18,7 +18,6 @@ const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
 const BlogPostDetail = lazy(() => import('./pages/BlogPostDetail'));
-const Blog = lazy(() => import("./pages/Blog"));
 const BlogAdmin = lazy(() => import("./pages/BlogAdmin"));
 
 // 🚀 Lazy Loading for Home Sections (below-the-fold)
@@ -144,7 +143,7 @@ export default function App() {
           <Route path="/blog/:slug" element={<Suspense fallback={<PageLoader />}><BlogPostDetail /></Suspense>} />
           <Route path="/blog/admin" element={<Suspense fallback={<PageLoader />}><BlogAdmin /></Suspense>} />
           
-          <Route path="/legacy-blog" element={<Suspense fallback={<PageLoader />}><Blog /></Suspense>} />
+          <Route path="/legacy-blog" element={<Navigate to="/blog" replace />} />
         </Routes>
         
         {/*  Footer is lazy loaded to avoid blocking the initial render */}

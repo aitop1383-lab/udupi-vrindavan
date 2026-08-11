@@ -96,7 +96,7 @@ const SignatureMenu = () => {
             </h2>
           </div>
           <p className="text-brand-blue/60 max-w-sm text-lg leading-relaxed border-l-2 border-brand-gold/20 pl-6">
-            Pick your favorite category and order directly from our kitchen to your doorstep.
+            Pick your favorite South Indian vegetarian category, from dosa and idli to snacks and beverages, and order directly from our kitchen to your doorstep.
           </p>
         </div>
 
@@ -165,7 +165,7 @@ const SignatureMenu = () => {
                 <div className="relative w-full aspect-square rounded-[3rem] overflow-hidden border border-brand-gold/10 transition-all duration-500 group-hover/card:shadow-2xl group-hover/card:-translate-y-2">
                   <img
                     src={cat.img}
-                    alt={cat.name}
+                    alt={`${cat.name} category at Udupi Vrindavan South Indian vegetarian restaurant`}
                     className="w-full h-full object-cover transform group-hover/card:scale-110 transition-transform duration-1000"
                     draggable={false}
                   />

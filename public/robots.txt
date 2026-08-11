@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /blog/admin
+Disallow: /legacy-blog
+
+Sitemap: https://udupivrindavan.com/sitemap.xml

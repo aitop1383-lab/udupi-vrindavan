@@ -18,6 +18,28 @@ export const CONTACT_DETAILS = {
     googleMapsDirect: "https://www.google.com/maps/search/?api=1&query=25.247057,55.310259"
 };
 
+export const SITE_METADATA = {
+    siteName: 'Udupi Vrindavan',
+    siteUrl: 'https://udupivrindavan.com',
+    description: 'Udupi Vrindavan is a vegetarian restaurant in Dubai serving authentic Udupi and South Indian food, including dosa, idli, vada, and other Karnataka specialties.',
+    keywords: [
+        'Udupi restaurant',
+        'South Indian restaurant',
+        'vegetarian restaurant',
+        'South Indian food',
+        'Udupi food',
+        'dosa',
+        'idli',
+        'vada',
+        'vegetarian food',
+        'Dubai vegetarian restaurant'
+    ],
+    businessName: 'Udupi Vrindavan Restaurant LLC',
+    area: 'Al Karama, Dubai',
+    cuisine: 'South Indian, Udupi, Karnataka vegetarian',
+    menuUrl: 'https://udupivrindavan.com/Menu.pdf'
+};
+
 export const SOCIAL_LINKS = [
     {
         id: 'ig',

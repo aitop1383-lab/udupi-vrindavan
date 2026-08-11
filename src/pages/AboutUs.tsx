@@ -56,7 +56,7 @@ const AboutUs = () => {
       scale: 1,
       y: 0,
       filter: 'blur(0px)',
-      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
     },
   };
 
@@ -77,7 +77,7 @@ const AboutUs = () => {
             <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
               <img
                 src="/host.jpeg"
-                alt="Traditional Cooking"
+                alt="Traditional South Indian cooking at Udupi Vrindavan"
                 className="w-full h-[700px] object-cover hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
               />
@@ -149,7 +149,7 @@ const AboutUs = () => {
               <div className="absolute bottom-0 left-0 w-10 h-10 border-b-4 border-l-4 border-brand-blue opacity-60 rounded-bl-sm" />
               <div className="absolute bottom-0 right-0 w-10 h-10 border-b-4 border-r-4 border-brand-blue opacity-60 rounded-br-sm" />
               <div className="border border-brand-blue/10 m-1.5 p-10 flex flex-col items-center text-center">
-                <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain mb-6 opacity-80" />
+                <img src="/logo.png" alt="Udupi Vrindavan logo" className="w-10 h-10 object-contain mb-6 opacity-80" />
                 <p className="text-3xl sm:text-4xl md:text-6xl font-display text-brand-gold italic mb-3 lg:mb-4 tracking-tight">
                   "ಅನ್ನಂ ಬ್ರಹ್ಮ"
                 </p>
@@ -195,7 +195,7 @@ const AboutUs = () => {
                 <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-brand-blue opacity-40 rounded-br-sm" />
 
                 <div className="border border-brand-blue/10 m-2 p-4 flex flex-col items-center text-center space-y-5">
-                  <img src="/logo.png" alt="Logo" className="w-14 h-14 object-contain mb-2 opacity-90" />
+                  <img src="/logo.png" alt="Udupi Vrindavan logo" className="w-14 h-14 object-contain mb-2 opacity-90" />
                   <h3 className="text-brand-blue/50 text-[10px] font-bold tracking-[0.4em] uppercase">
                     UDUPI VRINDAVAN
                   </h3>

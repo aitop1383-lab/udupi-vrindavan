@@ -10,6 +10,11 @@ import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { SOCIAL_LINKS, DELIVERY_PARTNERS, CONTACT_DETAILS } from '../data/siteConfig';
 
 const ReachUs = () => {
+  const renderSocialIcon = (social: (typeof SOCIAL_LINKS)[number]) =>
+    social.isLucide
+      ? React.createElement(social.icon as React.ElementType, { size: 20 })
+      : <FontAwesomeIcon icon={social.icon as any} className="text-lg" />;
+
   return (
     <section id="contact-us" className="py-16 lg:py-32 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
@@ -31,6 +36,9 @@ const ReachUs = () => {
               <h2 className="text-4xl md:text-5xl lg:text-6xl text-brand-blue font-display mb-10 md:mb-12 leading-tight">
                 Reach <span className="italic text-brand-gold">Us</span>
               </h2>
+              <p className="text-brand-blue/60 text-lg leading-relaxed mb-10 max-w-2xl">
+                Visit Udupi Vrindavan in Al Karama, Dubai for authentic Udupi and South Indian vegetarian food, or contact us for menu, ordering, WhatsApp, call, and directions.
+              </p>
 
               {/* Contact Information Details */}
               <div className="space-y-10">
@@ -80,7 +88,7 @@ const ReachUs = () => {
 
                   {/* QR Code Illustration */}
                   <div className="bg-white p-6 rounded-[2.5rem] shadow-2xl w-full max-w-[220px] group-hover:scale-105 transition-transform duration-700 text-center shrink-0">
-                    <img src="/qrcode.png" alt="Official Website QR" className="w-full object-contain" />
+                    <img src="/qrcode.png" alt="QR code for the official Udupi Vrindavan website" className="w-full object-contain" />
                     <p className="text-[9px] font-black text-brand-blue uppercase tracking-[0.3em] mt-5 opacity-60">Official Website</p>
                   </div>
 
@@ -107,7 +115,7 @@ const ReachUs = () => {
                           className={`w-12 h-12 rounded-2xl bg-white shadow-md flex items-center justify-center text-brand-blue transition-all duration-300 ${social.hoverColor} hover:text-white border border-brand-blue/5`}
                         >
                           {/* Conditional rendering for Lucide or FontAwesome Icons */}
-                          {social.isLucide ? <social.icon size={20} /> : <FontAwesomeIcon icon={social.icon} className="text-lg" />}
+                          {renderSocialIcon(social)}
                         </motion.a>
                       ))}
                     </div>
@@ -133,7 +141,7 @@ const ReachUs = () => {
                     className="relative flex items-center justify-center h-20 rounded-2xl shadow-sm border border-brand-blue/5 overflow-hidden transition-all" 
                     style={{ backgroundColor: app.bgColor }}
                   >
-                    <img src={app.logo} alt={app.name} className="max-h-10 object-contain" />
+                    <img src={app.logo} alt={`${app.name} delivery partner logo`} className="max-h-10 object-contain" />
                     <div className="absolute inset-0 bg-black/0 hover:bg-black/5 transition-colors"></div>
                   </motion.a>
                 ))}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import Seo from '../components/Seo';
 import { 
   FileText, 
   CheckCircle, 
@@ -23,10 +24,12 @@ import { Helmet } from 'react-helmet-async';
 const TermsOfService = () => {
   return (
     <div className="bg-[#fdfcf7] min-h-screen pt-24 md:pt-28 pb-16 md:pb-20 font-sans texture-bg">
-      <Helmet>
-        <title>Terms Of Use | Udupi Vrindavan</title>
-        <meta name="description" content="Review the terms and conditions for using Udupi Vrindavan's website and services." />
-      </Helmet>
+      <Seo
+        title="Terms of Use"
+        description="Review the terms of use for Udupi Vrindavan’s website and services."
+        canonicalPath="/terms-of-service"
+        noIndex
+      />
       <div className="max-w-4xl mx-auto px-6">
         
         {/* --- Header Section --- */}

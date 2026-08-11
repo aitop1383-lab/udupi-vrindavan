@@ -4,10 +4,15 @@ import { BlogPost } from '../types/blog';
 import BlogCard from '../components/BlogCard';
 import { Search, BookOpen, Sparkles, TrendingUp } from 'lucide-react';
 import { blogApi } from '../services/blogApi';
-import { Helmet } from 'react-helmet-async';
+import Seo from '../components/Seo';
 import SkeletonBlogCard from '../components/SkeletonBlogCard';
+import { breadcrumbSchema } from '../data/seoSchemas';
 
 const CATEGORIES = ['All', 'Tradition', 'Health', 'Culture', 'Community', 'Recipe', 'News'];
+const blogBreadcrumbSchema = breadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: 'Blog', path: '/blog' }
+]);
 
 const BlogPage = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -48,15 +53,13 @@ const BlogPage = () => {
 
   return (
     <div className="bg-brand-cream min-h-screen">
-      <Helmet>
-        <title>Blog | Udupi Vrindavan — Stories of Tradition & Taste</title>
-        <meta name="description" content="Explore stories, traditions, and authentic insights from Udupi Vrindavan, Dubai." />
-        <link rel="canonical" href="https://udupivrindavan.com/blog" />
-        <meta property="og:title" content="Blog | Udupi Vrindavan" />
-        <meta property="og:description" content="Explore stories, traditions, and authentic insights from Udupi Vrindavan." />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-      </Helmet>
+      <Seo
+        title="Blog | Udupi Vrindavan stories about South Indian food and heritage"
+        description="Read stories about Udupi cuisine, Karnataka traditions, vegetarian food culture, and the story behind Udupi Vrindavan in Dubai."
+        canonicalPath="/blog"
+        type="website"
+        jsonLd={blogBreadcrumbSchema}
+      />
 
       {/* ══════════════════════════════
           HERO SECTION
@@ -83,7 +86,7 @@ const BlogPage = () => {
             </h1>
 
             <p className="text-brand-blue/55 text-base md:text-xl max-w-2xl mx-auto font-sans leading-relaxed mb-8 sm:mb-10">
-              Authentic traditions, seasonal recipes, and cultural stories from the heart of Udupi — served fresh from Al Karama, Dubai.
+              Explore stories about Udupi food, South Indian vegetarian traditions, Karnataka heritage, and what makes Udupi Vrindavan a trusted dining destination in Dubai.
             </p>
 
             {/* Live stats */}
