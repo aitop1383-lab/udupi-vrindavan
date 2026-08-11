@@ -118,21 +118,21 @@ const Home = () => {
               </m.div>
 
               {/* Heading */}
-              <m.h1
-                variants={itemVariants}
-                className="text-4xl md:text-6xl lg:text-7xl text-brand-blue leading-[0.9] mb-8 font-display"
-              >
-                Authentic <span className="text-brand-gold">Udupi</span> <br />
-                <span className="text-brand-blue">Vegetarian Food</span><br />
-                in Dubai
-              </m.h1>
+            <m.h1
+              variants={itemVariants}
+              className="text-4xl md:text-6xl lg:text-7xl text-brand-blue leading-[0.9] mb-8 font-display"
+            >
+              Eating Food<br />
+              <span className="text-brand-gold italic">Cooked at</span> <br />
+              <span className="text-brand-blue">Home is best</span>
+            </m.h1>
 
               {/* Description */}
               <m.p
                 variants={itemVariants}
                 className="text-xl text-brand-blue/70 mb-12 max-w-lg leading-relaxed font-light"
               >
-                Discover a trusted Udupi restaurant in Dubai offering pure vegetarian South Indian dishes such as dosa, idli, vada, and more. From healthy breakfast favourites to comforting lunch and dinner plates, Udupi Vrindavan brings the flavours of Karnataka to Al Karama.
+              Food cooked and eaten at home with family is the best. The next best place should offer you the same health and taste. After all, no one wants to spend money to get ill. At Udupi Vrindavan Restaurant, you will get to experience healthy, fresh and tasty food. You can listen to your favourite songs, talk to our Front of House staff in Kannada and enjoy the delicacies that remind you of Udupi and the wider Karnataka region.
               </m.p>
 
               {/* CTA Buttons */}

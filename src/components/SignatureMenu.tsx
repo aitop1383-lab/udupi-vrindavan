@@ -31,7 +31,7 @@ const SignatureMenu = () => {
     const el = scrollRef.current;
     if (!el) return;
     checkScrollLimits();
-    
+
     el.addEventListener('scroll', checkScrollLimits);
     window.addEventListener('resize', checkScrollLimits);
     return () => {
@@ -96,8 +96,7 @@ const SignatureMenu = () => {
             </h2>
           </div>
           <p className="text-brand-blue/60 max-w-sm text-lg leading-relaxed border-l-2 border-brand-gold/20 pl-6">
-            Pick your favorite South Indian vegetarian category, from dosa and idli to snacks and beverages, and order directly from our kitchen to your doorstep.
-          </p>
+            Pick your favorite category and order directly from our kitchen to your doorstep.          </p>
         </div>
 
         {/* Draggable Horizontal Slider */}
@@ -107,11 +106,10 @@ const SignatureMenu = () => {
             <button
               onClick={() => scroll('left')}
               disabled={!canScrollLeft}
-              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg border transition-all duration-300 ${
-                canScrollLeft 
-                  ? 'bg-brand-blue border-brand-blue text-brand-gold hover:bg-brand-gold hover:text-brand-blue hover:scale-110 cursor-pointer' 
+              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg border transition-all duration-300 ${canScrollLeft
+                  ? 'bg-brand-blue border-brand-blue text-brand-gold hover:bg-brand-gold hover:text-brand-blue hover:scale-110 cursor-pointer'
                   : 'bg-brand-blue/5 border-brand-blue/5 text-brand-blue/20 cursor-not-allowed'
-              }`}
+                }`}
               title="Scroll Left"
             >
               <ChevronRight className="rotate-180" size={24} />
@@ -123,11 +121,10 @@ const SignatureMenu = () => {
             <button
               onClick={() => scroll('right')}
               disabled={!canScrollRight}
-              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg border transition-all duration-300 ${
-                canScrollRight 
-                  ? 'bg-brand-blue border-brand-blue text-brand-gold hover:bg-brand-gold hover:text-brand-blue hover:scale-110 cursor-pointer' 
+              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg border transition-all duration-300 ${canScrollRight
+                  ? 'bg-brand-blue border-brand-blue text-brand-gold hover:bg-brand-gold hover:text-brand-blue hover:scale-110 cursor-pointer'
                   : 'bg-brand-blue/5 border-brand-blue/5 text-brand-blue/20 cursor-not-allowed'
-              }`}
+                }`}
               title="Scroll Right"
             >
               <ChevronRight size={24} />
