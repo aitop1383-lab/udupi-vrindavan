@@ -3,22 +3,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
 import { useLocation, BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useEffect } from 'react';
 
 // 🏡 Standard imports (Instant rendering)
 import Home from './pages/Home';
 
 // 🚀 Lazy Loading for Main Routes
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
 const VisitUdupi = lazy(() => import('./pages/VisitUdupi'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
 const BlogPostDetail = lazy(() => import('./pages/BlogPostDetail'));
-const BlogAdmin = lazy(() => import("./pages/BlogAdmin"));
+const BlogAdmin = lazy(() => import('./pages/BlogAdmin'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 // 🚀 Lazy Loading for Home Sections (below-the-fold)
 const AboutUs = lazy(() => import('./pages/AboutUs'));
@@ -70,7 +72,7 @@ const ScrollHandler = () => {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    let targetId = hash.replace('#', '');
+    const targetId = hash.replace('#', '');
 
     if (!targetId) {
       window.scrollTo(0, 0);
@@ -125,28 +127,59 @@ const MainLanding = () => (
   </main>
 );
 
+// 🔗 External Redirect Helper
+const ExternalRedirect = ({ url }: { url: string }) => {
+  useEffect(() => {
+    window.location.href = url;
+  }, [url]);
+
+  return (
+    <div className="h-screen w-screen bg-brand-cream flex flex-col items-center justify-center gap-4">
+      <div className="w-12 h-12 border-4 border-brand-gold border-t-brand-blue rounded-full animate-spin" />
+      <p className="text-brand-blue font-bold text-sm tracking-wider uppercase">Redirecting to Online Ordering...</p>
+    </div>
+  );
+};
+
 export default function App() {
   return (
     <Router>
       <ScrollHandler />
-      <div className="min-h-screen selection:bg-brand-gold selection:text-brand-blue">
-        <Navbar />
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<MainLanding />} />
-          
-          {/* Sub-pages wrapped in Suspense so they don't block the initial layout */}
-          <Route path="/visit-udupi" element={<Suspense fallback={<PageLoader />}><VisitUdupi /></Suspense>} />
-          <Route path="/privacy-policy" element={<Suspense fallback={<PageLoader />}><PrivacyPolicy /></Suspense>} />
-          <Route path="/terms-of-service" element={<Suspense fallback={<PageLoader />}><TermsOfService /></Suspense>} />
-          <Route path="/blog" element={<Suspense fallback={<PageLoader />}><BlogPage /></Suspense>} />
-          <Route path="/blog/:slug" element={<Suspense fallback={<PageLoader />}><BlogPostDetail /></Suspense>} />
-          <Route path="/blog/admin" element={<Suspense fallback={<PageLoader />}><BlogAdmin /></Suspense>} />
-          
-          <Route path="/legacy-blog" element={<Navigate to="/blog" replace />} />
-        </Routes>
+      <div className="min-h-screen selection:bg-brand-gold selection:text-brand-blue flex flex-col justify-between">
+        <div>
+          <Navbar />
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<MainLanding />} />
+            
+            {/* Dedicated Trust & Information Pages */}
+            <Route path="/about" element={<Suspense fallback={<PageLoader />}><AboutPage /></Suspense>} />
+            <Route path="/contact" element={<Suspense fallback={<PageLoader />}><ContactPage /></Suspense>} />
+            <Route path="/reach-us" element={<Suspense fallback={<PageLoader />}><ContactPage /></Suspense>} />
+            <Route path="/visit-udupi" element={<Suspense fallback={<PageLoader />}><VisitUdupi /></Suspense>} />
+            <Route path="/privacy" element={<Suspense fallback={<PageLoader />}><PrivacyPolicy /></Suspense>} />
+            <Route path="/privacy-policy" element={<Suspense fallback={<PageLoader />}><PrivacyPolicy /></Suspense>} />
+            <Route path="/terms-of-service" element={<Suspense fallback={<PageLoader />}><TermsOfService /></Suspense>} />
+            <Route path="/blog" element={<Suspense fallback={<PageLoader />}><BlogPage /></Suspense>} />
+            <Route path="/blog/:slug" element={<Suspense fallback={<PageLoader />}><BlogPostDetail /></Suspense>} />
+            <Route path="/blog/admin" element={<Suspense fallback={<PageLoader />}><BlogAdmin /></Suspense>} />
+            
+            <Route path="/legacy-blog" element={<Navigate to="/blog" replace />} />
+            
+            {/* Redirect /booking to official ordering portal */}
+            <Route path="/booking" element={<ExternalRedirect url="https://order.udupivrindavan.com" />} />
+            <Route path="/bookings" element={<ExternalRedirect url="https://order.udupivrindavan.com" />} />
+            <Route path="/book" element={<ExternalRedirect url="https://order.udupivrindavan.com" />} />
+            <Route path="/reservation" element={<ExternalRedirect url="https://order.udupivrindavan.com" />} />
+            <Route path="/reservations" element={<ExternalRedirect url="https://order.udupivrindavan.com" />} />
+            <Route path="/table-booking" element={<ExternalRedirect url="https://order.udupivrindavan.com" />} />
+            
+            {/* Real 404 Route */}
+            <Route path="*" element={<Suspense fallback={<PageLoader />}><NotFound /></Suspense>} />
+          </Routes>
+        </div>
         
-        {/*  Footer is lazy loaded to avoid blocking the initial render */}
+        {/* Footer */}
         <Suspense fallback={<div className="h-20" />}>
           <Footer />
         </Suspense>

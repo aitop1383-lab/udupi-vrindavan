@@ -1,12 +1,19 @@
 {
+  "redirects": [
+    {
+      "source": "/(booking|bookings|book|reservation|reservations|table-booking)",
+      "destination": "https://order.udupivrindavan.com",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/wp/:path*",
       "destination": "http://d7v.021.myftpupload.com/wp-json/wp/v2/:path*"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/((?!assets|categories|Thumbnail|videos|VisitUdupi_Gallery|favicon.ico|robots.txt|sitemap.xml|llms.txt|llms-full.txt|Menu.pdf|.*\\..*).*)",
+      "destination": "/api/index"
     }
   ]
 }

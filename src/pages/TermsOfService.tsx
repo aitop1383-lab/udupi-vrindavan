@@ -25,10 +25,9 @@ const TermsOfService = () => {
   return (
     <div className="bg-[#fdfcf7] min-h-screen pt-24 md:pt-28 pb-16 md:pb-20 font-sans texture-bg">
       <Seo
-        title="Terms of Use"
-        description="Review the terms of use for Udupi Vrindavan’s website and services."
+        title="Terms of Use | Udupi Vrindavan Restaurant Dubai"
+        description="Review the terms of use for Udupi Vrindavan Restaurant LLC website and services."
         canonicalPath="/terms-of-service"
-        noIndex
       />
       <div className="max-w-4xl mx-auto px-6">
         

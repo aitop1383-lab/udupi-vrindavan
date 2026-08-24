@@ -186,19 +186,18 @@ const Footer = () => {
             © {new Date().getFullYear()} Udupi Vrindavan Restaurant LLC.
           </p>
 
-          <div className="flex gap-8 opacity-50 text-xs tracking-widest uppercase font-bold">
-            {/* LINK UPDATED: Pointing to Privacy Policy Page */}
-            <Link to="/privacy-policy" className="hover:text-brand-gold transition-colors">
+          <div className="flex flex-wrap justify-center gap-6 opacity-60 text-xs tracking-widest uppercase font-bold">
+            <Link to="/privacy" className="hover:text-brand-gold transition-colors">
               Privacy Policy
             </Link>
             <Link to="/terms-of-service" className="hover:text-brand-gold transition-colors">
               Terms of Service
             </Link>
+            <a href="/llms.txt" className="hover:text-brand-gold transition-colors">
+              llms.txt
+            </a>
           </div>
         </div>
-
-
-
 
       </div>
     </footer>

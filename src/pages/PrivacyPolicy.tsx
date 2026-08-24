@@ -12,10 +12,9 @@ const PrivacyPolicy = () => {
   return (
     <div className="bg-[#fdfcf7] min-h-screen pt-24 md:pt-28 pb-16 md:pb-20 texture-bg">
       <Seo
-        title="Privacy Policy"
-        description="Read the privacy policy for Udupi Vrindavan and how we protect visitor information on our website."
-        canonicalPath="/privacy-policy"
-        noIndex
+        title="Privacy Policy | Udupi Vrindavan Restaurant Dubai"
+        description="Read the privacy policy for Udupi Vrindavan Restaurant LLC and how we safeguard visitor information and user privacy."
+        canonicalPath="/privacy"
       />
       <div className="max-w-4xl mx-auto px-6">
         

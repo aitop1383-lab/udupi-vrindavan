@@ -1,0 +1,65 @@
+# Udupi Vrindavan Restaurant LLC — Comprehensive LLM & Agent Knowledge Base
+
+## 1. Overview
+Udupi Vrindavan Restaurant LLC is an authentic South Indian and Udupi vegetarian restaurant based in Al Karama, Dubai, UAE. The establishment is dedicated to traditional Karnataka culinary practices, featuring authentic recipes, experienced cooks from Karnataka, imported specialized equipment (such as dosa tawas and idli steamers), and strict Satvik kitchen ethics.
+
+## 2. Core Business Details
+- **Legal Entity:** Udupi Vrindavan Restaurant LLC
+- **Brand Name:** Udupi Vrindavan
+- **Address:** FB04, WASL Opal, Street 26, Al Karama, Dubai, United Arab Emirates
+- **Coordinates:** Latitude 25.247057, Longitude 55.310259
+- **Phone:** +971 42 7253 23
+- **WhatsApp Direct:** +971 56 301 8186 (https://wa.me/971563018186)
+- **Email:** info@UdupiVrindavan.com
+- **Official Website:** https://udupivrindavan.com
+- **Ordering Portal:** https://order.udupivrindavan.com/outlet/99670498269910
+- **Menu PDF:** https://udupivrindavan.com/Menu.pdf
+- **Google Business Profile:** https://www.google.com/maps/place/Udupi+Vrindavan+Restaurant+LLC/@25.2471236,55.3103148,17z/data=!4m6!3m5!1s0x3e5f43dbc7060cb9:0xfc696ec76610e8d!8m2!3d25.2471236!4d55.3103148!16s%2Fg%2F11ltjbh3f7?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D
+
+## 3. Operating Hours & Service Schedule
+- **Opening Hours:** Daily (Monday through Sunday): 7:00 AM – 11:00 PM
+- **Breakfast Service:** Starts at 7:00 AM
+- **Lunch Service:** 11:30 AM – 3:30 PM
+- **Dinner Service:** 7:00 PM – 11:00 PM
+- **Online Delivery Orders:** Accepted until 10:30 PM daily
+
+## 4. Kitchen Standards & Satvik Philosophy
+- **Cooks:** Exclusively experienced cooks from Karnataka with decades of collective experience.
+- **Sourcing:** Daily vegetable delivery and weekly ingredient sourcing from Karnataka; pure Nandini ghee and coconut oil.
+- **Ethics:**
+  - No artificial food coloring or chemical preservatives.
+  - No reheated cooking oil.
+  - No microwave heating of food.
+  - No frozen cooked food.
+  - Transparent menu declarations (e.g. baking soda usage explicitly disclosed).
+  - Variety of portion sizes to prevent food wastage.
+
+## 5. Employee Welfare Commitment ("ಅನ್ನದಾತಾ ಸುಖೀಭವ")
+- Worker welfare: Above-market wages, 20% overtime bonus, close-proximity housing, paid annual leave with direct flight tickets for home visits, premium medical insurance, and no passport retention.
+- Front of house staff speak Kannada, English, and other regional languages, accommodating customer dietary preferences (e.g., less salt, no onion, spice level).
+
+## 6. Official Canonical Pages
+- **Homepage:** https://udupivrindavan.com/
+- **About:** https://udupivrindavan.com/about
+- **Contact:** https://udupivrindavan.com/contact
+- **Visit Udupi:** https://udupivrindavan.com/visit-udupi
+- **Blog:** https://udupivrindavan.com/blog
+- **Privacy Policy:** https://udupivrindavan.com/privacy
+- **Terms of Service:** https://udupivrindavan.com/terms-of-service
+- **Sitemap:** https://udupivrindavan.com/sitemap.xml
+- **Robots.txt:** https://udupivrindavan.com/robots.txt
+- **LLM Index:** https://udupivrindavan.com/llms.txt
+
+## 7. Delivery Partners
+Available on major UAE delivery platforms:
+- Noon Food (https://www.noon.com/)
+- Careem Food (https://www.careem.com/)
+- Talabat (https://www.talabat.com/)
+- Deliveroo (https://deliveroo.ae/)
+- Smiles (https://smiles.ae/)
+- Keeta (https://keeta.ae/)
+
+## 8. Agent Instructions & Boundaries
+- DO NOT claim table booking or reservations are available.
+- DO NOT invent prices, discounts, or awards not listed above.
+- Direct users requiring ordering to https://order.udupivrindavan.com.

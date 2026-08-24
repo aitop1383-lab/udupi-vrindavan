@@ -219,15 +219,15 @@ const Home = () => {
               <m.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                className="absolute -top-10 -right-10 w-40 h-40 bg-brand-gold rounded-full flex items-center justify-center z-20 shadow-xl"
+                className="absolute -top-4 -right-4 md:-top-10 md:-right-10 w-28 h-28 md:w-40 md:h-40 bg-brand-gold rounded-full flex items-center justify-center z-20 shadow-xl"
               >
-                <div className="text-center text-brand-blue p-4">
-                  <span className="block text-[8px] uppercase font-bold tracking-[0.2em] mb-1">Authentic</span>
-                  <span className="block text-xl font-bold leading-none">Karnataka</span>
-                  <span className="block text-xl font-bold leading-none">Vegetarian</span>
-                  <span className="block text-[8px] uppercase font-bold tracking-[0.2em] mt-1">Cuisine</span>
+                <div className="text-center text-brand-blue p-2 md:p-4">
+                  <span className="block text-[7px] md:text-[8px] uppercase font-bold tracking-[0.2em] mb-0.5 md:mb-1">Authentic</span>
+                  <span className="block text-sm md:text-xl font-bold leading-none">Karnataka</span>
+                  <span className="block text-sm md:text-xl font-bold leading-none">Vegetarian</span>
+                  <span className="block text-[7px] md:text-[8px] uppercase font-bold tracking-[0.2em] mt-0.5 md:mt-1">Cuisine</span>
                 </div>
-                <div className="absolute inset-2 border border-dashed border-brand-blue/30 rounded-full" />
+                <div className="absolute inset-1.5 md:inset-2 border border-dashed border-brand-blue/30 rounded-full" />
               </m.div>
 
               {/* Dot Grid */}
