@@ -29,12 +29,12 @@ const Process = () => {
           {FOOD_JOURNEY_STEPS.map((step, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 30, filter: 'blur(4px)' }}
-              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: idx * 0.1, ease: 'easeOut' }} // Staggered entry effect with blur-in
-              className="relative p-8 lg:p-10 bg-white border-b-4 border-transparent hover:border-brand-gold transition-all duration-500 group shadow-sm hover:shadow-2xl"
-              style={{ borderRadius: '0px 40px 0px 40px' }} // Custom leaf-style shape
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, delay: idx * 0.1, ease: 'easeOut' }}
+              className="relative p-8 lg:p-10 bg-white border-b-4 border-transparent hover:border-brand-gold group shadow-sm hover:shadow-2xl transition-colors duration-300"
+              style={{ borderRadius: '0px 40px 0px 40px' }}
             >
               {/* Large Background Watermark Number */}
               <div className="text-8xl font-display font-bold text-brand-gold/15 absolute top-2 right-6 group-hover:text-brand-gold/20 transition-colors">
@@ -50,7 +50,7 @@ const Process = () => {
                   {step.title}
                 </h4>
               </div>
-              <p className="text-brand-blue/70 leading-relaxed italic">
+              <p className="text-brand-blue/85 leading-relaxed italic">
                 "{step.desc}"
               </p>
             </motion.div>

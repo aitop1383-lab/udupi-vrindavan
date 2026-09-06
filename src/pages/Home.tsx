@@ -4,6 +4,10 @@ import { Utensils, ChevronRight } from 'lucide-react';
 import Seo from '../components/Seo';
 import { SITE_METADATA } from '../data/siteConfig';
 import { homeBreadcrumbSchema, restaurantSchema, websiteSchema, ORDER_URL } from '../data/seoSchemas';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // ─── Animated Counter Hook ──────────────────────────────────
 const useCounter = (target: number, duration = 1800, start = false) => {
@@ -45,31 +49,80 @@ const StatItem = ({
         {count}
         {suffix}
       </span>
-      <span className="text-[10px] uppercase tracking-widest text-brand-blue/50 font-bold">
+      <span className="text-[10px] uppercase tracking-widest text-brand-blue/70 font-bold">
         {label}
       </span>
     </m.div>
   );
 };
 
-// ─── Animation Variants ─────────────────────────────────────
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const } },
-};
+// ─── Floating Particle ──────────────────────────────────────
+const particles = [
+  { w: 6, h: 6, left: '8%', top: '20%', delay: '0s', duration: '9s', color: '#D4A65A33' },
+  { w: 4, h: 4, left: '15%', top: '65%', delay: '1.5s', duration: '7s', color: '#D4A65A22' },
+  { w: 8, h: 8, left: '82%', top: '30%', delay: '0.8s', duration: '11s', color: '#0F2F4A22' },
+  { w: 5, h: 5, left: '75%', top: '70%', delay: '2s', duration: '8s', color: '#D4A65A33' },
+  { w: 3, h: 3, left: '45%', top: '15%', delay: '3s', duration: '10s', color: '#D4A65A44' },
+  { w: 7, h: 7, left: '60%', top: '80%', delay: '1s', duration: '12s', color: '#0F2F4A15' },
+];
 
 // ─── Component ──────────────────────────────────────────────
 const Home = () => {
   const statsRef = useRef<HTMLDivElement>(null);
   const [statsStarted, setStatsStarted] = useState(false);
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const heroImageRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const taglineRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+
+  // ── GSAP Hero Timeline ─────────────────────────────────────
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 0.15 });
+
+      tl.fromTo(taglineRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
+      )
+      .fromTo(headingRef.current,
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' },
+        '-=0.3'
+      )
+      .fromTo(descRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+        '-=0.4'
+      )
+      .fromTo(ctaRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+        '-=0.3'
+      );
+
+      // Hero image parallax on scroll
+      if (heroImageRef.current) {
+        gsap.to(heroImageRef.current, {
+          yPercent: 15,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1.2,
+          },
+        });
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // ── Stats IntersectionObserver ─────────────────────────────
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -86,7 +139,7 @@ const Home = () => {
 
   return (
     <LazyMotion features={domAnimation}>
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-brand-cream pt-10">
+      <section ref={sectionRef} className="relative min-h-screen flex items-center overflow-hidden bg-brand-cream pt-10">
         <Seo
           title="Udupi restaurant in Dubai | Authentic South Indian vegetarian food"
           description="Visit Udupi Vrindavan in Al Karama for authentic Udupi and South Indian vegetarian dishes, including dosa, idli, vada, and healthy Karnataka cuisine."
@@ -101,51 +154,67 @@ const Home = () => {
         {/* Decorative Skewed Shape */}
         <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-gold/5 -skew-x-12 translate-x-1/4" />
 
+        {/* Floating Particles */}
+        {particles.map((p, i) => (
+          <div
+            key={i}
+            className="hero-particle"
+            style={{
+              width: p.w,
+              height: p.h,
+              left: p.left,
+              top: p.top,
+              background: p.color,
+              '--delay': p.delay,
+              '--duration': p.duration,
+            } as React.CSSProperties}
+          />
+        ))}
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 w-full py-12 md:py-20">
           <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
 
             {/* ── LEFT: Content ── */}
-            <m.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
+            <div ref={contentRef}>
               {/* Tagline Badge */}
-              <m.div variants={itemVariants} className="inline-flex items-center gap-4 mb-8">
+              <div ref={taglineRef} className="inline-flex items-center gap-4 mb-8" style={{ opacity: 0 }}>
                 <span className="text-brand-gold font-bold tracking-[0.4em] uppercase text-xs">
                   Tasty yet healthy food
                 </span>
-              </m.div>
+              </div>
 
               {/* Heading */}
-            <m.h1
-              variants={itemVariants}
-              className="text-4xl md:text-6xl lg:text-7xl text-brand-blue leading-[0.9] mb-8 font-display"
-            >
-              Eating Food<br />
-              <span className="text-brand-gold italic">Cooked at</span> <br />
-              <span className="text-brand-blue">Home is best</span>
-            </m.h1>
+              <h1
+                ref={headingRef}
+                className="text-4xl md:text-6xl lg:text-7xl text-brand-blue leading-[0.9] mb-8 font-display"
+                style={{ opacity: 0 }}
+              >
+                Eating Food<br />
+                <span className="text-brand-gold italic">Cooked at</span> <br />
+                <span className="text-brand-blue">Home is best</span>
+              </h1>
 
               {/* Description */}
-              <m.p
-                variants={itemVariants}
-                className="text-xl text-brand-blue/70 mb-12 max-w-lg leading-relaxed font-light"
+              <p
+                ref={descRef}
+                className="text-xl text-brand-blue/85 mb-12 max-w-lg leading-relaxed font-normal"
+                style={{ opacity: 0 }}
               >
               Food cooked and eaten at home with family is the best. The next best place should offer you the same health and taste. After all, no one wants to spend money to get ill. At Udupi Vrindavan Restaurant, you will get to experience healthy, fresh and tasty food. You can listen to your favourite songs, talk to our Front of House staff in Kannada and enjoy the delicacies that remind you of Udupi and the wider Karnataka region.
-              </m.p>
+              </p>
 
               {/* CTA Buttons */}
-              <m.div
-                variants={itemVariants}
+              <div
+                ref={ctaRef}
                 className="flex flex-col sm:flex-row gap-8 items-center"
+                style={{ opacity: 0 }}
               >
                 {/* Order Online */}
                 <m.a
                   href={ORDER_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative group overflow-hidden bg-brand-blue text-brand-cream px-8 py-4 rounded-full font-bold text-xl transition-all shadow-2xl hover:shadow-brand-blue/30 w-full sm:w-auto text-center"
+                  className="relative group overflow-hidden bg-brand-blue text-brand-cream px-8 py-4 rounded-full font-bold text-xl transition-all shadow-2xl hover:shadow-brand-blue/30 w-full sm:w-auto text-center btn-glow"
                   animate={{
                     boxShadow: [
                       '0 0 0 0px rgba(212, 166, 90, 0)',
@@ -173,19 +242,22 @@ const Home = () => {
                   </div>
                   View Dining Menu
                 </a>
-              </m.div>
+              </div>
 
               {/* Stats */}
               <m.div
                 ref={statsRef}
-                variants={itemVariants}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
                 className="mt-16 flex gap-12 border-t border-brand-blue/10 pt-10"
               >
                 <StatItem target={100} suffix="%" label="Pure Vegetarian" started={statsStarted} />
                 <StatItem target={100} suffix="+" label="Varieties" started={statsStarted} />
                 <StatItem target={1000} suffix="+" label="Happy Guests" started={statsStarted} />
               </m.div>
-            </m.div>
+            </div>
 
             {/* ── RIGHT: Visual ── */}
             <m.div
@@ -194,8 +266,8 @@ const Home = () => {
               transition={{ duration: 1, delay: 0.3 }}
               className="relative"
             >
-              {/* Image */}
-              <div className="relative z-10 rounded-[4rem] overflow-hidden shadow-2xl cascading-image-reverse aspect-[4/4] m-4">
+              {/* Image with parallax wrapper */}
+              <div ref={heroImageRef} className="relative z-10 rounded-[4rem] overflow-hidden shadow-2xl cascading-image-reverse aspect-[4/4] m-4">
                   <img
                     src="/Butter-Dosa.jpg"
                     alt="Butter dosa served at Udupi Vrindavan, a classic Udupi restaurant dish"

@@ -6,7 +6,11 @@
 import React, { Suspense, lazy, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLocation, BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // 🏡 Standard imports (Instant rendering)
 import Home from './pages/Home';

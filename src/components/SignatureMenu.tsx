@@ -1,12 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRightCircle, ChevronRight } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const SignatureMenu = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
 
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -38,6 +47,62 @@ const SignatureMenu = () => {
       el.removeEventListener('scroll', checkScrollLimits);
       window.removeEventListener('resize', checkScrollLimits);
     };
+  }, []);
+
+  // ── GSAP ScrollTrigger Animations ─────────────────────────
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Header reveal
+      if (headerRef.current) {
+        const children = headerRef.current.children;
+        gsap.fromTo(children,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1, y: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: 'top 80%',
+              once: true,
+            },
+          }
+        );
+      }
+
+      // CTA button reveal
+      gsap.fromTo(ctaRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1, y: 0,
+          duration: 0.7,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: ctaRef.current,
+            start: 'top 90%',
+            once: true,
+          },
+        }
+      );
+
+      // Slider — fade in
+      gsap.fromTo(sliderRef.current,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: sliderRef.current,
+            start: 'top 85%',
+            once: true,
+          },
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
   const scroll = (direction: 'left' | 'right') => {
@@ -81,11 +146,11 @@ const SignatureMenu = () => {
   };
 
   return (
-    <section id="menu" className="py-16 lg:py-32 bg-white relative overflow-hidden">
+    <section ref={sectionRef} id="menu" className="py-16 lg:py-32 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-10">
+        <div ref={headerRef} className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-10">
           <div className="max-w-2xl">
             <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px] mb-4 block">
               Our Specialties
@@ -100,7 +165,7 @@ const SignatureMenu = () => {
         </div>
 
         {/* Draggable Horizontal Slider */}
-        <div className="relative group/slider">
+        <div ref={sliderRef} className="relative group/slider" style={{ opacity: 0 }}>
           {/* Left Arrow Button */}
           <div className="hidden lg:block absolute left-[-60px] top-[calc(50%-40px)] -translate-y-1/2 z-20">
             <button
@@ -141,15 +206,11 @@ const SignatureMenu = () => {
             onMouseMove={onMouseMove}
           >
             {categories.map((cat, idx) => (
-              <motion.a
+              <a
                 key={idx}
                 href={cat.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: idx * 0.05 }}
-                viewport={{ once: true }}
                 className="flex-shrink-0 w-[300px] md:w-[380px] snap-start group/card flex flex-col items-center"
                 // Prevent link navigation on drag
                 onClick={(e) => {
@@ -182,7 +243,7 @@ const SignatureMenu = () => {
                   <span className="text-[10px] font-bold uppercase tracking-widest">Order Now</span>
                   <ArrowRightCircle size={16} className="transform group-hover/card:translate-x-1 transition-transform" />
                 </div>
-              </motion.a>
+              </a>
             ))}
           </div>
 
@@ -197,14 +258,14 @@ const SignatureMenu = () => {
         </div>
 
         {/* Full Menu Button */}
-        <div className="mt-20 text-center">
+        <div ref={ctaRef} className="mt-20 text-center" style={{ opacity: 0 }}>
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             href="https://order.udupivrindavan.com/shop/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-4 bg-brand-blue text-brand-cream px-12 py-5 rounded-full font-bold text-lg hover:bg-brand-gold hover:text-brand-blue transition-all shadow-xl group"
+            className="inline-flex items-center gap-4 bg-brand-blue text-brand-cream px-12 py-5 rounded-full font-bold text-lg hover:bg-brand-gold hover:text-brand-blue transition-all shadow-xl group btn-glow"
           >
             Browse Full Menu
             <ChevronRight size={22} className="group-hover:translate-x-1 transition-transform" />
