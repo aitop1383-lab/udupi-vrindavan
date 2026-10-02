@@ -30,50 +30,75 @@ const Testimonials = () => {
   const needsTruncation = (text: string) => text.length > 130;
 
   return (
-    <section id="testimonials" className="py-16 lg:py-28 bg-brand-cream text-brand-blue overflow-hidden relative">
+    <section id="testimonials" className="py-20 lg:py-32 bg-brand-cream text-brand-blue overflow-hidden relative">
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none texture-bg"></div>
 
-      {/* Header */}
-      <div className="max-w-7xl mx-auto px-6 mb-16 relative z-10 text-center">
-        <span className="text-brand-gold font-bold tracking-[0.4em] uppercase text-xs mb-4 block">
-          Patron Experiences
-        </span>
-        <h2 className="text-4xl md:text-5xl lg:text-6xl mb-6 text-brand-blue font-display">
-          Feedback from <span className="italic text-brand-gold">our patrons</span>
-        </h2>
+      {/* ── Header ──────────────────────────────────────────────── */}
+      <div className="max-w-7xl mx-auto px-6 mb-16 relative z-10">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
+          {/* Left: heading */}
+          <div>
+            <span className="text-brand-gold font-bold tracking-[0.4em] uppercase text-[10px] mb-5 block">
+              Patron Experiences
+            </span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl text-brand-blue font-display leading-tight">
+              Feedback from <span className="italic text-brand-gold">our patrons</span>
+            </h2>
+          </div>
 
-        {/* Google Rating Trust Badge */}
-        <div className="inline-flex flex-wrap items-center justify-center gap-3 bg-white border border-brand-gold/30 rounded-full px-6 py-3 text-xs md:text-sm font-bold text-brand-blue mb-4 shadow-md">
-          <div className="w-6 h-6 rounded-full bg-[#4285F4]/10 flex items-center justify-center text-[#4285F4]">
-            <FontAwesomeIcon icon={faGoogle} className="text-sm" />
+          {/* Right: prominent Google rating block */}
+          <div className="flex-shrink-0">
+            <div className="bg-white border border-brand-gold/20 rounded-3xl px-8 py-6 shadow-lg flex flex-col sm:flex-row items-center gap-6">
+              {/* Score */}
+              <div className="text-center">
+                <div className="flex items-baseline gap-1 justify-center">
+                  <span className="font-display font-bold text-5xl text-brand-blue leading-none">4.9</span>
+                  <span className="text-brand-blue/40 text-lg font-bold">/5</span>
+                </div>
+                <div className="flex gap-1 text-brand-gold justify-center mt-2" aria-label="4.9 out of 5 stars">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={16} fill="currentColor" strokeWidth={0} />
+                  ))}
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="hidden sm:block w-px h-14 bg-brand-gold/15" />
+
+              {/* Detail */}
+              <div className="text-center sm:text-left">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-5 h-5 rounded-full bg-[#4285F4]/10 flex items-center justify-center text-[#4285F4]">
+                    <FontAwesomeIcon icon={faGoogle} className="text-xs" />
+                  </div>
+                  <span className="font-bold text-sm text-brand-blue">Google Rating</span>
+                </div>
+                <p className="text-brand-blue/50 text-xs font-medium mb-3">Based on 600+ authentic reviews</p>
+                <a
+                  href={GOOGLE_MAPS_REVIEWS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[11px] text-brand-gold font-bold uppercase tracking-wider hover:text-brand-blue transition-colors border-b border-brand-gold/30 hover:border-brand-blue pb-0.5"
+                >
+                  Verify on Google <ExternalLink size={11} />
+                </a>
+              </div>
+            </div>
           </div>
-          <span className="font-display font-bold text-sm md:text-base text-brand-blue">4.9 / 5.0</span>
-          <span className="text-brand-gold font-bold">Google Rating</span>
-          <span className="text-brand-blue/20">|</span>
-          <div className="flex gap-0.5 text-brand-gold" aria-label="5 out of 5 stars">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} size={14} fill="currentColor" strokeWidth={0} />
-            ))}
-          </div>
-          <span className="text-brand-blue/20">|</span>
-          <span className="text-brand-blue/70 font-medium">Based on 500+ authentic reviews</span>
-          <a
-            href={GOOGLE_MAPS_REVIEWS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-brand-gold font-bold underline ml-1 hover:text-brand-blue transition-colors flex items-center gap-1"
-          >
-            Verify <ExternalLink size={12} />
-          </a>
         </div>
 
-        <div className="w-24 h-1 bg-brand-gold/30 mx-auto rounded-full mt-4"></div>
+        {/* Rule */}
+        <div className="mt-12 h-px bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent" />
       </div>
 
-      {/* Real Text Reviews Marquee / Scroll */}
-      <div className="flex relative mb-20 w-full">
+      {/* ── Text Reviews Marquee ──────────────────────────────── */}
+      <div className="relative mb-16 w-full overflow-hidden">
+        {/* Left/right fade edges - responsive smooth feather */}
+        <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-16 md:w-28 lg:w-44 bg-gradient-to-r from-brand-cream via-brand-cream/70 to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-16 md:w-28 lg:w-44 bg-gradient-to-l from-brand-cream via-brand-cream/70 to-transparent z-10 pointer-events-none" />
+
         <motion.div
-          className="flex gap-8 px-6"
+          className="flex gap-6 px-6 py-8"
           animate={{ x: isPaused ? undefined : ["0%", "-50%"] }}
           transition={{ duration: 70, repeat: Infinity, ease: "linear" }}
           onHoverStart={() => setIsPaused(true)}
@@ -83,50 +108,54 @@ const Testimonials = () => {
           {[...liveReviews, ...liveReviews].map((review, idx) => (
             <div
               key={idx}
-              className="w-[340px] md:w-[450px] flex-shrink-0 p-8 md:p-10 rounded-[2.5rem] bg-white border border-brand-blue/5 shadow-xl hover:shadow-2xl transition-all duration-500 group relative flex flex-col justify-between overflow-hidden min-h-[380px]"
+              className="w-[320px] md:w-[420px] flex-shrink-0 bg-white border border-brand-gold/10 shadow-md hover:shadow-xl transition-all duration-500 group relative flex flex-col justify-between overflow-hidden min-h-[340px]"
+              style={{ borderRadius: '2rem' }}
             >
-              <div className="absolute -top-4 -right-4 p-6 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity">
-                <Quote size={150} className="text-brand-blue rotate-12" />
+              {/* Decorative Quote watermark */}
+              <div className="absolute -top-3 -right-3 opacity-[0.04] group-hover:opacity-[0.08] transition-opacity pointer-events-none">
+                <Quote size={120} className="text-brand-blue rotate-12" />
               </div>
 
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex gap-1 text-brand-gold">
+              <div className="relative z-10 p-8">
+                {/* Stars + verified */}
+                <div className="flex items-center justify-between mb-5">
+                  <div className="flex gap-0.5 text-brand-gold">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={16} fill="currentColor" strokeWidth={0} />
+                      <Star key={i} size={14} fill="currentColor" strokeWidth={0} />
                     ))}
                   </div>
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold tracking-wider uppercase border border-emerald-200">
-                    <CheckCircle2 size={12} /> Google Verified
+                  <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 text-[9px] font-bold tracking-wider uppercase border border-emerald-100">
+                    <CheckCircle2 size={10} /> Verified
                   </div>
                 </div>
 
-                <p className={`text-base md:text-lg font-light italic leading-relaxed text-brand-blue/90 mb-4 ${!expandedStates[idx] ? 'line-clamp-4' : ''}`}>
+                {/* Review text */}
+                <p className={`text-sm md:text-base font-light italic leading-relaxed text-brand-blue/80 mb-4 ${!expandedStates[idx] ? 'line-clamp-4' : ''}`}>
                   "{review.text}"
                 </p>
 
                 {needsTruncation(review.text) && (
                   <button
                     onClick={() => toggleExpand(idx)}
-                    className="text-brand-gold text-[11px] font-black uppercase tracking-[0.1em] border-b-2 border-brand-gold/20 hover:border-brand-gold transition-all pb-1 cursor-pointer"
+                    className="text-brand-gold text-[11px] font-black uppercase tracking-[0.1em] border-b border-brand-gold/30 hover:border-brand-gold transition-all pb-0.5 cursor-pointer"
                   >
-                    {expandedStates[idx] ? 'Show Less' : 'Read More'}
+                    {expandedStates[idx] ? 'Show less' : 'Read more'}
                   </button>
                 )}
               </div>
 
-              <div className="flex items-center justify-between mt-8 border-t border-brand-blue/5 pt-6 relative z-10">
-                <div className="flex items-center gap-4 overflow-hidden">
-                  <div className="w-12 h-12 rounded-full bg-brand-blue text-brand-gold flex items-center justify-center font-bold text-lg shadow-md shrink-0">
+              {/* Reviewer info */}
+              <div className="flex items-center justify-between px-8 pb-7 border-t border-brand-blue/5 pt-5 relative z-10">
+                <div className="flex items-center gap-3 overflow-hidden">
+                  <div className="w-10 h-10 rounded-full bg-brand-blue text-brand-gold flex items-center justify-center font-bold text-base shadow-sm shrink-0">
                     {review.name.charAt(0)}
                   </div>
                   <div className="overflow-hidden">
-                    <h4 className="font-bold text-brand-blue text-base leading-tight truncate">{review.name}</h4>
-                    <p className="text-[10px] text-brand-blue/60 uppercase tracking-widest font-semibold mt-0.5 truncate">{review.role}</p>
+                    <h4 className="font-bold text-brand-blue text-sm leading-tight truncate">{review.name}</h4>
+                    <p className="text-[10px] text-brand-blue/50 font-medium mt-0.5 truncate">{review.role}</p>
                   </div>
                 </div>
-                {/* Verified Google Review Badge */}
-                <div className="w-9 h-9 rounded-full bg-brand-gold/10 border border-brand-gold/20 flex items-center justify-center text-[#4285F4] shrink-0 shadow-sm" title="Google Verified Review">
+                <div className="w-8 h-8 rounded-full bg-[#4285F4]/8 border border-[#4285F4]/15 flex items-center justify-center text-[#4285F4] shrink-0" title="Google Verified Review">
                   <FontAwesomeIcon icon={faGoogle} className="text-xs" />
                 </div>
               </div>
@@ -146,12 +175,13 @@ const Testimonials = () => {
       </div>
 
       {/* Video Testimonials Scroll */}
-      <div className="relative w-full overflow-hidden mb-16 py-4">
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-brand-cream to-transparent z-10 pointer-events-none"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-brand-cream to-transparent z-10 pointer-events-none"></div>
+      <div className="relative w-full overflow-hidden mb-12">
+        {/* Left/right fade edges - responsive smooth feather */}
+        <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-16 md:w-28 lg:w-40 bg-gradient-to-r from-brand-cream via-brand-cream/70 to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-16 md:w-28 lg:w-40 bg-gradient-to-l from-brand-cream via-brand-cream/70 to-transparent z-10 pointer-events-none" />
 
         <motion.div
-          className="flex gap-8"
+          className="flex gap-8 py-8 px-4"
           animate={{ x: isVideoPaused ? undefined : ["-50%", "0%"] }}
           transition={{ duration: 55, repeat: Infinity, ease: "linear" }}
           onHoverStart={() => setIsVideoPaused(true)}
@@ -205,7 +235,7 @@ const Testimonials = () => {
           className="inline-flex items-center gap-3 px-10 py-5 bg-brand-blue text-brand-cream rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-xl border border-brand-blue/10 hover:bg-brand-gold hover:text-brand-blue transition-colors duration-300"
         >
           <FontAwesomeIcon icon={faGoogle} className="text-lg text-brand-gold group-hover:text-brand-blue" />
-          <span>View All 500+ Reviews on Google</span>
+          <span>View All 600+ Reviews on Google</span>
           <ExternalLink size={14} />
         </motion.a>
         <p className="text-brand-blue/50 text-[11px] mt-3 font-medium">

@@ -86,17 +86,7 @@ const Heritage = () => {
         }
       );
 
-      // Background skew shape — parallax
-      gsap.to(skewBgRef.current, {
-        yPercent: -20,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 2,
-        },
-      });
+      // Background skew shape — animation removed (static)
     }, sectionRef);
 
     return () => ctx.revert();
@@ -106,7 +96,7 @@ const Heritage = () => {
     <section ref={sectionRef} id="heritage" className="py-16 lg:py-32 bg-brand-blue text-brand-cream relative overflow-hidden">
       
       {/* Decorative Background: Skewed white overlay */}
-      <div ref={skewBgRef} className="absolute top-0 right-0 w-1/3 h-full bg-white/5 -skew-x-12 translate-x-1/2" />
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-white/5 -skew-x-12 translate-x-1/2" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid md:grid-cols-2 gap-20 items-center">

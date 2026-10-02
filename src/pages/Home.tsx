@@ -171,7 +171,7 @@ const Home = () => {
           />
         ))}
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 w-full py-12 md:py-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 w-full py-12 md:py-20 pb-24 lg:pb-20">
           <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
 
             {/* ── LEFT: Content ── */}
@@ -255,7 +255,7 @@ const Home = () => {
               >
                 <StatItem target={100} suffix="%" label="Pure Vegetarian" started={statsStarted} />
                 <StatItem target={100} suffix="+" label="Varieties" started={statsStarted} />
-                <StatItem target={1000} suffix="+" label="Happy Guests" started={statsStarted} />
+                <StatItem target={600} suffix="+" label="Google Reviews" started={statsStarted} />
               </m.div>
             </div>
 
@@ -267,7 +267,7 @@ const Home = () => {
               className="relative"
             >
               {/* Image with parallax wrapper */}
-              <div ref={heroImageRef} className="relative z-10 rounded-[4rem] overflow-hidden shadow-2xl cascading-image-reverse aspect-[4/4] m-4">
+              <div ref={heroImageRef} className="relative z-10 rounded-[4rem] overflow-hidden shadow-2xl cascading-image-reverse aspect-[4/4] m-4 ">
                   <img
                     src="/Butter-Dosa.jpg"
                     alt="Butter dosa served at Udupi Vrindavan, a classic Udupi restaurant dish"
@@ -318,7 +318,7 @@ const Home = () => {
             {[...Array(20)].map((_, i) => (
               <span
                 key={i}
-                className="text-brand-cream/30 text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mx-8"
+                className="text-brand-gold text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mx-8"
               >
                 • Pure Satvik Tradition • Authentic Udupi • Karnataka Cooks • Premium Nandini Ghee • Quality Ingredients • Ethical Kitchen •
               </span>
