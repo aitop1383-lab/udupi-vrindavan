@@ -248,7 +248,8 @@ export const VIDEO_REVIEWS = [
     { id: 3, thumbnail: "/Thumbnail/Image-3.jpg", videoUrl: "/videos/video3.mp4" },
     { id: 4, thumbnail: "/Thumbnail/Image-4.jpg", videoUrl: "/videos/video4.mp4" },
     { id: 5, thumbnail: "/Thumbnail/Image-5.jpg", videoUrl: "/videos/video5.mp4" },
-    { id: 6, thumbnail: "/Thumbnail/Image-6.jpg", videoUrl: "/videos/video6.mp4" }
+    { id: 6, thumbnail: "/Thumbnail/Image-6.jpg", videoUrl: "/videos/video6.mp4" },
+    { id: 7, thumbnail: "/Thumbnail/Image-7.jpg", videoUrl: "/videos/video7.mp4" }
 ];
 
 

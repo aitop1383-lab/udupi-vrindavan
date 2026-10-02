@@ -12,9 +12,9 @@ gsap.registerPlugin(ScrollTrigger);
  * GSAP: Stagger reveals for text items, scroll-triggered parallax on background shape.
  */
 const HERITAGE_IMAGES = [
-  "/Lunch.jpg",
-  "/ourheritage.jpeg",
-  "/categories/Dosa.jpg"
+  "/heritage/1.jpg",
+  "/heritage/2.jpg",
+  "/heritage/3.jpg"
 ];
 
 const Heritage = () => {
@@ -167,6 +167,20 @@ const Heritage = () => {
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </AnimatePresence>
+
+              {/* Slide Indicators */}
+              <div className="absolute bottom-6 left-6 z-20 flex gap-2">
+                {HERITAGE_IMAGES.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrentIdx(i)}
+                    className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
+                      currentIdx === i ? 'w-8 bg-brand-gold' : 'w-2 bg-white/40 hover:bg-white/70'
+                    }`}
+                    aria-label={`Go to heritage slide ${i + 1}`}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* Floating Guarantee Badge */}

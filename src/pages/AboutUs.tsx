@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -15,13 +15,30 @@ gsap.registerPlugin(ScrollTrigger);
  * - GSAP ScrollTrigger for cinematic scroll reveals.
  * - 3D card tilt on mouse move.
  */
+const ABOUT_IMAGES = [
+  "/aboutUs/1.jpeg",
+  "/aboutUs/2.jpeg",
+  "/aboutUs/3.jpeg",
+  "/aboutUs/4.jpeg",
+];
+
 const AboutUs = () => {
+  const [currentImgIdx, setCurrentImgIdx] = useState(0);
+
   const sectionRef = useRef<HTMLElement>(null);
   const imageColRef = useRef<HTMLDivElement>(null);
   const contentColRef = useRef<HTMLDivElement>(null);
   const quoteGridRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
   const sectionHeaderRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImgIdx((prev) => (prev + 1) % ABOUT_IMAGES.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const quotes = [
     {
@@ -189,13 +206,42 @@ const AboutUs = () => {
 
           {/* Left: Image */}
           <div ref={imageColRef} className="relative" style={{ opacity: 0 }}>
-            <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
-              <img
-                src="/host.jpeg"
-                alt="Traditional South Indian cooking at Udupi Vrindavan"
-                className="w-full h-[700px] object-cover hover:scale-105 transition-transform duration-700"
-                referrerPolicy="no-referrer"
-              />
+            <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl h-[520px] md:h-[650px] lg:h-[700px] bg-brand-blue/10">
+              <AnimatePresence mode="popLayout">
+                <motion.img
+                  key={currentImgIdx}
+                  src={ABOUT_IMAGES[currentImgIdx]}
+                  alt={`Traditional South Indian dining at Udupi Vrindavan - ${currentImgIdx + 1}`}
+                  initial={{ opacity: 0, scale: 1.06 }}
+                  animate={{ 
+                    opacity: 1, 
+                    scale: 1,
+                    transition: {
+                      opacity: { duration: 1.2, ease: "easeInOut" },
+                      scale: { duration: 5, ease: "linear" }
+                    }
+                  }}
+                  exit={{ 
+                    opacity: 0,
+                    transition: { duration: 1.2, ease: "easeInOut" }
+                  }}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </AnimatePresence>
+
+              {/* Slide Indicators */}
+              <div className="absolute bottom-6 left-6 z-20 flex gap-2">
+                {ABOUT_IMAGES.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrentImgIdx(i)}
+                    className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
+                      currentImgIdx === i ? 'w-8 bg-brand-gold' : 'w-2 bg-white/50 hover:bg-white/80'
+                    }`}
+                    aria-label={`Go to slide ${i + 1}`}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* Floating Badge */}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, Quote, X, Play, ExternalLink, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { Star, Quote, X, Play, ExternalLink, ShieldCheck, CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { REVIEWS, VIDEO_REVIEWS, SOCIAL_LINKS } from '../data/siteConfig';
@@ -11,8 +11,40 @@ const Testimonials = () => {
   const [expandedStates, setExpandedStates] = useState<Record<number, boolean>>({});
   const [isPaused, setIsPaused] = useState(false);
   const [isVideoPaused, setIsVideoPaused] = useState(false);
-  const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [activeVideoIdx, setActiveVideoIdx] = useState<number | null>(null);
   const [liveReviews, setLiveReviews] = useState<typeof REVIEWS>(REVIEWS);
+
+  const handleNextVideo = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (activeVideoIdx !== null) {
+      setActiveVideoIdx((prev) => ((prev ?? 0) + 1) % VIDEO_REVIEWS.length);
+    }
+  };
+
+  const handlePrevVideo = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (activeVideoIdx !== null) {
+      setActiveVideoIdx((prev) => ((prev ?? 0) - 1 + VIDEO_REVIEWS.length) % VIDEO_REVIEWS.length);
+    }
+  };
+
+  // Keyboard navigation for video modal (ArrowLeft, ArrowRight, Escape)
+  useEffect(() => {
+    if (activeVideoIdx === null) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') {
+        setActiveVideoIdx((prev) => (prev !== null ? (prev + 1) % VIDEO_REVIEWS.length : null));
+      } else if (e.key === 'ArrowLeft') {
+        setActiveVideoIdx((prev) => (prev !== null ? (prev - 1 + VIDEO_REVIEWS.length) % VIDEO_REVIEWS.length : null));
+      } else if (e.key === 'Escape') {
+        setActiveVideoIdx(null);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeVideoIdx]);
 
   // Support optional Google Places API integration if an API key is provided
   useEffect(() => {
@@ -192,7 +224,10 @@ const Testimonials = () => {
             <motion.div
               key={idx}
               whileHover={{ y: -10, scale: 1.02 }}
-              onClick={() => setActiveVideo(video.videoUrl)}
+              onClick={() => {
+                const foundIdx = VIDEO_REVIEWS.findIndex((v) => v.id === video.id);
+                setActiveVideoIdx(foundIdx !== -1 ? foundIdx : 0);
+              }}
               className="group relative w-[180px] md:w-[260px] aspect-[9/16] rounded-[2.5rem] overflow-hidden border-[4px] border-white shadow-xl cursor-pointer flex-shrink-0"
             >
               <img
@@ -243,32 +278,75 @@ const Testimonials = () => {
         </p>
       </div>
 
-      {/* Video Modal */}
+      {/* Video Modal with Next/Previous Controls */}
       <AnimatePresence>
-        {activeVideo && (
+        {activeVideoIdx !== null && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-brand-blue/95 backdrop-blur-2xl flex items-center justify-center p-6"
-            onClick={() => setActiveVideo(null)}
+            className="fixed inset-0 z-[100] bg-brand-blue/95 backdrop-blur-2xl flex items-center justify-center p-4 md:p-6"
+            onClick={() => setActiveVideoIdx(null)}
           >
+            {/* Top Bar: Counter & Close */}
+            <div className="absolute top-6 left-6 right-6 flex items-center justify-between z-30 pointer-events-none">
+              <span className="text-white/80 text-[11px] md:text-xs font-bold tracking-widest uppercase bg-white/10 px-4 py-2 rounded-full backdrop-blur-md border border-white/15">
+                Story {activeVideoIdx + 1} of {VIDEO_REVIEWS.length}
+              </span>
+              <motion.button
+                whileHover={{ rotate: 90, scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setActiveVideoIdx(null)}
+                className="text-white bg-white/10 hover:bg-brand-gold hover:text-brand-blue p-3 rounded-full border border-white/20 transition-all cursor-pointer pointer-events-auto shadow-xl"
+                aria-label="Close video"
+              >
+                <X size={24} />
+              </motion.button>
+            </div>
+
+            {/* Left / Previous Arrow Button */}
             <motion.button
-              whileHover={{ rotate: 90, scale: 1.1 }}
-              className="absolute top-8 right-8 text-white bg-white/10 p-4 rounded-full border border-white/20 hover:bg-brand-gold transition-all cursor-pointer"
-              aria-label="Close video"
+              whileHover={{ scale: 1.12, x: -3 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handlePrevVideo}
+              className="absolute left-3 md:left-8 top-1/2 -translate-y-1/2 z-30 text-white bg-white/10 hover:bg-brand-gold hover:text-brand-blue p-3 md:p-4 rounded-full border border-white/20 transition-all cursor-pointer backdrop-blur-md shadow-2xl"
+              aria-label="Previous video"
+              title="Previous video (Left Arrow)"
             >
-              <X size={28} />
+              <ChevronLeft size={28} />
             </motion.button>
+
+            {/* Video Container */}
             <motion.div
-              initial={{ scale: 0.8, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              className="w-full max-w-[400px] aspect-[9/16] rounded-[3rem] overflow-hidden shadow-2xl bg-black border-[6px] border-white/10"
-              onClick={e => e.stopPropagation()}
+              key={activeVideoIdx}
+              initial={{ scale: 0.92, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.92, opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="w-full max-w-[340px] md:max-w-[400px] aspect-[9/16] rounded-[2.5rem] md:rounded-[3rem] overflow-hidden shadow-2xl bg-black border-[5px] border-white/15 relative z-20"
+              onClick={(e) => e.stopPropagation()}
             >
-              <video src={activeVideo} controls autoPlay className="w-full h-full object-cover"></video>
+              <video
+                key={VIDEO_REVIEWS[activeVideoIdx].videoUrl}
+                src={VIDEO_REVIEWS[activeVideoIdx].videoUrl}
+                controls
+                autoPlay
+                playsInline
+                className="w-full h-full object-cover"
+              />
             </motion.div>
+
+            {/* Right / Next Arrow Button */}
+            <motion.button
+              whileHover={{ scale: 1.12, x: 3 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handleNextVideo}
+              className="absolute right-3 md:right-8 top-1/2 -translate-y-1/2 z-30 text-white bg-white/10 hover:bg-brand-gold hover:text-brand-blue p-3 md:p-4 rounded-full border border-white/20 transition-all cursor-pointer backdrop-blur-md shadow-2xl"
+              aria-label="Next video"
+              title="Next video (Right Arrow)"
+            >
+              <ChevronRight size={28} />
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
