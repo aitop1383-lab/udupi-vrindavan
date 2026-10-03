@@ -125,9 +125,9 @@ const Testimonials = () => {
 
       {/* ── Text Reviews Marquee ──────────────────────────────── */}
       <div className="relative mb-16 w-full overflow-hidden">
-        {/* Left/right fade edges - responsive smooth feather */}
-        <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-16 md:w-28 lg:w-44 bg-gradient-to-r from-brand-cream via-brand-cream/70 to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-16 md:w-28 lg:w-44 bg-gradient-to-l from-brand-cream via-brand-cream/70 to-transparent z-10 pointer-events-none" />
+        {/* Left/right fade edges - subtle feather so cards are not clipped */}
+        <div className="absolute left-0 top-0 bottom-0 w-6 sm:w-10 lg:w-16 bg-gradient-to-r from-brand-cream via-brand-cream/60 to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-6 sm:w-10 lg:w-16 bg-gradient-to-l from-brand-cream via-brand-cream/60 to-transparent z-10 pointer-events-none" />
 
         <motion.div
           className="flex gap-6 px-6 py-8"
@@ -135,12 +135,14 @@ const Testimonials = () => {
           transition={{ duration: 70, repeat: Infinity, ease: "linear" }}
           onHoverStart={() => setIsPaused(true)}
           onHoverEnd={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
           style={{ width: "max-content" }}
         >
           {[...liveReviews, ...liveReviews].map((review, idx) => (
             <div
               key={idx}
-              className="w-[320px] md:w-[420px] flex-shrink-0 bg-white border border-brand-gold/10 shadow-md hover:shadow-xl transition-all duration-500 group relative flex flex-col justify-between overflow-hidden min-h-[340px]"
+              className="w-[84vw] max-w-[320px] sm:w-[320px] md:w-[330px] lg:w-[310px] xl:w-[360px] 2xl:w-[380px] flex-shrink-0 bg-white border border-brand-gold/10 shadow-md hover:shadow-xl transition-all duration-500 group relative flex flex-col justify-between overflow-hidden min-h-[340px]"
               style={{ borderRadius: '2rem' }}
             >
               {/* Decorative Quote watermark */}

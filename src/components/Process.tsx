@@ -135,7 +135,7 @@ const Process = () => {
     <section
       ref={sectionRef}
       id="process"
-      className="py-20 lg:py-36 bg-brand-cream relative overflow-hidden"
+      className="py-16 lg:py-24 bg-brand-cream relative overflow-hidden"
     >
       {/* Top rule */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-gold/30 to-transparent" />
@@ -143,7 +143,7 @@ const Process = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-8">
 
         {/* ── Section Header ─────────────────────────── */}
-        <div ref={headerRef} className="text-center mb-20 lg:mb-32">
+        <div ref={headerRef} className="text-center mb-10 lg:mb-14">
           <span className="text-brand-gold font-bold tracking-[0.35em] uppercase text-[10px] mb-5 block">
             The Journey
           </span>
@@ -172,7 +172,7 @@ const Process = () => {
           {pairs.map((pair, pairIdx) => (
             <div
               key={pairIdx}
-              className={`grid grid-cols-2 ${pairIdx < pairs.length - 1 ? 'mb-28' : ''}`}
+              className={`grid grid-cols-2 ${pairIdx < pairs.length - 1 ? 'mb-24' : ''}`}
             >
               {pair.map((step, stepIdx) => {
                 const globalIdx = pairIdx * 2 + stepIdx;
@@ -199,7 +199,7 @@ const Process = () => {
                       </div>
                       {/* Ghost watermark number behind image */}
                       <div
-                        className={`step-number absolute -top-8 ${isRight ? '-right-4' : '-left-4'} font-display font-bold leading-none select-none pointer-events-none text-brand-gold/12`}
+                        className={`step-number absolute -top-8 ${isRight ? '-right-4' : '-left-4'} font-display font-bold leading-none select-none pointer-events-none text-brand-gold/25`}
                         style={{ fontSize: 'clamp(5rem, 8vw, 8rem)' }}
                         aria-hidden="true"
                       >
@@ -241,7 +241,7 @@ const Process = () => {
                 {/* Timeline dot removed */}
 
                 {/* Ghost number */}
-                <div className="step-number text-[3.5rem] font-display font-bold text-brand-gold/18 leading-none mb-1 select-none" aria-hidden="true">
+                <div className="step-number text-[3.5rem] font-display font-bold text-brand-gold/28 leading-none mb-1 select-none" aria-hidden="true">
                   {step.id}
                 </div>
 

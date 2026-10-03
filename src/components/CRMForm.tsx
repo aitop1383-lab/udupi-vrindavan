@@ -87,7 +87,7 @@ const CRMForm = () => {
   const inputError = "border-red-400 bg-red-50";
 
   return (
-    <section className="py-20 md:py-32 bg-brand-gold relative overflow-hidden">
+    <section id="exclusive-offers" className="py-20 md:py-32 bg-brand-gold relative overflow-hidden scroll-mt-24">
       {/* Background radial glow for depth */}
       <div className="absolute inset-0 pointer-events-none"
         style={{ background: 'radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.15) 0%, transparent 60%)' }}
