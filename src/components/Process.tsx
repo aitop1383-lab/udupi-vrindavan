@@ -189,7 +189,7 @@ const Process = () => {
                       <div className="relative rounded-[2.5rem] overflow-hidden aspect-[4/4] shadow-xl">
                         <img
                           src={STEP_IMAGES[step.id]}
-                          alt={step.title}
+                          alt={`${step.title} - Udupi Vrindavan culinary preparation standard`}
                           loading="lazy"
                           width="280"
                           height="350"
@@ -249,7 +249,7 @@ const Process = () => {
                 <div className="step-image-wrap rounded-[1.5rem] overflow-hidden aspect-video mb-5 shadow-md">
                   <img
                     src={STEP_IMAGES[step.id]}
-                    alt={step.title}
+                    alt={`${step.title} - Udupi Vrindavan culinary preparation standard`}
                     loading="lazy"
                     className="w-full h-full object-cover"
                   />

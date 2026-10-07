@@ -269,7 +269,7 @@ const Testimonials = () => {
           href={GOOGLE_MAPS_REVIEWS_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-3 px-10 py-5 bg-brand-blue text-brand-cream rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-xl border border-brand-blue/10 hover:bg-brand-gold hover:text-brand-blue transition-colors duration-300"
+          className="inline-flex items-center gap-3 px-5 py-5 bg-brand-blue text-brand-cream rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-xl border border-brand-blue/10 hover:bg-brand-gold hover:text-brand-blue transition-colors duration-300"
         >
           <FontAwesomeIcon icon={faGoogle} className="text-lg text-brand-gold group-hover:text-brand-blue" />
           <span>View All 600+ Reviews on Google</span>

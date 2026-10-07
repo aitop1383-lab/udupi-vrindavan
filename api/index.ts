@@ -15,6 +15,7 @@ const VALID_ROUTES = new Set([
   '/about',
   '/contact',
   '/reach-us',
+  '/menu',
   '/privacy',
   '/privacy-policy',
   '/terms-of-service',
@@ -34,6 +35,223 @@ const isDynamicValidRoute = (urlPath: string) => {
   if (clean.startsWith('/blog/')) return true;
   return false;
 };
+
+interface RouteMeta {
+  title: string;
+  description: string;
+  canonical: string;
+  image?: string;
+  type?: string;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
+}
+
+const STATIC_ROUTE_METADATA: Record<string, RouteMeta> = {
+  '/': {
+    title: 'Udupi Vrindavan | Authentic Udupi & South Indian Vegetarian Cuisine in Dubai',
+    description: 'Visit Udupi Vrindavan in Al Karama for authentic Udupi and South Indian vegetarian dishes, including dosa, idli, vada, and healthy Karnataka cuisine.',
+    canonical: 'https://udupivrindavan.com/',
+    image: 'https://udupivrindavan.com/Butter-Dosa.jpg',
+    type: 'restaurant'
+  },
+  '/about': {
+    title: 'About Us | Authentic South Indian Vegetarian Dining Philosophy in Dubai',
+    description: "Learn about Udupi Vrindavan's philosophy of pure Satvik food, authentic Karnataka culinary traditions, and ethical kitchen practices in Al Karama, Dubai.",
+    canonical: 'https://udupivrindavan.com/about',
+    image: 'https://udupivrindavan.com/host.jpeg',
+    type: 'article'
+  },
+  '/contact': {
+    title: 'Contact Us & Location | Udupi Vrindavan Restaurant Al Karama, Dubai',
+    description: 'Get in touch with Udupi Vrindavan Restaurant in Al Karama, Dubai. View address in WASL Opal, phone number, WhatsApp, opening hours, and directions.',
+    canonical: 'https://udupivrindavan.com/contact',
+    image: 'https://udupivrindavan.com/Butter-Dosa.jpg',
+    type: 'website'
+  },
+  '/reach-us': {
+    title: 'Contact Us & Location | Udupi Vrindavan Restaurant Al Karama, Dubai',
+    description: 'Get in touch with Udupi Vrindavan Restaurant in Al Karama, Dubai. View address in WASL Opal, phone number, WhatsApp, opening hours, and directions.',
+    canonical: 'https://udupivrindavan.com/contact',
+    image: 'https://udupivrindavan.com/Butter-Dosa.jpg',
+    type: 'website'
+  },
+  '/visit-udupi': {
+    title: 'Visit Udupi | Udupi food, South Indian heritage and Karnataka cuisine',
+    description: "Explore Udupi's temple heritage, coastal beauty, and vegetarian cuisine, then visit Udupi Vrindavan in Al Karama, Dubai for authentic South Indian food.",
+    canonical: 'https://udupivrindavan.com/visit-udupi',
+    image: 'https://udupivrindavan.com/VisitUdupi_Gallery/udupi.webp',
+    type: 'website'
+  },
+  '/blog': {
+    title: 'Blog | Udupi Vrindavan stories about South Indian food and heritage',
+    description: 'Read stories about Udupi cuisine, Karnataka traditions, vegetarian food culture, and the story behind Udupi Vrindavan in Dubai.',
+    canonical: 'https://udupivrindavan.com/blog',
+    image: 'https://udupivrindavan.com/Butter-Dosa.jpg',
+    type: 'website'
+  },
+  '/menu': {
+    title: 'Dining Menu | Authentic South Indian & Udupi Vegetarian Dishes | Udupi Vrindavan',
+    description: 'Explore authentic South Indian and Udupi vegetarian menu dishes at Udupi Vrindavan in Al Karama, Dubai.',
+    canonical: 'https://udupivrindavan.com/menu',
+    image: 'https://udupivrindavan.com/Butter-Dosa.jpg',
+    type: 'website'
+  },
+  '/privacy': {
+    title: 'Privacy Policy | Udupi Vrindavan Restaurant Dubai',
+    description: 'Read the privacy policy for Udupi Vrindavan Restaurant LLC and how we safeguard visitor information and user privacy.',
+    canonical: 'https://udupivrindavan.com/privacy',
+    image: 'https://udupivrindavan.com/logo.png',
+    type: 'website'
+  },
+  '/privacy-policy': {
+    title: 'Privacy Policy | Udupi Vrindavan Restaurant Dubai',
+    description: 'Read the privacy policy for Udupi Vrindavan Restaurant LLC and how we safeguard visitor information and user privacy.',
+    canonical: 'https://udupivrindavan.com/privacy',
+    image: 'https://udupivrindavan.com/logo.png',
+    type: 'website'
+  },
+  '/terms-of-service': {
+    title: 'Terms of Use | Udupi Vrindavan Restaurant Dubai',
+    description: 'Review the terms of use for Udupi Vrindavan Restaurant LLC website and services.',
+    canonical: 'https://udupivrindavan.com/terms-of-service',
+    image: 'https://udupivrindavan.com/logo.png',
+    type: 'website'
+  }
+};
+
+const GOOGLE_SHEETS_URL = process.env.VITE_GOOGLE_SHEETS_URL || 'https://script.google.com/macros/s/AKfycbyaBHnmNalAdlbWn7y5mcuSxWiIrKQUxlOa6ElBaXXmYt86IP-173Zm7yfwSExhdIgpLA/exec';
+
+let blogPostsCache: Array<{ slug?: string; title?: string; excerpt?: string; date?: string; image?: string; category?: string; author?: string }> | null = null;
+let blogCacheTimestamp = 0;
+const BLOG_CACHE_TTL = 10 * 60 * 1000;
+
+async function getBlogPostMeta(slug: string): Promise<RouteMeta> {
+  const cleanSlug = decodeURIComponent(slug).trim().toLowerCase();
+  const canonicalUrl = `https://udupivrindavan.com/blog/${cleanSlug}`;
+
+  try {
+    if (!blogPostsCache || Date.now() - blogCacheTimestamp > BLOG_CACHE_TTL) {
+      const response = await fetch(`${GOOGLE_SHEETS_URL}?action=getPosts`);
+      if (response.ok) {
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          blogPostsCache = data;
+          blogCacheTimestamp = Date.now();
+        }
+      }
+    }
+
+    if (blogPostsCache) {
+      const match = blogPostsCache.find((p) => {
+        const pSlug = (p.slug || '').trim().toLowerCase();
+        const genSlug = (p.title || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+        return pSlug === cleanSlug || genSlug === cleanSlug;
+      });
+
+      if (match) {
+        const cleanTitle = (match.title || '').replace(/<[^>]*>/g, '').trim();
+        const cleanExcerpt = (match.excerpt || '').replace(/<[^>]*>/g, '').trim();
+        const safeImage = match.image && !match.image.startsWith('data:') && match.image.startsWith('http')
+          ? match.image
+          : 'https://udupivrindavan.com/Butter-Dosa.jpg';
+
+        const jsonLd = {
+          '@context': 'https://schema.org',
+          '@type': 'BlogPosting',
+          mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': canonicalUrl
+          },
+          headline: cleanTitle,
+          description: cleanExcerpt,
+          image: [safeImage],
+          datePublished: match.date ? new Date(match.date).toISOString() : undefined,
+          dateModified: match.date ? new Date(match.date).toISOString() : undefined,
+          articleSection: match.category || 'Tradition',
+          inLanguage: 'en-US',
+          author: {
+            '@type': 'Organization',
+            name: match.author || 'Udupi Vrindavan Restaurant LLC',
+            url: 'https://udupivrindavan.com'
+          },
+          publisher: {
+            '@type': 'Organization',
+            name: 'Udupi Vrindavan',
+            logo: {
+              '@type': 'ImageObject',
+              url: 'https://udupivrindavan.com/logo.png'
+            }
+          }
+        };
+
+        return {
+          title: `${cleanTitle} | Udupi Vrindavan Blog`,
+          description: cleanExcerpt,
+          canonical: canonicalUrl,
+          image: safeImage,
+          type: 'article',
+          jsonLd
+        };
+      }
+    }
+  } catch (err) {
+    console.error('Failed to fetch blog post meta from Google Sheets:', err);
+  }
+
+  const titleWords = cleanSlug
+    .split(/[-_]+/)
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
+
+  return {
+    title: `${titleWords || 'Journal'} | Udupi Vrindavan Blog`,
+    description: `Read about ${titleWords || 'authentic culinary stories'} and South Indian traditions at Udupi Vrindavan, Dubai.`,
+    canonical: canonicalUrl,
+    image: 'https://udupivrindavan.com/Butter-Dosa.jpg',
+    type: 'article'
+  };
+}
+
+function injectMetadata(html: string, meta: RouteMeta): string {
+  let updated = html;
+
+  const escapeAttr = (val: string) => val.replace(/"/g, '&quot;');
+
+  // Title
+  updated = updated.replace(/<title>.*?<\/title>/i, `<title>${meta.title}</title>`);
+
+  // Meta description
+  updated = updated.replace(/<meta\s+name=["']description["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta name="description" content="${escapeAttr(meta.description)}" />`);
+
+  // Canonical
+  updated = updated.replace(/<link\s+rel=["']canonical["']\s+href=["'][^"']*["']\s*\/?>/i, `<link rel="canonical" href="${meta.canonical}" />`);
+
+  // Open Graph
+  updated = updated.replace(/<meta\s+property=["']og:title["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="og:title" content="${escapeAttr(meta.title)}" />`);
+  updated = updated.replace(/<meta\s+property=["']og:description["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="og:description" content="${escapeAttr(meta.description)}" />`);
+  updated = updated.replace(/<meta\s+property=["']og:url["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="og:url" content="${meta.canonical}" />`);
+  if (meta.image) {
+    updated = updated.replace(/<meta\s+property=["']og:image["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="og:image" content="${meta.image}" />`);
+  }
+  if (meta.type) {
+    updated = updated.replace(/<meta\s+property=["']og:type["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="og:type" content="${meta.type}" />`);
+  }
+
+  // Twitter
+  updated = updated.replace(/<meta\s+property=["']twitter:title["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="twitter:title" content="${escapeAttr(meta.title)}" />`);
+  updated = updated.replace(/<meta\s+property=["']twitter:description["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="twitter:description" content="${escapeAttr(meta.description)}" />`);
+  if (meta.image) {
+    updated = updated.replace(/<meta\s+property=["']twitter:image["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="twitter:image" content="${meta.image}" />`);
+  }
+
+  // Inject route-specific JSON-LD before </head> if provided
+  if (meta.jsonLd) {
+    const jsonLdTag = `<script type="application/ld+json">${JSON.stringify(meta.jsonLd)}</script>`;
+    updated = updated.replace('</head>', `  ${jsonLdTag}\n</head>`);
+  }
+
+  return updated;
+}
 
 // Generates markdown representation for Content Negotiation
 const getMarkdownForRoute = (urlPath: string): string => {
@@ -92,6 +310,24 @@ Udupi is a celebrated coastal town in Karnataka, India, famous for its 13th-cent
 - Authentic Filter Kaapi
 
 Visit Udupi Vrindavan in Al Karama, Dubai to experience these authentic flavors.
+`;
+  }
+
+  if (clean === '/menu') {
+    return `# Dining Menu — Udupi Vrindavan Restaurant Dubai
+
+Explore our authentic South Indian and Karnataka vegetarian specialties prepared with pure Nandini ghee, fresh ingredients, and traditional cookware.
+
+## Specialties
+- Ghee Roast Dosa
+- Butter Masala Dosa
+- Pudi Dosa
+- Soft Steamed Idli & Vada
+- Kotte Kadubu
+- Authentic Filter Kaapi
+
+- Full Dining Menu PDF: https://udupivrindavan.com/Menu.pdf
+- Direct Online Orders: https://order.udupivrindavan.com
 `;
   }
 
@@ -174,7 +410,7 @@ const BOOKING_REDIRECT_ROUTES = new Set([
   '/table-booking'
 ]);
 
-export default function handler(req: ApiRequest, res: ApiResponse) {
+export default async function handler(req: ApiRequest, res: ApiResponse) {
   const urlPath = req.url || '/';
   const cleanPath = urlPath.split('?')[0].replace(/\/$/, '') || '/';
   const acceptHeader = req.headers['accept'] || '';
@@ -209,11 +445,23 @@ export default function handler(req: ApiRequest, res: ApiResponse) {
     return res.send(get404Html());
   }
 
-  // For valid routes, serve index.html with 200 OK
+  // Resolve page-specific metadata for SEO crawlers and previews
+  let meta: RouteMeta | null = STATIC_ROUTE_METADATA[cleanPath] || null;
+  if (!meta && cleanPath.startsWith('/blog/')) {
+    const slug = cleanPath.slice('/blog/'.length);
+    if (slug) {
+      meta = await getBlogPostMeta(slug);
+    }
+  }
+
+  // For valid routes, serve index.html with 200 OK and injected route metadata
   try {
     const indexPath = path.join(process.cwd(), 'dist', 'index.html');
     if (fs.existsSync(indexPath)) {
-      const html = fs.readFileSync(indexPath, 'utf8');
+      let html = fs.readFileSync(indexPath, 'utf8');
+      if (meta) {
+        html = injectMetadata(html, meta);
+      }
       res.status(200);
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       return res.send(html);
@@ -224,7 +472,10 @@ export default function handler(req: ApiRequest, res: ApiResponse) {
 
   try {
     const fallbackPath = path.join(process.cwd(), 'index.html');
-    const html = fs.readFileSync(fallbackPath, 'utf8');
+    let html = fs.readFileSync(fallbackPath, 'utf8');
+    if (meta) {
+      html = injectMetadata(html, meta);
+    }
     res.status(200);
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     return res.send(html);

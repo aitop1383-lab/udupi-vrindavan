@@ -255,7 +255,7 @@ const Home = () => {
               >
                 <StatItem target={100} suffix="%" label="Pure Vegetarian" started={statsStarted} />
                 <StatItem target={100} suffix="+" label="Varieties" started={statsStarted} />
-                <StatItem target={600} suffix="+" label="Google Reviews" started={statsStarted} />
+                <StatItem target={600} suffix="+" label="Happy Guests" started={statsStarted} />
               </m.div>
             </div>
 

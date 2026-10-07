@@ -167,6 +167,7 @@ export default function App() {
             <Route path="/blog" element={<Suspense fallback={<PageLoader />}><BlogPage /></Suspense>} />
             <Route path="/blog/:slug" element={<Suspense fallback={<PageLoader />}><BlogPostDetail /></Suspense>} />
             <Route path="/blog/admin" element={<Suspense fallback={<PageLoader />}><BlogAdmin /></Suspense>} />
+            <Route path="/menu" element={<Navigate to="/#menu" replace />} />
             
             <Route path="/legacy-blog" element={<Navigate to="/blog" replace />} />
             

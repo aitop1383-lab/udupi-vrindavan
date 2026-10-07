@@ -234,7 +234,7 @@ const VisitUdupi = () => {
                 className="rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-2xl bg-white group border border-brand-blue/5"
               >
                 <div className="h-64 md:h-80 overflow-hidden relative">
-                  <img src={place.img} className="w-full h-full object-cover group-hover:scale-110 transition duration-1000" alt={place.title} />
+                  <img src={place.img} className="w-full h-full object-cover group-hover:scale-110 transition duration-1000" alt={`${place.title} - Scenic destination in Udupi, Karnataka`} />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-blue/40 to-transparent" />
                 </div>
                 <div className="p-8 md:p-10 text-center">

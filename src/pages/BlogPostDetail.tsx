@@ -247,16 +247,33 @@ const BlogPostDetail = () => {
   ════════════════════════════════════════ */
   const cleanTitle = stripHtml(post.title);
   const cleanExcerpt = stripHtml(post.excerpt);
-  const articleImage = post.image?.startsWith('http') ? post.image : `${SITE_METADATA.siteUrl}${post.image || '/logo.png'}`;
+  const articleImage = post.image && !post.image.startsWith('data:')
+    ? (post.image.startsWith('http') ? post.image : `${SITE_METADATA.siteUrl}${post.image.startsWith('/') ? post.image : `/${post.image}`}`)
+    : `${SITE_METADATA.siteUrl}/Butter-Dosa.jpg`;
+
+  const parsedIsoDate = (() => {
+    if (!post.date) return undefined;
+    const d = new Date(post.date);
+    return !isNaN(d.getTime()) ? d.toISOString() : undefined;
+  })();
+
   const articleSchema = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'BlogPosting',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${SITE_METADATA.siteUrl}/blog/${post.slug}`
+    },
     headline: cleanTitle,
     description: cleanExcerpt,
-    image: articleImage,
+    image: [articleImage],
+    ...(parsedIsoDate ? { datePublished: parsedIsoDate, dateModified: parsedIsoDate } : {}),
+    articleSection: post.category || 'Tradition',
+    inLanguage: 'en-US',
     author: {
       '@type': 'Organization',
-      name: post.author || SITE_METADATA.siteName
+      name: post.author || SITE_METADATA.siteName,
+      url: SITE_METADATA.siteUrl
     },
     publisher: {
       '@type': 'Organization',
@@ -265,8 +282,7 @@ const BlogPostDetail = () => {
         '@type': 'ImageObject',
         url: `${SITE_METADATA.siteUrl}/logo.png`
       }
-    },
-    mainEntityOfPage: `${SITE_METADATA.siteUrl}/blog/${post.slug}`
+    }
   };
   const postBreadcrumbSchema = breadcrumbSchema([
     { name: 'Home', path: '/' },
@@ -280,7 +296,7 @@ const BlogPostDetail = () => {
         title={cleanTitle}
         description={cleanExcerpt}
         canonicalPath={`/blog/${post.slug}`}
-        image={post.image}
+        image={articleImage}
         type="article"
         jsonLd={[articleSchema, postBreadcrumbSchema]}
       />
@@ -555,7 +571,7 @@ const BlogPostDetail = () => {
                         <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0">
                           <img
                             src={p.image}
-                            alt={p.title}
+                            alt={stripHtml(p.title)}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             onError={(e) => { (e.target as HTMLImageElement).src = '/logo.png'; }}
                           />
@@ -630,7 +646,7 @@ const BlogPostDetail = () => {
                       <div className="relative aspect-[16/10] overflow-hidden">
                         <img
                           src={p.image}
-                          alt={p.title}
+                          alt={stripHtml(p.title)}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           onError={(e) => { (e.target as HTMLImageElement).src = '/logo.png'; }}
                         />

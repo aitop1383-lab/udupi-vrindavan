@@ -12,8 +12,15 @@ type SeoProps = {
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 };
 
-const resolveUrl = (path: string) => {
-  if (!path) return SITE_METADATA.siteUrl;
+const resolveUrl = (path?: string) => {
+  if (!path) return `${SITE_METADATA.siteUrl}/Butter-Dosa.jpg`;
+  if (path.startsWith('data:')) return `${SITE_METADATA.siteUrl}/Butter-Dosa.jpg`;
+  if (/^https?:\/\//i.test(path)) return path;
+  return `${SITE_METADATA.siteUrl}${path.startsWith('/') ? path : `/${path}`}`;
+};
+
+const resolveCanonical = (path: string) => {
+  if (!path || path === '/') return `${SITE_METADATA.siteUrl}/`;
   if (/^https?:\/\//i.test(path)) return path;
   return `${SITE_METADATA.siteUrl}${path.startsWith('/') ? path : `/${path}`}`;
 };
@@ -34,8 +41,8 @@ const Seo: React.FC<SeoProps> = ({
     : SITE_METADATA.siteName;
 
   const metaDescription = description || SITE_METADATA.description;
-  const canonicalUrl = resolveUrl(canonicalPath);
-  const socialImage = image ? resolveUrl(image) : `${SITE_METADATA.siteUrl}/logo.png`;
+  const canonicalUrl = resolveCanonical(canonicalPath);
+  const socialImage = resolveUrl(image);
 
   return (
     <Helmet>
@@ -55,9 +62,12 @@ const Seo: React.FC<SeoProps> = ({
       <meta property="og:locale" content="en_US" />
 
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@UdupiVrindavan" />
+      <meta name="twitter:creator" content="@UdupiVrindavan" />
       <meta name="twitter:title" content={pageTitle} />
       <meta name="twitter:description" content={metaDescription} />
       <meta name="twitter:image" content={socialImage} />
+      <meta name="twitter:image:alt" content={pageTitle} />
 
       {jsonLd ? (
         <script type="application/ld+json">

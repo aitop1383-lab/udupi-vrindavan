@@ -14,6 +14,23 @@ const blogBreadcrumbSchema = breadcrumbSchema([
   { name: 'Blog', path: '/blog' }
 ]);
 
+const blogCollectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'Udupi Vrindavan Journal',
+  description: 'Stories about Udupi cuisine, Karnataka traditions, vegetarian food culture, and the story behind Udupi Vrindavan in Dubai.',
+  url: 'https://udupivrindavan.com/blog',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Udupi Vrindavan',
+    url: 'https://udupivrindavan.com',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://udupivrindavan.com/logo.png'
+    }
+  }
+};
+
 const BlogPage = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [activeCategory, setActiveCategory] = useState('All');
@@ -58,7 +75,7 @@ const BlogPage = () => {
         description="Read stories about Udupi cuisine, Karnataka traditions, vegetarian food culture, and the story behind Udupi Vrindavan in Dubai."
         canonicalPath="/blog"
         type="website"
-        jsonLd={blogBreadcrumbSchema}
+        jsonLd={[blogBreadcrumbSchema, blogCollectionSchema]}
       />
 
       {/* ══════════════════════════════

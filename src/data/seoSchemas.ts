@@ -1,4 +1,4 @@
-import { CONTACT_DETAILS, SITE_METADATA, SOCIAL_LINKS } from './siteConfig';
+import { CONTACT_DETAILS, SITE_METADATA, SOCIAL_LINKS, REVIEWS } from './siteConfig';
 
 export const ORDER_URL = 'https://order.udupivrindavan.com/outlet/99670498269910';
 
@@ -18,6 +18,8 @@ export const restaurantSchema = {
   logo: `${SITE_METADATA.siteUrl}/logo.png`,
   telephone: CONTACT_DETAILS.phone,
   email: CONTACT_DETAILS.email,
+  currenciesAccepted: 'AED',
+  paymentAccepted: 'Cash, Credit Card, Debit Card',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'FB04, WASL Opal, Street 26',
@@ -47,7 +49,28 @@ export const restaurantSchema = {
   potentialAction: {
     '@type': 'OrderAction',
     target: ORDER_URL
-  }
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    reviewCount: '600',
+    bestRating: '5',
+    worstRating: '1'
+  },
+  review: REVIEWS.map((rev) => ({
+    '@type': 'Review',
+    author: {
+      '@type': 'Person',
+      name: rev.name
+    },
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: '5',
+      bestRating: '5',
+      worstRating: '1'
+    },
+    reviewBody: rev.text
+  }))
 };
 
 export const websiteSchema = {
@@ -56,6 +79,7 @@ export const websiteSchema = {
   '@id': `${SITE_METADATA.siteUrl}/#website`,
   name: SITE_METADATA.siteName,
   url: SITE_METADATA.siteUrl,
+  inLanguage: 'en-US',
   publisher: {
     '@id': `${SITE_METADATA.siteUrl}/#restaurant`
   },
