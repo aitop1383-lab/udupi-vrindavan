@@ -79,12 +79,12 @@ const Testimonials = () => {
           </div>
 
           {/* Right: prominent Google rating block */}
-          <div className="flex-shrink-0">
-            <div className="bg-white border border-brand-gold/20 rounded-3xl px-8 py-6 shadow-lg flex flex-col sm:flex-row items-center gap-6">
+          <div className="flex-shrink-0 w-full sm:w-auto">
+            <div className="bg-white border border-brand-gold/20 rounded-3xl px-6 sm:px-8 py-5 sm:py-6 shadow-lg flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-4 sm:gap-6">
               {/* Score */}
               <div className="text-center">
                 <div className="flex items-baseline gap-1 justify-center">
-                  <span className="font-display font-bold text-5xl text-brand-blue leading-none">4.9</span>
+                  <span className="font-display font-bold text-4xl sm:text-5xl text-brand-blue leading-none">4.9</span>
                   <span className="text-brand-blue/40 text-lg font-bold">/5</span>
                 </div>
                 <div className="flex gap-1 text-brand-gold justify-center mt-2" aria-label="4.9 out of 5 stars">
@@ -96,10 +96,11 @@ const Testimonials = () => {
 
               {/* Divider */}
               <div className="hidden sm:block w-px h-14 bg-brand-gold/15" />
+              <div className="block sm:hidden w-full h-px bg-brand-gold/15 my-1" />
 
               {/* Detail */}
-              <div className="text-center sm:text-left">
-                <div className="flex items-center gap-2 mb-1">
+              <div className="text-center sm:text-left flex flex-col items-center sm:items-start">
+                <div className="flex items-center gap-2 mb-1 justify-center sm:justify-start">
                   <div className="w-5 h-5 rounded-full bg-[#4285F4]/10 flex items-center justify-center text-[#4285F4]">
                     <FontAwesomeIcon icon={faGoogle} className="text-xs" />
                   </div>
@@ -259,7 +260,7 @@ const Testimonials = () => {
       </div>
 
       {/* Verified Google Reviews Link CTA */}
-      <div className="text-center relative z-10">
+      <div className="text-center relative z-10 px-4">
         <motion.a
           whileHover={{
             scale: 1.03,
@@ -269,13 +270,13 @@ const Testimonials = () => {
           href={GOOGLE_MAPS_REVIEWS_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-3 px-5 py-5 bg-brand-blue text-brand-cream rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-xl border border-brand-blue/10 hover:bg-brand-gold hover:text-brand-blue transition-colors duration-300"
+          className="group inline-flex items-center justify-center max-w-full gap-2.5 sm:gap-3 px-5 sm:px-8 py-3.5 sm:py-4 md:py-5 bg-brand-blue text-brand-cream rounded-full font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] text-[11px] sm:text-xs shadow-xl border border-brand-blue/10 hover:bg-brand-gold hover:text-brand-blue transition-colors duration-300 text-center"
         >
-          <FontAwesomeIcon icon={faGoogle} className="text-lg text-brand-gold group-hover:text-brand-blue" />
-          <span>View All 600+ Reviews on Google</span>
-          <ExternalLink size={14} />
+          <FontAwesomeIcon icon={faGoogle} className="text-base sm:text-lg text-brand-gold group-hover:text-brand-blue transition-colors duration-300 shrink-0" />
+          <span className="leading-tight">View All 600+ Reviews on Google</span>
+          <ExternalLink size={14} className="shrink-0 transition-transform group-hover:translate-x-0.5" />
         </motion.a>
-        <p className="text-brand-blue/50 text-[11px] mt-3 font-medium">
+        <p className="text-brand-blue/50 text-[11px] mt-3 font-medium px-2">
           Verified reviews on Google Business Profile for Udupi Vrindavan Restaurant LLC
         </p>
       </div>
