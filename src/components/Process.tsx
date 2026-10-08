@@ -195,7 +195,7 @@ const Process = () => {
                           height="350"
                           className="w-full h-full object-contain transition-transform duration-700 hover:scale-105"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-brand-blue/25 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-brand-blue/10 to-transparent" />
                       </div>
                       {/* Ghost watermark number behind image */}
                       <div
