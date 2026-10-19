@@ -150,38 +150,40 @@ const Commitment = () => {
         </div>
 
         {/* Benefits Grid */}
-        <div ref={gridRef} className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
+        <div ref={gridRef} className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
           {EMPLOYEE_BENEFITS.map((benefit, idx) => (
             <div
               key={idx}
-              className="benefit-card group bg-white rounded-[2.5rem] p-8 md:p-10 shadow-[0_20px_40px_rgba(15,47,74,0.05)] border border-brand-gold/10 hover:border-brand-gold/40 hover:shadow-[0_20px_60px_rgba(212,166,90,0.15)] transition-all duration-500 relative overflow-hidden flex flex-col"
+              className="benefit-card group relative overflow-hidden flex flex-col min-h-[22rem] rounded-[2rem] border border-brand-blue/10 bg-white/75 p-7 md:p-9 shadow-[0_18px_45px_rgba(15,47,74,0.07)] transition-all duration-500 hover:-translate-y-2 hover:border-brand-gold/50 hover:shadow-[0_28px_65px_rgba(15,47,74,0.14)]"
               style={{ opacity: 0 }}
             >
-              {/* Decorative gradient blob */}
-              <div className="absolute -top-20 -right-20 w-48 h-48 bg-brand-gold/10 rounded-full blur-3xl group-hover:bg-brand-gold/20 transition-colors duration-500"></div>
-              
-              <div className="flex items-center gap-6 mb-8 relative z-10">
-                <div className="w-16 h-16 bg-brand-blue/5 rounded-2xl flex items-center justify-center text-brand-gold group-hover:bg-brand-gold group-hover:text-brand-cream group-hover:scale-110 transition-all duration-500 shadow-sm group-hover:shadow-xl shrink-0">
-                  {getIcon(benefit.title)}
+              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-gold via-brand-gold/30 to-transparent" />
+              <div className="absolute -right-16 -top-16 size-48 rounded-full bg-brand-gold/10 blur-3xl transition-all duration-500 group-hover:scale-150 group-hover:bg-brand-gold/20" />
+              <div className="absolute bottom-0 right-0 h-28 w-28 rounded-tl-[5rem] bg-brand-blue/[0.03] transition-colors group-hover:bg-brand-gold/[0.08]" />
+
+              <div className="relative z-10 flex items-start justify-between gap-5 border-b border-brand-blue/10 pb-7">
+                <div className="flex items-center gap-5">
+                  <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-brand-blue text-brand-cream shadow-lg transition-all duration-500 group-hover:bg-brand-gold group-hover:text-brand-blue group-hover:rotate-6">
+                    {getIcon(benefit.title)}
+                  </div>
+                  <div>
+                    <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold">0{idx + 1}</p>
+                    <h3 className="text-xl font-bold leading-tight text-brand-blue md:text-2xl">
+                      {lang === 'kn' ? (benefit as any).kannadaTitle : benefit.title}
+                    </h3>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-2xl md:text-3xl font-bold font-display text-brand-blue">
-                    {lang === 'kn' ? (benefit as any).kannadaTitle : benefit.title}
-                  </h3>
-                  <p className="text-brand-gold text-xs uppercase tracking-[0.2em] mt-1 font-bold">
-                    {lang === 'kn' ? 'ಮುಖ್ಯ ಸೌಲಭ್ಯ' : 'Core Benefit'}
-                  </p>
-                </div>
+                <span className="hidden text-[10px] font-bold uppercase tracking-widest text-brand-blue/35 md:block">{lang === 'kn' ? 'ಮುಖ್ಯ ಸೌಲಭ್ಯ' : 'Core Benefit'}</span>
               </div>
 
-              <div className="relative z-10 flex-grow">
-                <ul className="space-y-5">
+              <div className="relative z-10 flex-grow pt-7">
+                <ul className="flex flex-col gap-5">
                   {(lang === 'kn' ? (benefit as any).kannadaItems : benefit.items).map((item, i) => (
-                    <li key={i} className="flex gap-4 items-start">
-                      <div className="mt-1 bg-brand-gold/20 p-1 rounded-full text-brand-gold shrink-0 group-hover:bg-brand-gold group-hover:text-white transition-colors duration-300">
-                        <ArrowRightCircle className="w-4 h-4" />
-                      </div>
-                      <span className="text-brand-blue/80 text-base leading-relaxed">{item}</span>
+                    <li key={i} className="flex items-start gap-3">
+                      <span className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-full border border-brand-gold/50 text-brand-gold transition-colors group-hover:bg-brand-gold group-hover:text-brand-blue">
+                        <ArrowRightCircle className="size-3.5" />
+                      </span>
+                      <span className="text-sm leading-7 text-brand-blue/75 md:text-base">{item}</span>
                     </li>
                   ))}
                 </ul>
