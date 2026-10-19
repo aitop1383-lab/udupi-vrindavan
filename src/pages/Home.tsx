@@ -139,7 +139,7 @@ const Home = () => {
 
   return (
     <LazyMotion features={domAnimation}>
-      <section ref={sectionRef} className="relative min-h-screen flex items-center overflow-hidden bg-brand-cream pt-10">
+      <section ref={sectionRef} className="hero-section relative min-h-screen flex items-center overflow-hidden bg-brand-blue pt-10 selection:bg-brand-gold selection:text-brand-blue">
         <Seo
           title="Udupi restaurant in Dubai | Authentic South Indian vegetarian food"
           description="Visit Udupi Vrindavan in Al Karama for authentic Udupi and South Indian vegetarian dishes, including dosa, idli, vada, and healthy Karnataka cuisine."
@@ -171,11 +171,12 @@ const Home = () => {
           />
         ))}
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 w-full py-12 md:py-20 pb-24 lg:pb-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 w-full py-12 md:py-20 pb-24 lg:pb-20 hero-inner">
+          <div className="pointer-events-none absolute -top-10 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-brand-gold/10 blur-3xl lg:left-1/4 lg:top-0" />
           <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
 
             {/* ── LEFT: Content ── */}
-            <div ref={contentRef}>
+            <div ref={contentRef} className="hero-copy hero-copy-panel">
               {/* Tagline Badge */}
               <div ref={taglineRef} className="inline-flex items-center gap-4 mb-8" style={{ opacity: 0 }}>
                 <span className="text-brand-gold font-bold tracking-[0.4em] uppercase text-xs">
@@ -267,7 +268,7 @@ const Home = () => {
               className="relative"
             >
               {/* Image with parallax wrapper */}
-              <div ref={heroImageRef} className="relative z-10 rounded-[4rem] overflow-hidden shadow-2xl cascading-image-reverse aspect-[4/4] m-4 ">
+              <div ref={heroImageRef} className="hero-food-card relative z-10 rounded-[4rem] overflow-hidden shadow-2xl cascading-image-reverse aspect-[4/4] m-4 tilt-card group/image">
                   <img
                     src="/Butter-Dosa.jpg"
                     alt="Butter dosa served at Udupi Vrindavan, a classic Udupi restaurant dish"
@@ -313,16 +314,30 @@ const Home = () => {
         </div>
 
         {/* ── Seamless Marquee ── */}
-        <div className="absolute bottom-0 left-0 w-full bg-brand-blue py-4 overflow-hidden whitespace-nowrap z-20">
-          <div className="marquee-track">
-            {[...Array(20)].map((_, i) => (
-              <span
-                key={i}
-                className="text-brand-gold text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mx-8"
-              >
-                • Pure Satvik Tradition • Authentic Udupi • Karnataka Cooks • Premium Nandini Ghee • Quality Ingredients • Ethical Kitchen •
-              </span>
-            ))}
+        <div className="marquee-shell absolute bottom-0 left-0 z-20 w-full overflow-hidden">
+          <div className="marquee-glow" />
+          <div className="marquee-window" aria-label="Restaurant highlights">
+            <div className="marquee-track">
+              {[...Array(20)].map((_, i) => (
+                <span
+                  key={i}
+                  className="marquee-item text-brand-gold text-[10px] md:text-xs font-bold uppercase tracking-[0.4em]"
+                >
+                  <span className="marquee-dot" aria-hidden="true">•</span>
+                  Pure Satvik Tradition
+                  <span className="marquee-separator" aria-hidden="true">✦</span>
+                  Authentic Udupi
+                  <span className="marquee-separator" aria-hidden="true">✦</span>
+                  Karnataka Cooks
+                  <span className="marquee-separator" aria-hidden="true">✦</span>
+                  Premium Nandini Ghee
+                  <span className="marquee-separator" aria-hidden="true">✦</span>
+                  Quality Ingredients
+                  <span className="marquee-separator" aria-hidden="true">✦</span>
+                  Ethical Kitchen
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </section>

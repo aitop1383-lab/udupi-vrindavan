@@ -30,7 +30,7 @@ const Navbar = () => {
   }, []);
 
   const navbarBg = isScrolled || location.pathname !== '/'
-    ? 'bg-brand-blue py-4 shadow-xl border-b border-brand-gold/20'
+    ? 'bg-brand-blue/95 py-4 shadow-xl border-b border-brand-gold/20 backdrop-blur-xl'
     : 'bg-transparent py-6';
 
   const textColor = isScrolled || location.pathname !== '/'
@@ -200,7 +200,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden text-brand-gold cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <button aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'} className="md:hidden text-brand-gold cursor-pointer rounded-full p-2 transition-colors hover:bg-brand-gold/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
