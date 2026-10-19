@@ -219,29 +219,26 @@ const SignatureMenu = () => {
                   }
                 }}
               >
-                {/* Image with name overlay */}
-                <div className="relative w-full aspect-square rounded-[3rem] overflow-hidden border border-brand-gold/10 transition-all duration-500 group-hover/card:shadow-2xl group-hover/card:-translate-y-2">
+                {/* Editorial category card */}
+                <div className="relative w-full aspect-[0.86] overflow-hidden rounded-[2rem] border border-brand-blue/10 bg-brand-blue shadow-xl transition-all duration-500 group-hover/card:-translate-y-3 group-hover/card:shadow-2xl group-hover/card:shadow-brand-blue/20">
                   <img
                     src={cat.img}
                     alt={`${cat.name} category at Udupi Vrindavan South Indian vegetarian restaurant`}
-                    className="w-full h-full object-cover transform group-hover/card:scale-110 transition-transform duration-1000"
+                    className="absolute inset-0 w-full h-full object-cover opacity-85 transform group-hover/card:scale-105 transition-transform duration-1000"
                     draggable={false}
                   />
-
-                  {/* Category name overlay — slides up on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-blue/80 via-brand-blue/10 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-400" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-4 group-hover/card:translate-y-0 opacity-0 group-hover/card:opacity-100 transition-all duration-400">
-                    <h3 className="text-brand-cream font-display font-bold text-2xl">{cat.name}</h3>
-                    <p className="text-brand-cream/70 text-xs uppercase tracking-widest font-bold mt-1">
-                      Tap to order
-                    </p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-blue via-brand-blue/20 to-transparent" />
+                  <div className="absolute left-5 top-5 flex size-10 items-center justify-center rounded-full border border-brand-cream/40 bg-brand-blue/30 text-sm font-bold text-brand-cream backdrop-blur-sm">
+                    {String(idx + 1).padStart(2, '0')}
                   </div>
-                </div>
-
-                {/* Order Button */}
-                <div className="mt-8 inline-flex items-center gap-2 py-3 px-8 rounded-full bg-brand-blue text-brand-cream group-hover/card:bg-brand-gold group-hover/card:text-brand-blue transition-all duration-300 shadow-lg">
-                  <span className="text-[10px] font-bold uppercase tracking-widest">Order Now</span>
-                  <ArrowRightCircle size={16} className="transform group-hover/card:translate-x-1 transition-transform" />
+                  <div className="absolute inset-x-0 bottom-0 p-6 md:p-7 text-left">
+                    <div className="mb-4 h-px w-10 bg-brand-gold transition-all duration-500 group-hover/card:w-20" />
+                    <h3 className="text-brand-cream font-display font-bold text-3xl leading-none">{cat.name}</h3>
+                    <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-brand-cream/35 bg-brand-cream/10 px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-brand-cream backdrop-blur-sm transition-colors group-hover/card:bg-brand-gold group-hover/card:text-brand-blue">
+                      <span>Order Now</span>
+                      <ArrowRightCircle size={16} className="transform group-hover/card:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
                 </div>
               </a>
             ))}
