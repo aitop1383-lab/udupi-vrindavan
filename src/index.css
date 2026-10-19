@@ -21,7 +21,7 @@
   }
 
   body {
-    @apply bg-brand-cream text-brand-blue font-sans selection:bg-brand-gold selection:text-brand-blue;
+    @apply bg-brand-blue text-brand-cream font-sans selection:bg-brand-gold selection:text-brand-blue;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -233,6 +233,73 @@
   50%       { box-shadow: 0 0 0 12px rgba(212, 166, 90, 0.12); }
 }
 
+/* ─── Udupi Vrindavan hero redesign ───────────────────── */
+.hero-section {
+  background:
+    radial-gradient(circle at 78% 28%, rgba(212, 166, 90, 0.16), transparent 24rem),
+    linear-gradient(135deg, #081d2d 0%, #0f2f4a 54%, #123d58 100%);
+}
+
+.hero-section .texture-bg {
+  opacity: 0.12;
+  mix-blend-mode: screen;
+}
+
+.hero-section .hero-inner::before {
+  content: '';
+  position: absolute;
+  inset: 7% 4% 12%;
+  border: 1px solid rgba(212, 166, 90, 0.18);
+  border-radius: 2rem;
+  pointer-events: none;
+}
+
+.hero-copy-panel {
+  position: relative;
+  z-index: 1;
+  max-width: 40rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 2rem;
+  background: linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.025));
+  box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.18), inset 0 1px rgba(255,255,255,0.12);
+  backdrop-filter: blur(12px);
+}
+
+.hero-section .hero-copy h1,
+.hero-section .hero-copy p,
+.hero-section .hero-copy .text-brand-blue,
+.hero-section .hero-copy .text-brand-blue\/85 {
+  color: #f7f3e9;
+}
+
+.hero-section .hero-copy h1 .text-brand-blue {
+  color: #f7f3e9;
+}
+
+.hero-section .hero-copy .border-brand-blue\/10 {
+  border-color: rgba(247, 243, 233, 0.18);
+}
+
+.hero-section .hero-food-card {
+  border: 0.75rem solid rgba(247, 243, 233, 0.92);
+  box-shadow: -1.25rem 1.25rem 0 #d4a65a, 0 2rem 5rem rgba(0,0,0,0.3);
+}
+
+.hero-section .hero-food-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.hero-section .hero-copy .mt-16 span:first-child,
+.hero-section .hero-copy .mt-16 span:last-child {
+  color: #f7f3e9;
+}
+
 /* ─── Utility Classes ──────────────────────────────────── */
 
 .texture-bg {
@@ -300,10 +367,21 @@
     font-size: 1.55rem;
   }
 
+  .hero-inner::before {
+    inset: 2% 0 5%;
+    border-radius: 1rem;
+  }
+
+  .hero-copy-panel {
+    padding: 1.25rem;
+    border-radius: 1.25rem;
+  }
+
   .hero-food-card {
     margin: 0.75rem 0.25rem 0;
     border-radius: 2rem;
-    box-shadow: -10px 12px 0 #D4A65A, 0 20px 40px rgba(15, 47, 74, 0.18);
+    border-width: 0.5rem;
+    box-shadow: -10px 12px 0 #D4A65A, 0 20px 40px rgba(0, 0, 0, 0.25);
   }
 
   .hero-food-card:hover {

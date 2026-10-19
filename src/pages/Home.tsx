@@ -139,7 +139,7 @@ const Home = () => {
 
   return (
     <LazyMotion features={domAnimation}>
-      <section ref={sectionRef} className="hero-section relative min-h-screen flex items-center overflow-hidden bg-brand-cream pt-10 selection:bg-brand-gold selection:text-brand-blue">
+      <section ref={sectionRef} className="hero-section relative min-h-screen flex items-center overflow-hidden bg-brand-blue pt-10 selection:bg-brand-gold selection:text-brand-blue">
         <Seo
           title="Udupi restaurant in Dubai | Authentic South Indian vegetarian food"
           description="Visit Udupi Vrindavan in Al Karama for authentic Udupi and South Indian vegetarian dishes, including dosa, idli, vada, and healthy Karnataka cuisine."
@@ -171,12 +171,12 @@ const Home = () => {
           />
         ))}
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 w-full py-12 md:py-20 pb-24 lg:pb-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 w-full py-12 md:py-20 pb-24 lg:pb-20 hero-inner">
           <div className="pointer-events-none absolute -top-10 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-brand-gold/10 blur-3xl lg:left-1/4 lg:top-0" />
           <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
 
             {/* ── LEFT: Content ── */}
-            <div ref={contentRef} className="hero-copy">
+            <div ref={contentRef} className="hero-copy hero-copy-panel">
               {/* Tagline Badge */}
               <div ref={taglineRef} className="inline-flex items-center gap-4 mb-8" style={{ opacity: 0 }}>
                 <span className="text-brand-gold font-bold tracking-[0.4em] uppercase text-xs">
