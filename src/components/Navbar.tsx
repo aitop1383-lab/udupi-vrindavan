@@ -31,7 +31,7 @@ const Navbar = () => {
 
   const navbarBg = isScrolled || location.pathname !== '/'
     ? 'bg-brand-blue/95 py-4 shadow-xl border-b border-brand-gold/20 backdrop-blur-xl'
-    : 'bg-brand-cream/70 py-6 backdrop-blur-md';
+    : 'bg-transparent py-6';
 
   const textColor = isScrolled || location.pathname !== '/'
     ? 'text-brand-cream'
