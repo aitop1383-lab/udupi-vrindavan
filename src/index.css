@@ -341,17 +341,17 @@
 }
 
 .marquee-shell {
-  padding: 0.65rem 0.75rem 0.85rem;
-  background: linear-gradient(180deg, transparent, rgba(15, 47, 74, 0.08));
+  padding: 0;
+  background: linear-gradient(180deg, transparent, rgba(15, 47, 74, 0.16));
 }
 
 .marquee-window {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(212, 166, 90, 0.35);
-  border-radius: 999px;
-  background: linear-gradient(100deg, #092238, #0f2f4a 50%, #092238);
-  box-shadow: 0 12px 30px rgba(15, 47, 74, 0.22), inset 0 1px rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(212, 166, 90, 0.6);
+  border-bottom: 1px solid rgba(212, 166, 90, 0.28);
+  background: linear-gradient(90deg, #071c2c 0%, #0f2f4a 50%, #071c2c 100%);
+  box-shadow: 0 -10px 28px rgba(15, 47, 74, 0.16), inset 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .marquee-window::before,
@@ -360,35 +360,50 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 5rem;
+  width: 7rem;
   z-index: 2;
   pointer-events: none;
 }
 
 .marquee-window::before {
   left: 0;
-  background: linear-gradient(90deg, #092238, transparent);
+  background: linear-gradient(90deg, #071c2c 8%, rgba(7, 28, 44, 0.86) 38%, transparent);
 }
 
 .marquee-window::after {
   right: 0;
-  background: linear-gradient(270deg, #092238, transparent);
+  background: linear-gradient(270deg, #071c2c 8%, rgba(7, 28, 44, 0.86) 38%, transparent);
 }
+
+.marquee-edge {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  width: 0.42rem;
+  height: 0.42rem;
+  border: 1px solid #D4A65A;
+  transform: translateY(-50%) rotate(45deg);
+  background: #071c2c;
+}
+
+.marquee-edge-left { left: 1.4rem; }
+.marquee-edge-right { right: 1.4rem; }
 
 .marquee-track {
   display: flex;
   width: max-content;
   align-items: center;
-  min-height: 3.1rem;
-  animation: marqueeLeft 100s linear infinite;
+  min-height: 4rem;
+  animation: marqueeLeft 72s linear infinite;
 }
 
 .marquee-item {
   display: inline-flex;
   align-items: center;
   gap: 1.25rem;
-  padding: 0 2rem;
+  padding: 0 2.75rem;
   color: #f5d49b;
+  letter-spacing: 0.32em;
 }
 
 .marquee-dot,
@@ -398,12 +413,18 @@
 }
 
 .marquee-separator {
-  opacity: 0.55;
+  opacity: 0.65;
   font-size: 0.75em;
 }
 
 .marquee-window:hover .marquee-track {
   animation-play-state: paused;
+}
+
+@media (max-width: 640px) {
+  .marquee-track { min-height: 3.5rem; }
+  .marquee-item { gap: 0.8rem; padding: 0 1.6rem; letter-spacing: 0.2em; }
+  .marquee-window::before, .marquee-window::after { width: 3rem; }
 }
 
 .shake {
