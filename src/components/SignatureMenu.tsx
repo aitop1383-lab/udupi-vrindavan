@@ -233,7 +233,7 @@ const SignatureMenu = () => {
                   </div>
                   <div className="absolute inset-x-0 bottom-0 p-6 md:p-7 text-left">
                     <div className="mb-4 h-px w-10 bg-brand-gold transition-all duration-500 group-hover/card:w-20" />
-                    <h3 className="text-brand-cream font-display font-bold text-3xl leading-none">{cat.name}</h3>
+                    <h3 className="text-brand-cream font-display font-bold text-3xl leading-none opacity-0 translate-y-3 transition-all duration-500 group-hover/card:opacity-100 group-hover/card:translate-y-0">{cat.name}</h3>
                     <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-brand-cream/35 bg-brand-cream/10 px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-brand-cream backdrop-blur-sm transition-colors group-hover/card:bg-brand-gold group-hover/card:text-brand-blue">
                       <span>Order Now</span>
                       <ArrowRightCircle size={16} className="transform group-hover/card:translate-x-1 transition-transform" />
