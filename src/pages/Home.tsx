@@ -139,7 +139,7 @@ const Home = () => {
 
   return (
     <LazyMotion features={domAnimation}>
-      <section ref={sectionRef} className="relative min-h-screen flex items-center overflow-hidden bg-brand-cream pt-10 selection:bg-brand-gold selection:text-brand-blue">
+      <section ref={sectionRef} className="hero-section relative min-h-screen flex items-center overflow-hidden bg-brand-cream pt-10 selection:bg-brand-gold selection:text-brand-blue">
         <Seo
           title="Udupi restaurant in Dubai | Authentic South Indian vegetarian food"
           description="Visit Udupi Vrindavan in Al Karama for authentic Udupi and South Indian vegetarian dishes, including dosa, idli, vada, and healthy Karnataka cuisine."
@@ -176,7 +176,7 @@ const Home = () => {
           <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
 
             {/* ── LEFT: Content ── */}
-            <div ref={contentRef}>
+            <div ref={contentRef} className="hero-copy">
               {/* Tagline Badge */}
               <div ref={taglineRef} className="inline-flex items-center gap-4 mb-8" style={{ opacity: 0 }}>
                 <span className="text-brand-gold font-bold tracking-[0.4em] uppercase text-xs">
@@ -268,7 +268,7 @@ const Home = () => {
               className="relative"
             >
               {/* Image with parallax wrapper */}
-              <div ref={heroImageRef} className="relative z-10 rounded-[4rem] overflow-hidden shadow-2xl cascading-image-reverse aspect-[4/4] m-4 tilt-card group/image">
+              <div ref={heroImageRef} className="hero-food-card relative z-10 rounded-[4rem] overflow-hidden shadow-2xl cascading-image-reverse aspect-[4/4] m-4 tilt-card group/image">
                   <img
                     src="/Butter-Dosa.jpg"
                     alt="Butter dosa served at Udupi Vrindavan, a classic Udupi restaurant dish"
