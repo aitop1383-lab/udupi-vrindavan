@@ -314,16 +314,30 @@ const Home = () => {
         </div>
 
         {/* ── Seamless Marquee ── */}
-        <div className="absolute bottom-0 left-0 w-full bg-brand-blue py-4 overflow-hidden whitespace-nowrap z-20">
-          <div className="marquee-track">
-            {[...Array(20)].map((_, i) => (
-              <span
-                key={i}
-                className="text-brand-gold text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mx-8"
-              >
-                • Pure Satvik Tradition • Authentic Udupi • Karnataka Cooks • Premium Nandini Ghee • Quality Ingredients • Ethical Kitchen •
-              </span>
-            ))}
+        <div className="marquee-shell absolute bottom-0 left-0 z-20 w-full overflow-hidden">
+          <div className="marquee-glow" />
+          <div className="marquee-window">
+            <div className="marquee-track">
+              {[...Array(20)].map((_, i) => (
+                <span
+                  key={i}
+                  className="marquee-item text-brand-gold text-[10px] md:text-xs font-bold uppercase tracking-[0.4em]"
+                >
+                  <span className="marquee-dot" aria-hidden="true">•</span>
+                  Pure Satvik Tradition
+                  <span className="marquee-separator" aria-hidden="true">✦</span>
+                  Authentic Udupi
+                  <span className="marquee-separator" aria-hidden="true">✦</span>
+                  Karnataka Cooks
+                  <span className="marquee-separator" aria-hidden="true">✦</span>
+                  Premium Nandini Ghee
+                  <span className="marquee-separator" aria-hidden="true">✦</span>
+                  Quality Ingredients
+                  <span className="marquee-separator" aria-hidden="true">✦</span>
+                  Ethical Kitchen
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </section>
