@@ -130,7 +130,17 @@
   .tilt-card {
     transform-style: preserve-3d;
     will-change: transform;
-    transition: box-shadow 0.3s ease;
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 700ms ease;
+  }
+
+  .tilt-card:hover {
+    transform: perspective(1200px) rotateY(-3deg) rotateX(2deg) translateY(-6px);
+    box-shadow: -28px 30px 0 #D4A65A, 0 30px 70px rgba(15, 47, 74, 0.2);
+  }
+
+  .hero-particle,
+  .marquee-track {
+    backface-visibility: hidden;
   }
 
   /* ─── Floating Particles ───────────────────────────────── */
@@ -235,6 +245,17 @@
 
 .cascading-image-reverse {
   box-shadow: -20px 20px 0px 0px #D4A65A;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 .shimmer-text {
