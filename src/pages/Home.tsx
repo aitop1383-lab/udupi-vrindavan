@@ -316,7 +316,7 @@ const Home = () => {
         {/* ── Seamless Marquee ── */}
         <div className="marquee-shell absolute bottom-0 left-0 z-20 w-full overflow-hidden">
           <div className="marquee-glow" />
-          <div className="marquee-window" aria-label="Restaurant highlights">
+          <div className="marquee-window">
             <div className="marquee-track">
               {[...Array(20)].map((_, i) => (
                 <span
