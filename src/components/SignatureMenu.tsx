@@ -127,15 +127,52 @@ const SignatureMenu = () => {
               onClick={(e) => { if (dragMoved.current) e.preventDefault(); }}
               className="group/card w-[82vw] max-w-[380px] flex-shrink-0 snap-start sm:w-[360px]"
             >
+<<<<<<< HEAD
               <div className="overflow-hidden rounded-[1.75rem] border border-brand-blue/10 bg-brand-ivory transition-all duration-500 group-hover/card:-translate-y-2 group-hover/card:shadow-[0_30px_60px_-30px_rgba(15,47,74,0.5)]">
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img
                     src={cat.img}
                     alt={`${cat.name} category at Udupi Vrindavan South Indian vegetarian restaurant`}
                     className="h-full w-full object-cover transition-transform duration-1000 group-hover/card:scale-105"
+=======
+              <ChevronRight size={24} />
+            </button>
+          </div>
+
+          <div
+            ref={scrollRef}
+            className="flex overflow-x-auto gap-8 pb-12 no-scrollbar snap-x snap-mandatory select-none"
+            style={{ cursor: 'grab' }}
+            onMouseDown={onMouseDown}
+            onMouseLeave={onMouseLeave}
+            onMouseUp={onMouseUp}
+            onMouseMove={onMouseMove}
+          >
+            {categories.map((cat, idx) => (
+              <a
+                key={idx}
+                href={cat.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-shrink-0 w-[300px] md:w-[380px] snap-start group/card flex flex-col items-center"
+                // Prevent link navigation on drag
+                onClick={(e) => {
+                  if (Math.abs(scrollRef.current?.scrollLeft ?? 0 - scrollLeft.current) > 5) {
+                    e.preventDefault();
+                  }
+                }}
+              >
+                {/* Editorial category card */}
+                <div className="relative w-full aspect-[0.86] overflow-hidden rounded-[2rem] border border-brand-blue/10 bg-brand-blue shadow-xl transition-all duration-500 group-hover/card:-translate-y-3 group-hover/card:shadow-2xl group-hover/card:shadow-brand-blue/20">
+                  <img
+                    src={cat.img}
+                    alt={`${cat.name} category at Udupi Vrindavan South Indian vegetarian restaurant`}
+                    className="absolute inset-0 w-full h-full object-cover opacity-85 transform group-hover/card:scale-105 transition-transform duration-1000"
+>>>>>>> c479ab9f7bf1889a781480cc8e805accdf8a216f
                     draggable={false}
                     loading="lazy"
                   />
+<<<<<<< HEAD
                   <span className="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-brand-blue/85 text-xs font-semibold text-brand-cream backdrop-blur">
                     {String(idx + 1).padStart(2, '0')}
                   </span>
@@ -146,6 +183,20 @@ const SignatureMenu = () => {
                     <span>Order Now</span>
                     <ArrowUpRight size={14} />
                   </span>
+=======
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-blue via-brand-blue/20 to-transparent" />
+                  <div className="absolute left-5 top-5 flex size-10 items-center justify-center rounded-full border border-brand-cream/40 bg-brand-blue/30 text-sm font-bold text-brand-cream backdrop-blur-sm">
+                    {String(idx + 1).padStart(2, '0')}
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 p-6 md:p-7 text-left">
+                    <div className="mb-4 h-px w-10 bg-brand-gold transition-all duration-500 group-hover/card:w-20" />
+                    <h3 className="text-brand-cream font-display font-bold text-3xl leading-none opacity-0 translate-y-3 transition-all duration-500 group-hover/card:opacity-100 group-hover/card:translate-y-0">{cat.name}</h3>
+                    <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-brand-cream/35 bg-brand-cream/10 px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-brand-cream backdrop-blur-sm transition-colors group-hover/card:bg-brand-gold group-hover/card:text-brand-blue">
+                      <span>Order Now</span>
+                      <ArrowRightCircle size={16} className="transform group-hover/card:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+>>>>>>> c479ab9f7bf1889a781480cc8e805accdf8a216f
                 </div>
               </div>
             </motion.a>
