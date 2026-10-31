@@ -1,20 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Reveal, { ImageReveal } from '../components/ui/Reveal';
 
-gsap.registerPlugin(ScrollTrigger);
-
-/**
- * AboutUs Component
- * Features:
- * - Philosophy section with a traditional host image.
- * - Staggered quote grid featuring Sanskrit and Kannada verses.
- * - Hover lift animation on each quote card.
- * - Ornate CSS-based corner frame designs.
- * - GSAP ScrollTrigger for cinematic scroll reveals.
- * - 3D card tilt on mouse move.
- */
 const ABOUT_IMAGES = [
   "/aboutUs/1.jpeg",
   "/aboutUs/2.jpeg",
@@ -22,343 +9,196 @@ const ABOUT_IMAGES = [
   "/aboutUs/4.jpeg",
 ];
 
+const quotes = [
+  {
+    sanskrit: "अन्नेन जातानि जीवन्ति",
+    kannada: "ಅನ್ನೇನ ಜಾತಾನಿ ಜೀವಂತಿ",
+    transliteration: "Annena jaathani jivanthi",
+    translation: "All living beings subsist on food",
+  },
+  {
+    sanskrit: "शतं विहाय भोक्तव्यम्",
+    kannada: "ಶತಂ ವಿಹಾಯ ಭೋಕ್ತವ್ಯಂ",
+    transliteration: "Shatam Vihaya Bhoktavyam",
+    translation: "Set aside a hundred other tasks when it is time for food",
+  },
+  {
+    sanskrit: "आहारो महाभैषज्यम् उच्यते",
+    kannada: "ಆಹಾರೋ ಮಹಾಭೈಷಜ್ಯಂ ಉಚ್ಯತೇ",
+    transliteration: "Aaharo mahaabhaishajyam uchyathe",
+    translation: "Healthy food is called the ultimate medicine",
+  },
+  {
+    sanskrit: "यथा अन्नं तथा मनः",
+    kannada: "ಯಥಾ ಅನ್ನಂ ತಥಾ ಮನಃ",
+    transliteration: "Yatha annam tatha manah",
+    translation: "Your thoughts are influenced by the food you consume",
+  },
+  {
+    sanskrit: "आहारशुद्धौ सत्त्वशुद्धिः",
+    kannada: "ಆಹಾರಶುದ್ಧೌ ಸತ್ತ್ವಶುದ್ಧಿಃ",
+    transliteration: "Aharasuddhau, Sattva Suddhih",
+    translation: "Purity of food leads to purity of mind",
+  },
+  {
+    sanskrit: "क्षुत्स्वादुतां जनयति",
+    kannada: "ಕ್ಷುತ್ಸ್ವಾದುತಾಂ ಜನಯತಿ",
+    transliteration: "Kshutsvadutam Janayati",
+    translation: "Hunger enhances the taste of food",
+  },
+];
+
 const AboutUs = () => {
   const [currentImgIdx, setCurrentImgIdx] = useState(0);
-
-  const sectionRef = useRef<HTMLElement>(null);
-  const imageColRef = useRef<HTMLDivElement>(null);
-  const contentColRef = useRef<HTMLDivElement>(null);
-  const quoteGridRef = useRef<HTMLDivElement>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
-  const sectionHeaderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentImgIdx((prev) => (prev + 1) % ABOUT_IMAGES.length);
     }, 5000);
-
     return () => clearInterval(timer);
   }, []);
 
-  const quotes = [
-    {
-      sanskrit: "अन्नेन जातानि जीवन्ति",
-      kannada: "ಅನ್ನೇನ ಜಾತಾನಿ ಜೀವಂತಿ",
-      transliteration: "Annena jaathani jivanthi",
-      translation: "All living beings subsist on food",
-    },
-    {
-      sanskrit: "शतं विहाय भोक्तव्यम्",
-      kannada: "ಶತಂ ವಿಹಾಯ ಭೋಕ್ತವ್ಯಂ",
-      transliteration: "Shatam Vihaya Bhoktavyam",
-      translation: "Set aside a hundred other tasks when it is time for food",
-    },
-    {
-      sanskrit: "आहारो महाभैषज्यम् उच्यते",
-      kannada: "ಆಹಾರೋ ಮಹಾಭೈಷಜ್ಯಂ ಉಚ್ಯತೇ",
-      transliteration: "Aaharo mahaabhaishajyam uchyathe",
-      translation: "Healthy food is called the ultimate medicine",
-    },
-    {
-      sanskrit: "यथा अन्नं तथा मनः",
-      kannada: "ಯಥಾ ಅನ್ನಂ ತಥಾ ಮನಃ",
-      transliteration: "Yatha annam tatha manah",
-      translation: "Your thoughts are influenced by the food you consume",
-    },
-    {
-      sanskrit: "आहारशुद्धौ सत्त्वशुद्धिः",
-      kannada: "ಆಹಾರಶುದ್ಧೌ ಸತ್ತ್ವಶುದ್ಧಿಃ",
-      transliteration: "Aharasuddhau, Sattva Suddhih",
-      translation: "Purity of food leads to purity of mind",
-    },
-    {
-      sanskrit: "क्षुत्स्वादुतां जनयति",
-      kannada: "ಕ್ಷುತ್ಸ್ವಾದುತಾಂ ಜನಯತಿ",
-      transliteration: "Kshutsvadutam Janayati",
-      translation: "Hunger enhances the taste of food",
-    },
-  ];
-
-  // ── GSAP ScrollTrigger Animations ─────────────────────────
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Image col — slide from left
-      gsap.fromTo(imageColRef.current,
-        { opacity: 0, x: -80 },
-        {
-          opacity: 1, x: 0,
-          duration: 1.0,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: imageColRef.current,
-            start: 'top 80%',
-            once: true,
-          },
-        }
-      );
-
-      // Content col — slide from right, stagger paragraphs
-      gsap.fromTo(contentColRef.current,
-        { opacity: 0, x: 60 },
-        {
-          opacity: 1, x: 0,
-          duration: 1.0,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: contentColRef.current,
-            start: 'top 80%',
-            once: true,
-          },
-        }
-      );
-
-      // Badge — scale in
-      gsap.fromTo(badgeRef.current,
-        { opacity: 0, scale: 0.8, y: 30 },
-        {
-          opacity: 1, scale: 1, y: 0,
-          duration: 0.8,
-          ease: 'back.out(1.4)',
-          scrollTrigger: {
-            trigger: badgeRef.current,
-            start: 'top 85%',
-            once: true,
-          },
-        }
-      );
-
-      // Section header
-      if (sectionHeaderRef.current) {
-        gsap.fromTo(sectionHeaderRef.current.children,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1, y: 0,
-            duration: 0.7,
-            stagger: 0.15,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: sectionHeaderRef.current,
-              start: 'top 85%',
-              once: true,
-            },
-          }
-        );
-      }
-
-      // Quote cards batch reveal
-      if (quoteGridRef.current) {
-        const cards = quoteGridRef.current.querySelectorAll('.quote-card');
-        gsap.fromTo(cards,
-          { opacity: 0, y: 50, scale: 0.93 },
-          {
-            opacity: 1, y: 0, scale: 1,
-            duration: 0.7,
-            stagger: 0.12,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: quoteGridRef.current,
-              start: 'top 80%',
-              once: true,
-            },
-          }
-        );
-      }
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  // ── 3D Card Tilt ──────────────────────────────────────────
-  const onTiltMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -8;
-    const rotateY = ((x - centerX) / centerX) * 8;
-
-    gsap.to(card, {
-      rotateX,
-      rotateY,
-      transformPerspective: 800,
-      duration: 0.3,
-      ease: 'power2.out',
-    });
-  };
-
-  const onTiltMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    gsap.to(e.currentTarget, {
-      rotateX: 0,
-      rotateY: 0,
-      duration: 0.5,
-      ease: 'elastic.out(1, 0.5)',
-    });
-  };
-
   return (
-    <section ref={sectionRef} id="about-us" className="py-16 lg:py-32 texture-bg relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+    <section id="about-us" className="relative overflow-hidden bg-brand-ivory py-20 lg:py-32">
+      <div className="absolute inset-0 texture-bg opacity-30 pointer-events-none" />
 
-        {/* ── Philosophy Section ── */}
-        <div className="grid md:grid-cols-2 gap-20 items-center">
-
-          {/* Left: Image */}
-          <div ref={imageColRef} className="relative" style={{ opacity: 0 }}>
-            <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl h-[520px] md:h-[650px] lg:h-[700px] bg-brand-blue/10">
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
+        {/* ── Philosophy ── */}
+        <div className="grid items-center gap-16 lg:grid-cols-2 lg:gap-20">
+          {/* Image */}
+          <Reveal x={-30} y={0} className="relative mx-auto w-full max-w-md lg:max-w-none">
+            <ImageReveal from="left" className="relative overflow-hidden rounded-[2.5rem] bg-brand-sand shadow-2xl shadow-brand-blue/20 aspect-[4/5]">
               <AnimatePresence mode="popLayout">
                 <motion.img
                   key={currentImgIdx}
                   src={ABOUT_IMAGES[currentImgIdx]}
                   alt={`Traditional South Indian dining at Udupi Vrindavan - ${currentImgIdx + 1}`}
                   initial={{ opacity: 0, scale: 1.06 }}
-                  animate={{ 
-                    opacity: 1, 
+                  animate={{
+                    opacity: 1,
                     scale: 1,
-                    transition: {
-                      opacity: { duration: 1.2, ease: "easeInOut" },
-                      scale: { duration: 5, ease: "linear" }
-                    }
+                    transition: { opacity: { duration: 1.2, ease: "easeInOut" }, scale: { duration: 5, ease: "linear" } }
                   }}
-                  exit={{ 
-                    opacity: 0,
-                    transition: { duration: 1.2, ease: "easeInOut" }
-                  }}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  exit={{ opacity: 0, transition: { duration: 1.2, ease: "easeInOut" } }}
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
               </AnimatePresence>
-
-              {/* Slide Indicators */}
-              <div className="absolute bottom-6 left-6 z-20 flex gap-2">
+              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-brand-ink/60 to-transparent" />
+              <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-2">
                 {ABOUT_IMAGES.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setCurrentImgIdx(i)}
-                    className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
-                      currentImgIdx === i ? 'w-8 bg-brand-gold' : 'w-2 bg-white/50 hover:bg-white/80'
-                    }`}
+                    className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${currentImgIdx === i ? 'w-8 bg-brand-gold' : 'w-2 bg-white/60 hover:bg-white'}`}
                     aria-label={`Go to slide ${i + 1}`}
                   />
                 ))}
               </div>
-            </div>
+            </ImageReveal>
 
-            {/* Floating Badge */}
-            <div className="absolute -bottom-10 -right-10 bg-brand-blue p-10 rounded-3xl shadow-2xl hidden lg:block z-20 border-4 border-brand-cream">
-              <p className="text-brand-gold font-display italic text-3xl mb-3">"ಅನ್ನದಾತಾ ಸುಖೀಭವ"</p>
-              <p className="text-brand-cream text-sm opacity-80 uppercase tracking-widest font-bold">
+            {/* Floating quote card */}
+            <div className="relative z-20 mx-4 -mt-14 rounded-3xl border border-brand-gold/30 bg-brand-blue p-6 text-center shadow-2xl sm:mx-10 sm:p-8 lg:absolute lg:-bottom-10 lg:-right-10 lg:mx-0 lg:mt-0 lg:max-w-xs lg:text-left">
+              <p className="font-display text-2xl sm:text-3xl font-bold text-brand-gold">"ಅನ್ನದಾತಾ ಸುಖೀಭವ"</p>
+              <div className="my-4 h-px w-12 bg-brand-gold/40 mx-auto lg:mx-0" />
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-cream/80 leading-relaxed">
                 May the provider of food always be happy
               </p>
             </div>
+          </Reveal>
 
-            {/* Decorative circle */}
-            <div className="absolute -top-10 -left-10 w-40 h-40 border-2 border-brand-gold/20 rounded-full -z-10" />
-          </div>
-
-          {/* Right: Philosophy Content */}
-          <div ref={contentColRef} className="relative" style={{ opacity: 0 }}>
-            <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-xs mb-4 block">
-              Our Philosophy
-            </span>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl mb-8 lg:mb-10 text-brand-blue leading-tight">
-              The Heart of <br className="hidden md:block" /><span className="italic text-brand-gold">Hospitality</span>
+          {/* Content */}
+          <Reveal x={30} y={0} delay={0.1}>
+            <span className="eyebrow">Our Philosophy</span>
+            <h2 className="mt-5 text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-brand-blue">
+              The Heart of <br className="hidden md:block" /><span className="accent text-[1.1em]">Hospitality</span>
             </h2>
 
-            <div className="space-y-6 text-brand-blue/85 text-lg leading-relaxed font-normal">
+            <div className="mt-8 space-y-6 text-base sm:text-lg leading-relaxed text-brand-blue/75">
               <p>
                 At Udupi Vrindavan, we believe that food is more than just sustenance; it is sacred. For example, we offer various portion sizes so that you only order based on how hungry you are. We only make those items that we know rather than trying to be everything to everyone. Just as you would not engage a plumber to wire your house, we do not cook North Indian or Chinese food because we can never make it as tasty as the cooks from those regions. You will easily recognise the taste!
               </p>
-              <p>
+              <p className="border-l-2 border-brand-gold/40 pl-5">
                 As owners, we eat the food at our restaurant and therefore do not adulterate it for taste. Therefore, you will not find colourings or preservatives in our restaurant. We do not reheat oil and do not freeze cooked food. We do not microwave food and where our customers don't mind the use of baking soda - we clearly declare that in our menu (check out the pink page in our menu!) so that you aren't surprised if you have a bloated stomach :) So, please visit our restaurant or order from our website. You will see our morals in action. We are a small restaurant but with ideals which we are sure, you will appreciate!!
               </p>
             </div>
-          </div>
+          </Reveal>
         </div>
 
-        {/* ── Ancient Wisdom Quote Grid ── */}
-        <section className="mt-20 lg:mt-32 px-4 max-w-7xl mx-auto">
-          {/* Top Badge */}
-          <div className="mb-16 w-full flex justify-center px-4">
-            <div
-              ref={badgeRef}
-              className="relative p-1 bg-white border-[3px] border-brand-blue/10 rounded-sm shadow-2xl max-w-lg w-full overflow-hidden"
-              style={{ opacity: 0 }}
-            >
-              <div className="absolute top-0 left-0 w-10 h-10 border-t-4 border-l-4 border-brand-blue opacity-60 rounded-tl-sm" />
-              <div className="absolute top-0 right-0 w-10 h-10 border-t-4 border-r-4 border-brand-blue opacity-60 rounded-tr-sm" />
-              <div className="absolute bottom-0 left-0 w-10 h-10 border-b-4 border-l-4 border-brand-blue opacity-60 rounded-bl-sm" />
-              <div className="absolute bottom-0 right-0 w-10 h-10 border-b-4 border-r-4 border-brand-blue opacity-60 rounded-br-sm" />
-              <div className="border border-brand-blue/10 m-1.5 p-10 flex flex-col items-center text-center">
-                <img src="/logo.png" alt="Udupi Vrindavan logo" className="w-10 h-10 object-contain mb-6 opacity-80" />
-                <p className="text-3xl sm:text-4xl md:text-6xl font-display text-brand-gold italic mb-3 lg:mb-4 tracking-tight">
+        {/* ── Ancient Wisdom ── */}
+        <div className="mt-28 lg:mt-40">
+          {/* Centerpiece */}
+          <Reveal className="mx-auto max-w-2xl">
+            <div className="relative rounded-[2rem] bg-brand-blue p-2 shadow-2xl shadow-brand-blue/25">
+              <div className="relative overflow-hidden rounded-[1.6rem] border border-brand-gold/40 px-6 py-12 text-center sm:px-12 sm:py-14">
+                <div className="absolute inset-0 pattern-dots opacity-20" />
+                <motion.img
+                  src="/logo.png"
+                  alt="Udupi Vrindavan logo"
+                  initial={{ rotate: -120, opacity: 0 }}
+                  whileInView={{ rotate: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative mx-auto mb-6 h-14 w-14 object-contain"
+                />
+                <p className="relative font-display text-4xl sm:text-5xl md:text-6xl font-bold text-brand-gold">
                   "ಅನ್ನಂ ಬ್ರಹ್ಮ"
                 </p>
-                <p className="text-sm md:text-base uppercase tracking-[0.5em] text-brand-blue/50 font-bold">
+                <p className="relative mt-5 text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-brand-cream/75">
                   Food is manifestation of the Lord
                 </p>
-                <div className="mt-6 text-brand-blue/20 text-xs">⬥ ❦ ⬥</div>
               </div>
             </div>
-          </div>
+          </Reveal>
 
-          {/* Section Header */}
-          <div ref={sectionHeaderRef} className="text-center mb-20">
-            <h2 className="text-2xl md:text-3xl text-brand-blue">
+          {/* Header */}
+          <Reveal className="mx-auto mt-20 max-w-3xl text-center">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl leading-snug text-brand-blue">
               Quality food is the{' '}
-              <span className="text-brand-gold font-display">first line of</span> defence against ill health.
+              <span className="accent text-[1.12em]">first line of</span> defence against ill health.
             </h2>
-            <div className="h-px w-24 bg-brand-gold/30 mx-auto mt-8 mb-6" />
-            <p className="text-brand-blue/70 max-w-2xl mx-auto text-lg leading-relaxed">
+            <div className="hairline mx-auto my-7 w-40" />
+            <p className="text-base sm:text-lg leading-relaxed text-brand-blue/65">
               Our ancestors knew the link between food and the mental state.
             </p>
-          </div>
+          </Reveal>
 
-          {/* Quote Cards */}
-          <div ref={quoteGridRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
+          {/* Quote cards (temple-niche shape) */}
+          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {quotes.map((quote, idx) => (
-              <div
-                key={idx}
-                className="quote-card tilt-card relative p-1 bg-white border-[3px] border-brand-blue/10 rounded-sm shadow-xl overflow-hidden cursor-default"
-                style={{ opacity: 0 }}
-                onMouseMove={onTiltMouseMove}
-                onMouseLeave={onTiltMouseLeave}
-              >
-                {/* Corner ornaments */}
-                <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-brand-blue opacity-40 rounded-tl-sm" />
-                <div className="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-brand-blue opacity-40 rounded-tr-sm" />
-                <div className="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-brand-blue opacity-40 rounded-bl-sm" />
-                <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-brand-blue opacity-40 rounded-br-sm" />
+              <Reveal key={idx} delay={(idx % 3) * 0.12} scale={0.96}>
+                <article className="group relative h-full rounded-2xl bg-white p-1.5 shadow-[0_20px_50px_-30px_rgba(15,47,74,0.45)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_30px_60px_-30px_rgba(15,47,74,0.55)]">
+                  {/* Corner ornaments */}
+                  <span className="absolute left-0 top-0 h-10 w-10 rounded-tl-2xl border-l-[3px] border-t-[3px] border-brand-gold/60 transition-all duration-500 group-hover:h-14 group-hover:w-14 group-hover:border-brand-gold" />
+                  <span className="absolute right-0 top-0 h-10 w-10 rounded-tr-2xl border-r-[3px] border-t-[3px] border-brand-gold/60 transition-all duration-500 group-hover:h-14 group-hover:w-14 group-hover:border-brand-gold" />
+                  <span className="absolute bottom-0 left-0 h-10 w-10 rounded-bl-2xl border-b-[3px] border-l-[3px] border-brand-gold/60 transition-all duration-500 group-hover:h-14 group-hover:w-14 group-hover:border-brand-gold" />
+                  <span className="absolute bottom-0 right-0 h-10 w-10 rounded-br-2xl border-b-[3px] border-r-[3px] border-brand-gold/60 transition-all duration-500 group-hover:h-14 group-hover:w-14 group-hover:border-brand-gold" />
 
-                <div className="border border-brand-blue/10 m-2 p-4 flex flex-col items-center text-center space-y-5">
-                  <img src="/logo.png" alt="Udupi Vrindavan logo" className="w-14 h-14 object-contain mb-2 opacity-90" />
-                  <h3 className="text-brand-blue/50 text-[10px] font-bold tracking-[0.4em] uppercase">
-                    UDUPI VRINDAVAN
-                  </h3>
-                  <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-brand-blue leading-tight">
-                    {quote.sanskrit}
-                  </p>
-                  <p className="text-xl font-normal text-brand-blue/90 font-display">
-                    {quote.kannada}
-                  </p>
-                  <p className="text-base font-medium text-brand-blue/80 italic">
-                    {quote.transliteration}
-                  </p>
-                  <div className="pt-6 border-t border-brand-blue/10 w-full">
-                    <p className="text-lg text-brand-blue font-normal italic">
-                      "{quote.translation}"
+                  <div className="flex h-full flex-col items-center rounded-xl border border-brand-blue/10 px-6 pb-8 pt-9 text-center">
+                    <img src="/logo.png" alt="Udupi Vrindavan logo" className="h-14 w-14 object-contain transition-transform duration-700 group-hover:rotate-45" />
+                    <h3 className="mt-4 text-[10px] font-semibold tracking-[0.4em] uppercase text-brand-blue/45">
+                      UDUPI VRINDAVAN
+                    </h3>
+                    <p className="mt-6 text-2xl md:text-[1.7rem] font-bold leading-tight text-brand-blue">
+                      {quote.sanskrit}
                     </p>
+                    <p className="mt-3 text-lg text-brand-blue/85">
+                      {quote.kannada}
+                    </p>
+                    <p className="mt-3 font-accent text-lg italic text-brand-bronze">
+                      {quote.transliteration}
+                    </p>
+                    <div className="mt-auto w-full pt-6">
+                      <div className="hairline mb-5" />
+                      <p className="text-base leading-relaxed text-brand-blue">
+                        "{quote.translation}"
+                      </p>
+                    </div>
                   </div>
-                  <div className="pt-4 flex items-center gap-3 text-brand-blue/30">
-                    <div className="h-px w-6 bg-brand-blue/20" />
-                    <span className="text-sm">⬥</span>
-                    <div className="h-px w-6 bg-brand-blue/20" />
-                  </div>
-                </div>
-              </div>
+                </article>
+              </Reveal>
             ))}
           </div>
-        </section>
+        </div>
       </div>
     </section>
   );

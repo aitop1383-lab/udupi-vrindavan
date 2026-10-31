@@ -1,206 +1,110 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Reveal, { ImageReveal } from '../components/ui/Reveal';
 
-gsap.registerPlugin(ScrollTrigger);
-
-/**
- * Heritage Component
- * Highlights the cultural roots and culinary traditions of Udupi.
- * Features: Reversed grid on mobile, floating animated badges, parallax background shapes.
- * GSAP: Stagger reveals for text items, scroll-triggered parallax on background shape.
- */
 const HERITAGE_IMAGES = [
   "/heritage/1.jpg",
   "/heritage/2.jpg",
   "/heritage/3.jpg"
 ];
 
+const HERITAGE_POINTS = [
+  "Udupi cuisine is a celebrated vegetarian culinary tradition from the coastal region of Karnataka. Known for its balanced flavors and wholesome ingredients, it reflects generations of culinary heritage.",
+  "Our meals are prepared using fresh grains, lentils, vegetables, and traditional spices that highlight the authentic taste of South Indian cooking.",
+  "From comforting Sambar and crispy Dosas to nourishing rice dishes and traditional sweets, every meal represents the rich heritage and hospitality of Udupi cuisine.",
+];
+
 const Heritage = () => {
   const [currentIdx, setCurrentIdx] = useState(0);
-
-  const sectionRef = useRef<HTMLElement>(null);
-  const textColRef = useRef<HTMLDivElement>(null);
-  const imageColRef = useRef<HTMLDivElement>(null);
-  const skewBgRef = useRef<HTMLDivElement>(null);
-  const textItemsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIdx((prev) => (prev + 1) % HERITAGE_IMAGES.length);
     }, 6000);
-
     return () => clearInterval(timer);
   }, []);
 
-  // ── GSAP ScrollTrigger Animations ─────────────────────────
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Text column — slide from left
-      gsap.fromTo(textColRef.current,
-        { opacity: 0, x: -70 },
-        {
-          opacity: 1, x: 0,
-          duration: 1.0,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: textColRef.current,
-            start: 'top 80%',
-            once: true,
-          },
-        }
-      );
-
-      // Text items — stagger
-      if (textItemsRef.current) {
-        const items = textItemsRef.current.querySelectorAll('.heritage-item');
-        gsap.fromTo(items,
-          { opacity: 0, x: -30 },
-          {
-            opacity: 1, x: 0,
-            duration: 0.6,
-            stagger: 0.2,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: textItemsRef.current,
-              start: 'top 75%',
-              once: true,
-            },
-          }
-        );
-      }
-
-      // Image column — scale in from right
-      gsap.fromTo(imageColRef.current,
-        { opacity: 0, x: 70, scale: 0.95 },
-        {
-          opacity: 1, x: 0, scale: 1,
-          duration: 1.0,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: imageColRef.current,
-            start: 'top 80%',
-            once: true,
-          },
-        }
-      );
-
-      // Background skew shape — animation removed (static)
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section ref={sectionRef} id="heritage" className="py-16 lg:py-32 bg-brand-blue text-brand-cream relative overflow-hidden">
-      
-      {/* Decorative Background: Skewed white overlay */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-white/5 -skew-x-12 translate-x-1/2" />
+    <section id="heritage" className="relative overflow-hidden bg-brand-blue py-20 text-brand-cream lg:py-32">
+      <div className="absolute inset-0 pattern-dots opacity-15 pointer-events-none" />
+      <div className="absolute -right-40 -top-40 h-[32rem] w-[32rem] rounded-full bg-brand-gold/10 blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid md:grid-cols-2 gap-20 items-center">
-          
-          {/* --- Text Content Column --- */}
-          <div
-            ref={textColRef}
-            className="order-2 md:order-1"
-            style={{ opacity: 0 }}
-          >
-            <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-xs mb-4 block">
-              Our Roots
-            </span>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl mb-8 lg:mb-10 text-brand-gold leading-tight">
-              The Heritage <br className="hidden md:block" />of <span className="italic text-brand-cream">Udupi</span>
+      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-6">
+        <div className="grid items-center gap-16 lg:grid-cols-2 lg:gap-24">
+          {/* Text */}
+          <Reveal x={-30} y={0} className="order-2 lg:order-1">
+            <span className="eyebrow eyebrow-light">Our Roots</span>
+            <h2 className="mt-5 text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-brand-gold">
+              The Heritage <br className="hidden md:block" />of <span className="accent text-[1.12em] text-brand-cream">Udupi</span>
             </h2>
-            
-            <div ref={textItemsRef} className="space-y-8 opacity-90 text-lg leading-relaxed">
-              <div className="flex gap-4 heritage-item">
-                <span className="text-brand-gold/60 text-base font-bold mt-1">01</span>
-                <p>
-                  Udupi cuisine is a celebrated vegetarian culinary tradition from the coastal region of Karnataka. Known for its balanced flavors and wholesome ingredients, it reflects generations of culinary heritage.
-                </p>
-              </div>
 
-              <div className="flex gap-4 heritage-item">
-                <span className="text-brand-gold/60 text-base font-bold mt-1">02</span>
-                <p>
-                  Our meals are prepared using fresh grains, lentils, vegetables, and traditional spices that highlight the authentic taste of South Indian cooking.
-                </p>
-              </div>
+            <ol className="mt-12 space-y-0">
+              {HERITAGE_POINTS.map((text, i) => (
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: '-60px 0px' }}
+                  transition={{ duration: 0.8, delay: 0.15 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                  className="group grid grid-cols-[3.5rem_1fr] gap-4 border-t border-white/10 py-7 last:border-b"
+                >
+                  <span className="font-accent text-3xl italic font-semibold text-brand-gold/80 transition-colors group-hover:text-brand-gold">
+                    0{i + 1}
+                  </span>
+                  <p className="text-base sm:text-lg leading-relaxed text-brand-cream/80 transition-colors group-hover:text-brand-cream">{text}</p>
+                </motion.li>
+              ))}
+            </ol>
+          </Reveal>
 
-              <div className="flex gap-4 heritage-item">
-                <span className="text-brand-gold/60 text-base font-bold mt-1">03</span>
-                <p>
-                  From comforting Sambar and crispy Dosas to nourishing rice dishes and traditional sweets, every meal represents the rich heritage and hospitality of Udupi cuisine.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* --- Image & Floating Badge Column --- */}
-          <div
-            ref={imageColRef}
-            className="order-1 md:order-2 relative"
-            style={{ opacity: 0 }}
-          >
-            {/* Main Image Container */}
-            <div className="rounded-[3rem] overflow-hidden shadow-2xl border-2 border-brand-gold/20 aspect-square relative bg-brand-blue/20">
+          {/* Image */}
+          <Reveal x={30} y={0} delay={0.1} className="order-1 lg:order-2 relative mx-auto w-full max-w-md lg:max-w-none">
+            <div className="absolute -inset-3 sm:-inset-5 rounded-[3rem] border border-brand-gold/25" />
+            <ImageReveal from="right" className="relative aspect-square overflow-hidden rounded-[2.5rem] bg-brand-ink shadow-2xl">
               <AnimatePresence mode="popLayout">
                 <motion.img
                   key={currentIdx}
                   src={HERITAGE_IMAGES[currentIdx]}
                   alt="Traditional Udupi Heritage"
                   initial={{ opacity: 0, scale: 1.0 }}
-                  animate={{ 
-                    opacity: 1, 
-                    scale: 1.12,
-                    transition: {
-                      opacity: { duration: 1.2, ease: "easeInOut" },
-                      scale: { duration: 6, ease: "linear" }
-                    }
+                  animate={{
+                    opacity: 1,
+                    scale: 1.1,
+                    transition: { opacity: { duration: 1.2, ease: "easeInOut" }, scale: { duration: 6, ease: "linear" } }
                   }}
-                  exit={{ 
-                    opacity: 0,
-                    transition: { duration: 1.2, ease: "easeInOut" }
-                  }}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  exit={{ opacity: 0, transition: { duration: 1.2, ease: "easeInOut" } }}
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
               </AnimatePresence>
-
-              {/* Slide Indicators */}
+              <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-brand-ink/70 to-transparent" />
               <div className="absolute bottom-6 left-6 z-20 flex gap-2">
                 {HERITAGE_IMAGES.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setCurrentIdx(i)}
-                    className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
-                      currentIdx === i ? 'w-8 bg-brand-gold' : 'w-2 bg-white/40 hover:bg-white/70'
-                    }`}
+                    className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${currentIdx === i ? 'w-8 bg-brand-gold' : 'w-2 bg-white/50 hover:bg-white/80'}`}
                     aria-label={`Go to heritage slide ${i + 1}`}
                   />
                 ))}
               </div>
-            </div>
+            </ImageReveal>
 
-            {/* Floating Guarantee Badge */}
+            {/* Guarantee badge */}
             <motion.div
-              animate={{ y: [0, 20, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-10 -right-10 w-32 h-32 bg-brand-gold rounded-full flex items-center justify-center shadow-2xl z-20 p-2 pointer-events-none"
+              initial={{ scale: 0, rotate: -45 }}
+              whileInView={{ scale: 1, rotate: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: 'spring', stiffness: 150, damping: 13, delay: 0.6 }}
+              className="absolute -right-2 -top-6 sm:-right-8 sm:-top-8 z-20 flex h-28 w-28 sm:h-36 sm:w-36 items-center justify-center rounded-full bg-brand-gold text-brand-blue shadow-2xl shadow-black/30 pointer-events-none"
             >
-              <div className="text-brand-blue text-center leading-tight">
-                <span className="block text-2xl font-bold">100%</span>
-                <span className="block text-[10px] font-black uppercase tracking-tighter">
-                  Money Back
-                </span>
-                <span className="block text-[8px] uppercase font-bold tracking-[0.2em] mt-1 opacity-80">
-                  Guarantee
-                </span>
+              <div className="absolute inset-1.5 rounded-full border border-dashed border-brand-blue/30 animate-spin-slow" />
+              <div className="text-center leading-tight">
+                <span className="block font-display text-2xl sm:text-3xl font-bold">100%</span>
+                <span className="block text-[10px] sm:text-[11px] font-bold uppercase tracking-tight">Money Back</span>
+                <span className="mt-1 block text-[8px] uppercase font-semibold tracking-[0.2em] opacity-80">Guarantee</span>
               </div>
             </motion.div>
-          </div>
-
+          </Reveal>
         </div>
       </div>
     </section>

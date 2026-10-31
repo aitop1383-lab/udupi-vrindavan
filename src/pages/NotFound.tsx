@@ -6,7 +6,7 @@ import Seo from '../components/Seo';
 
 const NotFound = () => {
   return (
-    <div className="bg-brand-cream min-h-screen pt-28 pb-20 flex items-center justify-center relative overflow-hidden texture-bg">
+    <div className="bg-brand-cream flex-1 min-h-[calc(100vh-200px)] pt-32 pb-20 flex items-center justify-center relative overflow-hidden texture-bg">
       <Seo
         title="404 — Page Not Found | Udupi Vrindavan"
         description="The page you are looking for does not exist on Udupi Vrindavan. Explore our authentic South Indian vegetarian menu, visit guide, or contact details."
@@ -25,8 +25,8 @@ const NotFound = () => {
           className="bg-white p-8 md:p-14 rounded-[3rem] shadow-2xl border border-brand-gold/20"
         >
           {/* Logo & 404 Header */}
-          <div className="w-20 h-20 bg-brand-blue/5 rounded-full flex items-center justify-center mx-auto mb-6">
-            <img src="/logo.png" alt="Udupi Vrindavan Logo" className="w-12 h-12 object-contain" />
+          <div className="w-20 h-20 flex items-center justify-center mx-auto mb-6">
+            <img src="/logo.png" alt="Udupi Vrindavan Logo" className="w-20 h-20 object-contain" />
           </div>
 
           <span className="text-brand-gold font-bold tracking-[0.4em] uppercase text-xs mb-2 block">

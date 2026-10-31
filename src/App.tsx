@@ -6,11 +6,8 @@
 import React, { Suspense, lazy, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { MotionConfig } from 'framer-motion';
 import { useLocation, BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-
-gsap.registerPlugin(ScrollTrigger);
 
 // 🏡 Standard imports (Instant rendering)
 import Home from './pages/Home';
@@ -37,33 +34,21 @@ const CRMForm = lazy(() => import('./components/CRMForm'));
 const ReachUs = lazy(() => import('./pages/ReachUs'));
 const Footer = lazy(() => import('./components/Footer'));
 
-// 🌀 Premium Loading Screen
+// Loading screen
 const PageLoader = () => (
-  <div className="h-screen w-screen bg-brand-cream flex flex-col items-center justify-center relative overflow-hidden z-[100]">
-    {/* Decorative background blur shapes */}
-    <div className="absolute top-1/4 left-1/4 w-64 md:w-96 h-64 md:h-96 bg-brand-gold/10 rounded-full blur-3xl animate-pulse" />
-    <div className="absolute bottom-1/4 right-1/4 w-64 md:w-96 h-64 md:h-96 bg-brand-blue/5 rounded-full blur-3xl animate-pulse" />
-    
-    <div className="relative flex flex-col items-center gap-8 z-10">
-      {/* Shimmering Logo container with gold spinner ring */}
+  <div className="fixed inset-0 bg-brand-cream flex flex-col items-center justify-center overflow-hidden z-[100]">
+    <div className="absolute inset-0 pattern-dots opacity-40" />
+    <div className="relative flex flex-col items-center gap-7 z-10">
       <div className="relative w-28 h-28 flex items-center justify-center">
-        {/* Outer Rotating Dotted Border */}
-        <div className="absolute inset-0 border-[3px] border-dashed border-brand-gold/40 rounded-full animate-spin-slow" />
-        {/* Inner Solid Spinning Accent */}
-        <div className="absolute inset-1 border-t-2 border-b-2 border-brand-blue rounded-full animate-spin" style={{ animationDuration: '1.5s' }} />
-        
-        {/* Logo Image in the center */}
-        <div className="w-20 h-20 bg-white rounded-full p-2.5 shadow-lg flex items-center justify-center">
-          <img src="/logo.png" alt="Udupi Vrindavan Logo" className="w-full h-full object-contain animate-pulse" />
-        </div>
+        <div className="absolute inset-0 border border-dashed border-brand-gold/60 rounded-full animate-spin-slow" />
+        <div className="absolute inset-2 border-t-2 border-brand-blue rounded-full animate-spin" style={{ animationDuration: '1.4s' }} />
+        <img src="/logo.png" alt="Udupi Vrindavan Logo" className="w-20 h-20 object-contain" />
       </div>
-      
-      {/* Elegant Text */}
       <div className="text-center">
-        <h2 className="font-serif text-2xl text-brand-blue font-bold tracking-wider mb-2">
+        <h2 className="text-2xl text-brand-blue mb-2">
           Udupi Vrindavan
         </h2>
-        <p className="text-xs uppercase tracking-[0.3em] text-brand-gold font-bold shimmer-text">
+        <p className="text-[11px] uppercase tracking-[0.3em] font-semibold shimmer-text">
           Loading Sacred Flavors
         </p>
       </div>
@@ -118,7 +103,7 @@ const ScrollHandler = () => {
 const MainLanding = () => (
   <main>
     <Home />
-    <Suspense fallback={<div className="h-64 flex items-center justify-center text-brand-blue/50">Loading section...</div>}>
+    <Suspense fallback={<div className="h-64 flex items-center justify-center text-sm tracking-widest uppercase text-brand-blue/40">Loading section...</div>}>
       <AboutUs />
       <Heritage />
       <Process />
@@ -138,21 +123,22 @@ const ExternalRedirect = ({ url }: { url: string }) => {
   }, [url]);
 
   return (
-    <div className="h-screen w-screen bg-brand-cream flex flex-col items-center justify-center gap-4">
-      <div className="w-12 h-12 border-4 border-brand-gold border-t-brand-blue rounded-full animate-spin" />
-      <p className="text-brand-blue font-bold text-sm tracking-wider uppercase">Redirecting to Online Ordering...</p>
+    <div className="fixed inset-0 bg-brand-cream flex flex-col items-center justify-center gap-4 z-[100]">
+      <div className="w-12 h-12 border-4 border-brand-gold/40 border-t-brand-blue rounded-full animate-spin" />
+      <p className="text-brand-blue font-semibold text-sm tracking-[0.2em] uppercase">Redirecting to Online Ordering...</p>
     </div>
   );
 };
 
 export default function App() {
   return (
+    <MotionConfig reducedMotion="user">
     <Router>
       <ScrollHandler />
-      <div className="min-h-screen selection:bg-brand-gold selection:text-brand-blue flex flex-col justify-between">
-        <div>
-          <Navbar />
-          <ScrollToTop />
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <ScrollToTop />
+        <div className="flex-1 flex flex-col">
           <Routes>
             <Route path="/" element={<MainLanding />} />
             
@@ -190,5 +176,6 @@ export default function App() {
         </Suspense>
       </div>
     </Router>
+    </MotionConfig>
   );
 }

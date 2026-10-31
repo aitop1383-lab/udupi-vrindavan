@@ -12,7 +12,7 @@ interface AdminLoginProps {
 
 export const AdminLogin: React.FC<AdminLoginProps> = ({ passkey, setPasskey, handleLogin, error }) => {
   return (
-    <div className="min-h-screen bg-brand-cream flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
+    <div className="flex-1 min-h-[calc(100vh-88px)] bg-brand-cream flex items-center justify-center p-4 sm:p-6 pt-28 pb-16 relative overflow-hidden">
       <motion.div 
         animate={{ scale: [1, 1.2, 1], x: [0, 50, 0], y: [0, 30, 0] }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}

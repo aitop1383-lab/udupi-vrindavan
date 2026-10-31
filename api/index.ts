@@ -410,9 +410,49 @@ const BOOKING_REDIRECT_ROUTES = new Set([
   '/table-booking'
 ]);
 
+// Helper to find production built dist/index.html in Vercel or local environment
+function getProductionHtml(): string | null {
+  const possiblePaths = [
+    path.join(process.cwd(), 'dist', 'index.html'),
+    path.join(__dirname, '..', 'dist', 'index.html'),
+    path.join(__dirname, 'dist', 'index.html')
+  ];
+
+  for (const p of possiblePaths) {
+    try {
+      if (fs.existsSync(p)) {
+        return fs.readFileSync(p, 'utf8');
+      }
+    } catch {
+      // Continue checking next path
+    }
+  }
+  return null;
+}
+
 export default async function handler(req: ApiRequest, res: ApiResponse) {
-  const urlPath = req.url || '/';
-  const cleanPath = urlPath.split('?')[0].replace(/\/$/, '') || '/';
+  // Always set Vary header for content negotiation
+  res.setHeader('Vary', 'Accept, Accept-Encoding');
+
+  // Robust path resolution from rewrite query, headers, or URL
+  let rawPath = '/';
+  try {
+    const parsedUrl = new URL(req.url || '/', 'https://udupivrindavan.com');
+    const routeQuery = parsedUrl.searchParams.get('route');
+    rawPath = routeQuery || (req.headers['x-matched-path'] as string) || (req.headers['x-forwarded-uri'] as string) || parsedUrl.pathname || '/';
+  } catch {
+    rawPath = req.url || '/';
+  }
+
+  // Clean path (strip trailing slashes and query strings)
+  let cleanPath = rawPath.split('?')[0].replace(/\/$/, '') || '/';
+  if (!cleanPath.startsWith('/')) {
+    cleanPath = `/${cleanPath}`;
+  }
+  if (cleanPath === '/api/index' || cleanPath === '/api' || cleanPath.startsWith('/api/')) {
+    cleanPath = '/';
+  }
+
   const acceptHeader = req.headers['accept'] || '';
 
   // Redirect /booking requests to official online ordering portal
@@ -422,10 +462,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     return res.send('Redirecting to https://order.udupivrindavan.com...');
   }
 
-  // Always set Vary header for content negotiation
-  res.setHeader('Vary', 'Accept, Accept-Encoding');
-
-  // Check for Markdown content negotiation
+  // Check for Markdown content negotiation (LLMs / Agents)
   if (typeof acceptHeader === 'string' && acceptHeader.includes('text/markdown')) {
     if (!isDynamicValidRoute(cleanPath)) {
       res.status(404);
@@ -438,14 +475,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     return res.send(getMarkdownForRoute(cleanPath));
   }
 
-  // If the path is not a valid route, return real 404 status
-  if (!isDynamicValidRoute(cleanPath)) {
-    res.status(404);
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    return res.send(get404Html());
-  }
-
-  // Resolve page-specific metadata for SEO crawlers and previews
+  // Resolve page-specific metadata for SEO crawlers and social share cards
   let meta: RouteMeta | null = STATIC_ROUTE_METADATA[cleanPath] || null;
   if (!meta && cleanPath.startsWith('/blog/')) {
     const slug = cleanPath.slice('/blog/'.length);
@@ -454,32 +484,35 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     }
   }
 
-  // For valid routes, serve index.html with 200 OK and injected route metadata
-  try {
-    const indexPath = path.join(process.cwd(), 'dist', 'index.html');
-    if (fs.existsSync(indexPath)) {
-      let html = fs.readFileSync(indexPath, 'utf8');
-      if (meta) {
-        html = injectMetadata(html, meta);
-      }
-      res.status(200);
-      res.setHeader('Content-Type', 'text/html; charset=utf-8');
-      return res.send(html);
-    }
-  } catch (err) {
-    // Fallback to local index.html if dist not found
-  }
+  // Retrieve production built index.html
+  let html = getProductionHtml();
 
-  try {
-    const fallbackPath = path.join(process.cwd(), 'index.html');
-    let html = fs.readFileSync(fallbackPath, 'utf8');
+  // If dist/index.html is found, serve with injected metadata & edge caching
+  if (html) {
     if (meta) {
       html = injectMetadata(html, meta);
     }
+
+    const isValid = isDynamicValidRoute(cleanPath);
+    res.status(isValid ? 200 : 404);
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=86400, stale-while-revalidate=86400');
+    return res.send(html);
+  }
+
+  // Fallback to local source index.html during development
+  try {
+    const fallbackPath = path.join(process.cwd(), 'index.html');
+    let fallbackHtml = fs.readFileSync(fallbackPath, 'utf8');
+    if (meta) {
+      fallbackHtml = injectMetadata(fallbackHtml, meta);
+    }
     res.status(200);
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    return res.send(html);
+    return res.send(fallbackHtml);
   } catch (err) {
-    res.status(200).send('<!doctype html><html><body><div id="root"></div></body></html>');
+    res.status(200);
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return res.send('<!doctype html><html><body><div id="root"></div></body></html>');
   }
 }

@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/index.ts": {
+      "includeFiles": "dist/**"
+    }
+  },
   "redirects": [
     {
       "source": "/(booking|bookings|book|reservation|reservations|table-booking)",
@@ -8,8 +13,8 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!assets|categories|Thumbnail|videos|VisitUdupi_Gallery|favicon.ico|robots.txt|sitemap.xml|llms.txt|llms-full.txt|Menu.pdf|.*\\..*).*)",
-      "destination": "/api/index"
+      "source": "/((?!assets|categories|Thumbnail|videos|VisitUdupi_Gallery|aboutUs|heritage|process|favicon.ico|robots.txt|sitemap.xml|llms.txt|llms-full.txt|Menu.pdf|.*\\..*).*)",
+      "destination": "/api/index?route=$1"
     }
   ]
 }

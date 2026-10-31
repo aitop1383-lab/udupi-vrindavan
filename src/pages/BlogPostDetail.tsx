@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { BlogPost } from '../types/blog';
-import { Calendar, Clock, ArrowLeft, Share2, Heart, BookOpen, ChevronRight, LinkIcon } from 'lucide-react';
+import { Calendar, Clock, ArrowLeft, Share2, Heart, BookOpen, ChevronRight, LinkIcon, PartyPopper } from 'lucide-react';
 import { blogApi } from '../services/blogApi';
 import Seo from '../components/Seo';
 import DOMPurify from 'dompurify';
@@ -214,7 +214,7 @@ const BlogPostDetail = () => {
           {/* Right Column: Sidebar Skeleton */}
           <div className="hidden lg:block space-y-6">
             {/* Author Mini-Card Skeleton */}
-            <div className="bg-white rounded-3xl border border-brand-blue/8 shadow-sm overflow-hidden p-5 space-y-4">
+            <div className="bg-white rounded-[1.75rem] border border-brand-blue/8 shadow-[0_20px_45px_-32px_rgba(15,47,74,0.45)] overflow-hidden p-5 space-y-4">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-xl bg-brand-gold/15 shimmer-gold" />
                 <div className="space-y-1.5 flex-1">
@@ -229,7 +229,7 @@ const BlogPostDetail = () => {
             </div>
 
             {/* Action Card Skeleton */}
-            <div className="bg-white rounded-3xl border border-brand-blue/8 shadow-sm p-5 space-y-3">
+            <div className="bg-white rounded-[1.75rem] border border-brand-blue/8 shadow-[0_20px_45px_-32px_rgba(15,47,74,0.45)] p-5 space-y-3">
               <div className="h-3 w-16 rounded shimmer mb-4" />
               {[1, 2, 3].map(i => (
                 <div key={i} className="h-10 rounded-2xl shimmer" />
@@ -303,7 +303,7 @@ const BlogPostDetail = () => {
 
       {/* ── Gold reading progress bar ── */}
       <div
-        className="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-brand-gold to-amber-400 z-[100] transition-all duration-100"
+        className="fixed top-[72px] left-0 h-[3px] bg-gradient-to-r from-brand-gold to-brand-gold-light z-40 transition-all duration-100"
         style={{ width: `${readProgress}%` }}
       />
 
@@ -327,7 +327,7 @@ const BlogPostDetail = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-brand-blue via-transparent to-brand-blue/60" />
 
         {/* Back link — top left */}
-        <div className="absolute top-0 left-0 right-0 pt-24 px-6 lg:px-16 z-20">
+        <div className="absolute top-0 left-0 right-0 pt-28 px-5 sm:px-6 lg:px-16 z-20">
           <Link
             to="/blog"
             className="inline-flex items-center gap-2.5 text-white/70 hover:text-brand-gold transition-all duration-300 group"
@@ -357,7 +357,7 @@ const BlogPostDetail = () => {
 
           {/* Title */}
           <h1
-            className="text-3xl sm:text-4xl lg:text-5xl xl:text-[3rem] font-display text-white leading-[1.12] tracking-tight mb-7 max-w-xl"
+            className="text-3xl sm:text-4xl lg:text-5xl xl:text-[3.25rem] font-display text-white leading-[1.1] tracking-tight mb-7 max-w-xl"
             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.title) }}
           />
 
@@ -408,9 +408,9 @@ const BlogPostDetail = () => {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="mb-10 pl-6 border-l-4 border-brand-gold"
+              className="mb-12 rounded-r-3xl border-l-4 border-brand-gold bg-white/60 py-5 pl-7 pr-6"
             >
-              <p className="text-lg md:text-xl text-brand-blue/65 italic font-serif leading-[1.85]">
+              <p className="font-accent text-xl md:text-2xl text-brand-blue/75 italic leading-relaxed">
                 {stripHtml(post.excerpt)}
               </p>
             </motion.div>
@@ -429,9 +429,9 @@ const BlogPostDetail = () => {
                 prose-strong:text-brand-blue prose-strong:font-bold
                 prose-em:text-brand-blue/60 prose-em:not-italic prose-em:font-medium
                 prose-blockquote:border-l-[5px] prose-blockquote:border-brand-gold prose-blockquote:pl-7 prose-blockquote:py-1 prose-blockquote:bg-brand-gold/[0.04] prose-blockquote:rounded-r-3xl prose-blockquote:not-italic prose-blockquote:my-10 prose-blockquote:pr-6
-                prose-blockquote:text-brand-blue/70 prose-blockquote:text-lg prose-blockquote:font-serif prose-blockquote:italic prose-blockquote:leading-relaxed
-                prose-img:w-full prose-img:rounded-3xl prose-img:shadow-[0_24px_64px_rgba(15,47,74,0.13)] prose-img:my-14 prose-img:object-cover
-                prose-a:text-brand-gold prose-a:no-underline hover:prose-a:underline prose-a:font-semibold
+                prose-blockquote:text-brand-blue/75 prose-blockquote:text-xl prose-blockquote:font-accent prose-blockquote:italic prose-blockquote:leading-relaxed
+                prose-img:w-full prose-img:rounded-[2rem] prose-img:shadow-[0_24px_64px_rgba(15,47,74,0.13)] prose-img:my-14 prose-img:object-cover
+                prose-a:text-brand-bronze prose-a:no-underline hover:prose-a:underline prose-a:font-semibold
                 prose-ul:space-y-2.5 prose-ol:space-y-2.5 prose-ul:pl-5 prose-ol:pl-5
                 prose-li:text-brand-blue/70 prose-li:leading-[1.9]
                 prose-hr:border-brand-blue/8 prose-hr:my-14
@@ -450,7 +450,7 @@ const BlogPostDetail = () => {
               {['Authentic', 'Karnataka', 'Vegetarian', 'Heritage', post.category].filter((v, i, a) => a.indexOf(v) === i).map(tag => (
                 <span
                   key={tag}
-                  className="px-4 py-1.5 rounded-full bg-white border border-brand-blue/8 text-[10px] font-bold text-brand-blue/50 uppercase tracking-widest hover:border-brand-gold/40 hover:text-brand-gold transition-all cursor-default"
+                  className="px-4 py-1.5 rounded-full bg-white border border-brand-blue/8 text-[10px] font-bold text-brand-blue/50 uppercase tracking-widest hover:border-brand-gold hover:bg-brand-gold hover:text-brand-blue transition-all cursor-default"
                 >
                   #{tag}
                 </span>
@@ -505,7 +505,7 @@ const BlogPostDetail = () => {
             <div className="sticky top-24 space-y-5">
 
               {/* Author mini-card */}
-              <div className="bg-white rounded-3xl border border-brand-blue/8 shadow-sm overflow-hidden">
+              <div className="bg-white rounded-[1.75rem] border border-brand-blue/8 shadow-[0_20px_45px_-32px_rgba(15,47,74,0.45)] overflow-hidden">
                 <div className="h-16 bg-gradient-to-r from-brand-blue to-brand-blue/80 relative">
                   <div className="absolute -bottom-6 left-5">
                     <div className="w-12 h-12 rounded-xl bg-brand-gold/20 border-2 border-white flex items-center justify-center text-brand-gold text-xl font-display font-black shadow-md">
@@ -528,7 +528,7 @@ const BlogPostDetail = () => {
               </div>
 
               {/* Quick actions */}
-              <div className="bg-white rounded-3xl border border-brand-blue/8 shadow-sm p-5 space-y-2">
+              <div className="bg-white rounded-[1.75rem] border border-brand-blue/8 shadow-[0_20px_45px_-32px_rgba(15,47,74,0.45)] p-5 space-y-2">
                 <p className="text-[10px] font-bold text-brand-blue/35 uppercase tracking-[0.2em] mb-3">Actions</p>
                 <button
                   onClick={handleShare}
@@ -557,7 +557,7 @@ const BlogPostDetail = () => {
 
               {/* Related — sidebar quick links */}
               {relatedPosts.length > 0 && (
-                <div className="bg-white rounded-3xl border border-brand-blue/8 shadow-sm p-5">
+                <div className="bg-white rounded-[1.75rem] border border-brand-blue/8 shadow-[0_20px_45px_-32px_rgba(15,47,74,0.45)] p-5">
                   <p className="text-[10px] font-bold text-brand-blue/35 uppercase tracking-[0.2em] mb-4">
                     More in {post.category}
                   </p>
@@ -598,7 +598,7 @@ const BlogPostDetail = () => {
                   />
                 </div>
                 <p className="text-brand-gold font-black text-2xl">{Math.round(readProgress)}%</p>
-                <p className="text-brand-cream/40 text-[10px] mt-1">{readProgress < 100 ? 'Keep reading…' : '🎉 Article complete!'}</p>
+                <p className="text-brand-cream/50 text-[10px] mt-1 inline-flex items-center gap-1.5">{readProgress < 100 ? 'Keep reading…' : <><PartyPopper size={12} className="text-brand-gold" /> Article complete!</>}</p>
               </div>
             </div>
           </aside>
@@ -617,9 +617,9 @@ const BlogPostDetail = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
               <div>
-                <span className="text-brand-gold font-bold tracking-[0.4em] uppercase text-[10px] block mb-4">Continue Reading</span>
+                <span className="eyebrow eyebrow-light mb-4">Continue Reading</span>
                 <h2 className="text-4xl md:text-5xl font-display text-white leading-tight">
-                  More <span className="text-brand-gold">{post.category}</span> Stories
+                  More <span className="accent text-[1.12em]">{post.category}</span> Stories
                 </h2>
               </div>
               <Link
@@ -682,9 +682,7 @@ const BlogPostDetail = () => {
             {/* Footer bar */}
             <div className="mt-20 pt-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full border border-brand-gold/30 flex items-center justify-center">
-                  <span className="text-brand-gold font-display text-lg leading-none font-bold">V</span>
-                </div>
+                <img src="/logo.png" alt="Udupi Vrindavan logo" className="w-11 h-11 object-contain" />
                 <div>
                   <span className="block text-[10px] font-bold uppercase tracking-widest text-brand-cream/30">Udupi Vrindavan</span>
                   <span className="text-sm font-semibold text-brand-cream/60">Al Karama, Dubai</span>
@@ -692,7 +690,7 @@ const BlogPostDetail = () => {
               </div>
               <Link
                 to="/blog"
-                className="px-8 py-3.5 bg-brand-gold text-brand-blue font-bold text-xs uppercase tracking-[0.25em] rounded-full hover:bg-white transition-colors duration-300 shadow-lg"
+                className="pulse-ring px-8 py-3.5 bg-brand-gold text-brand-blue font-bold text-xs uppercase tracking-[0.25em] rounded-full hover:bg-white hover:scale-105 transition-all duration-300"
               >
                 Browse All Stories
               </Link>

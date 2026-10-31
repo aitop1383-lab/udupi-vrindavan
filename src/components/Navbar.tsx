@@ -1,14 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, ArrowUpRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
-/**
- * Navbar Component
- * - Groups Brand History/Story pages under a clean dropdown.
- * - Active state checks both pathname AND hash.
- * - Animated mobile drawer and accordion submenu with AnimatePresence.
- */
+type NavItem =
+  | { name: string; href: string; dropdown?: undefined }
+  | { name: string; href?: undefined; dropdown: { name: string; href: string }[] };
+
+const groupedLinks: NavItem[] = [
+  { name: "Home", href: "/" },
+  {
+    name: "Our Story",
+    dropdown: [
+      { name: "About Us", href: "/#about-us" },
+      { name: "Heritage", href: "/#heritage" },
+      { name: "Signature Menu", href: "/#menu" },
+      { name: "Our Commitment", href: "/#our-commitment" },
+      { name: "Testimonials", href: "/#testimonials" }
+    ]
+  },
+  { name: "Visit Udupi", href: "/visit-udupi" },
+  { name: "Blog", href: "/blog" },
+  { name: "Contact Us", href: "/#contact-us" },
+];
+
+const ORDER_LINK = "https://order.udupivrindavan.com";
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,160 +34,113 @@ const Navbar = () => {
   const location = useLocation();
 
   const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => setIsScrolled(window.scrollY > 40);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navbarBg = isScrolled || location.pathname !== '/'
-    ? 'bg-brand-blue py-4 shadow-xl border-b border-brand-gold/20'
-    : 'bg-transparent py-6';
+  useEffect(() => {
+    setIsMenuOpen(false);
+    setActiveDropdown(null);
+  }, [location.pathname, location.hash]);
 
-  const textColor = isScrolled || location.pathname !== '/'
-    ? 'text-brand-cream'
-    : 'text-brand-blue';
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isMenuOpen]);
 
-  const dropdownTextHover = isScrolled || location.pathname !== '/'
-    ? 'hover:bg-white/5 hover:text-brand-gold'
-    : 'hover:bg-brand-blue/5 hover:text-brand-blue';
-
-  const dropdownBg = isScrolled || location.pathname !== '/'
-    ? 'bg-brand-blue border-white/10'
-    : 'bg-white border-brand-blue/10';
-
-  const subtextColor = isScrolled || location.pathname !== '/'
-    ? 'text-brand-cream'
-    : 'text-brand-blue';
-
-  // Group the navigation links for a cleaner look
-  const groupedLinks = [
-    { name: "Home", href: "/" },
-    {
-      name: "Our Story",
-      dropdown: [
-        { name: "About Us", href: "/#about-us" },
-        { name: "Heritage", href: "/#heritage" },
-        { name: "Signature Menu", href: "/#menu" },
-        { name: "Our Commitment", href: "/#our-commitment" },
-        { name: "Testimonials", href: "/#testimonials" }
-      ]
-    },
-    { name: "Visit Udupi", href: "/visit-udupi" },
-    { name: "Blog", href: "/blog" },
-
-    { name: "Contact Us", href: "/#contact-us" },
-    { name: "Order Online", href: "https://order.udupivrindavan.com" }
-  ];
+  const solid = isScrolled || isMenuOpen || location.pathname !== '/';
 
   const isActive = (href: string): boolean => {
     const [path, hash] = href.split('#');
     const targetPath = path || '/';
-
-    if (hash) {
-      return location.pathname === targetPath && location.hash === `#${hash}`;
-    }
-
-    if (href === '/') {
-      return location.pathname === '/' && !location.hash;
-    }
-
+    if (hash) return location.pathname === targetPath && location.hash === `#${hash}`;
+    if (href === '/') return location.pathname === '/' && !location.hash;
     return location.pathname === href;
   };
 
-  const isDropdownActive = (dropdown: { href: string }[]): boolean => {
-    return dropdown.some(item => isActive(item.href));
-  };
+  const isDropdownActive = (dropdown: { href: string }[]) => dropdown.some(item => isActive(item.href));
 
-  const isRouterLink = (href: string): boolean =>
-    href.startsWith('/') && !href.startsWith('http');
+  const linkTone = solid ? 'text-brand-cream/85 hover:text-brand-gold' : 'text-brand-blue/80 hover:text-brand-blue';
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${navbarBg}`}>
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-
+    <>
+    <nav
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+        solid
+          ? 'bg-brand-blue/95 backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(0,0,0,0.5)] border-b border-brand-gold/15'
+          : 'bg-transparent'
+      }`}
+    >
+      <div className={`mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-6 transition-all duration-500 ${solid ? 'h-[72px]' : 'h-[88px]'}`}>
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden">
-            <img src="/logo.png" alt="Udupi Vrindavan Logo" className="w-full h-full object-contain" />
-          </div>
-          <span className={`font-bold text-xl md:text-2xl tracking-tight transition-colors ${textColor}`}>
+        <Link to="/" className="flex items-center gap-3 group" aria-label="Udupi Vrindavan home">
+          <img
+            src="/logo.png"
+            alt="Udupi Vrindavan Logo"
+            className="h-12 w-12 object-contain transition-transform duration-700 ease-out group-hover:rotate-[60deg]"
+          />
+          <span className={`font-display text-lg sm:text-xl font-bold tracking-tight transition-colors ${solid ? 'text-brand-cream' : 'text-brand-blue'}`}>
             Udupi Vrindavan
           </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-1">
           {groupedLinks.map((link) => {
-            // "Order Online" renders as a special CTA button
-            if (link.name === 'Order Online') {
-              return (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-brand-gold text-brand-blue px-6 py-2 rounded-full text-sm font-bold hover:bg-white hover:text-brand-blue transition-all shadow-lg hover:scale-105"
-                >
-                  Order Now
-                </a>
-              );
-            }
-
-            // Group Dropdown Render
             if (link.dropdown) {
               const active = isDropdownActive(link.dropdown);
-              const btnClass = `relative text-sm font-medium tracking-wide transition-colors hover:text-brand-gold flex items-center gap-1 cursor-pointer py-1.5 ${textColor}`;
-
+              const open = activeDropdown === link.name;
               return (
                 <div
                   key={link.name}
-                  className="relative group/menu py-1.5"
+                  className="relative"
                   onMouseEnter={() => setActiveDropdown(link.name)}
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  <button className={btnClass}>
+                  <button
+                    className={`relative flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors cursor-pointer ${linkTone} ${active ? (solid ? 'text-brand-gold' : 'text-brand-blue') : ''}`}
+                    aria-expanded={open}
+                    onClick={() => setActiveDropdown(open ? null : link.name)}
+                  >
                     {link.name}
-                    <ChevronDown size={13} className={`transition-transform duration-300 ${activeDropdown === link.name ? 'rotate-180' : ''}`} />
-                    {active && (
-                      <motion.span
-                        layoutId="nav-indicator"
-                        className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-brand-gold rounded-full"
-                      />
-                    )}
+                    <ChevronDown size={14} className={`transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+                    {active && <motion.span layoutId="nav-indicator" className="absolute inset-x-4 -bottom-0.5 h-px bg-brand-gold" />}
                   </button>
 
                   <AnimatePresence>
-                    {activeDropdown === link.name && (
+                    {open && (
                       <motion.div
-                        initial={{ opacity: 0, y: 8, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                        transition={{ duration: 0.18, ease: "easeOut" }}
-                        className={`absolute top-full left-1/2 -translate-x-1/2 mt-1.5 w-44 border rounded-2xl p-2 shadow-2xl flex flex-col gap-1 z-50 backdrop-blur-md ${dropdownBg}`}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 8 }}
+                        transition={{ duration: 0.18, ease: 'easeOut' }}
+                        className="absolute left-1/2 top-full z-50 w-60 -translate-x-1/2 pt-3"
                       >
-                        {link.dropdown.map(subLink => {
-                          const subActive = isActive(subLink.href);
-                          return (
-                            <Link
-                              key={subLink.name}
-                              to={subLink.href}
-                              onClick={() => setActiveDropdown(null)}
-                              className={`px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all ${subActive
-                                ? 'bg-brand-gold text-brand-blue shadow-sm'
-                                : `${subtextColor} ${dropdownTextHover}`
+                        <div className="overflow-hidden rounded-2xl border border-brand-blue/10 bg-brand-ivory p-2 shadow-2xl shadow-brand-blue/20">
+                          {link.dropdown.map((subLink, i) => {
+                            const subActive = isActive(subLink.href);
+                            return (
+                              <Link
+                                key={subLink.name}
+                                to={subLink.href}
+                                onClick={() => setActiveDropdown(null)}
+                                className={`flex items-center justify-between rounded-xl px-4 py-3 text-sm transition-colors ${
+                                  subActive ? 'bg-brand-blue text-brand-cream' : 'text-brand-blue hover:bg-brand-sand/60'
                                 }`}
-                            >
-                              {subLink.name}
-                            </Link>
-                          );
-                        })}
+                              >
+                                <span className="font-medium">{subLink.name}</span>
+                                <span className={`text-[10px] font-semibold tracking-widest ${subActive ? 'text-brand-gold' : 'text-brand-blue/30'}`}>
+                                  0{i + 1}
+                                </span>
+                              </Link>
+                            );
+                          })}
+                        </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -179,138 +149,128 @@ const Navbar = () => {
             }
 
             const active = isActive(link.href);
-            const linkClass = `relative text-sm font-medium tracking-wide transition-colors hover:text-brand-gold py-1.5 ${textColor}`;
-
-            return isRouterLink(link.href) ? (
-              <Link key={link.name} to={link.href} className={linkClass}>
+            return (
+              <Link
+                key={link.name}
+                to={link.href}
+                className={`relative rounded-full px-4 py-2 text-sm font-medium transition-colors ${linkTone} ${active ? (solid ? 'text-brand-gold' : 'text-brand-blue') : ''}`}
+              >
                 {link.name}
-                {active && (
-                  <motion.span
-                    layoutId="nav-indicator"
-                    className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-brand-gold rounded-full"
-                  />
-                )}
+                {active && <motion.span layoutId="nav-indicator" className="absolute inset-x-4 -bottom-0.5 h-px bg-brand-gold" />}
               </Link>
-            ) : (
-              <a key={link.name} href={link.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                {link.name}
-              </a>
             );
           })}
+
+          <a
+            href={ORDER_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pulse-ring ml-4 inline-flex items-center gap-2 rounded-full bg-brand-gold px-6 py-2.5 text-sm font-bold text-brand-blue transition-all hover:scale-105 hover:bg-white"
+          >
+            Order Now
+            <ArrowUpRight size={16} />
+          </a>
         </div>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden text-brand-gold cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        <button
+          aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          className={`lg:hidden flex h-11 w-11 items-center justify-center rounded-full border transition-colors cursor-pointer ${
+            solid ? 'border-brand-gold/40 text-brand-gold' : 'border-brand-blue/15 bg-white/70 text-brand-blue'
+          }`}
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
+      {/* Scroll Progress Bar */}
+      <motion.div className="absolute bottom-0 left-0 right-0 h-[2px] bg-brand-gold origin-left" style={{ scaleX }} />
+    </nav>
       {/* Mobile Drawer */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
             key="mobile-menu"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="md:hidden overflow-hidden bg-brand-blue border-t border-white/10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="lg:hidden fixed inset-x-0 bottom-0 z-40 overflow-y-auto bg-brand-blue border-t border-white/10"
+            style={{ top: solid ? 72 : 88 }}
           >
-            <div className="flex flex-col gap-1 px-6 py-5">
-              {groupedLinks.map((link) => {
-                if (link.name === 'Order Online') {
+            <div className="absolute inset-0 pattern-dots opacity-20 pointer-events-none" />
+            <div className="relative flex min-h-full flex-col px-6 pb-10 pt-6">
+              <div className="flex flex-col">
+                {groupedLinks.map((link, i) => {
+                  if (link.dropdown) {
+                    const active = isDropdownActive(link.dropdown);
+                    return (
+                      <motion.div key={link.name} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.04 * i }} className="border-b border-white/10">
+                        <button
+                          onClick={() => setMobileStoryOpen(!mobileStoryOpen)}
+                          className={`flex w-full items-center justify-between py-4 text-left font-display text-2xl font-bold cursor-pointer ${active ? 'text-brand-gold' : 'text-brand-cream'}`}
+                        >
+                          <span>{link.name}</span>
+                          <ChevronDown size={20} className={`transition-transform duration-300 ${mobileStoryOpen ? 'rotate-180 text-brand-gold' : 'text-brand-cream/50'}`} />
+                        </button>
+                        <AnimatePresence>
+                          {mobileStoryOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="mb-4 flex flex-col gap-1 border-l border-brand-gold/40 pl-4">
+                                {link.dropdown.map(subLink => (
+                                  <Link
+                                    key={subLink.name}
+                                    to={subLink.href}
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className={`py-2 text-base transition-colors ${isActive(subLink.href) ? 'text-brand-gold font-semibold' : 'text-brand-cream/75 hover:text-brand-gold'}`}
+                                  >
+                                    {subLink.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
+                    );
+                  }
+                  const active = isActive(link.href);
                   return (
-                    <a
-                      key={link.name}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-brand-gold text-lg font-bold py-2"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Order Now
-                    </a>
-                  );
-                }
-
-                // Mobile accordion grouping
-                if (link.dropdown) {
-                  const active = isDropdownActive(link.dropdown);
-                  return (
-                    <div key={link.name} className="flex flex-col">
-                      <button
-                        onClick={() => setMobileStoryOpen(!mobileStoryOpen)}
-                        className={`text-lg font-medium py-2 border-b border-white/5 flex items-center justify-between cursor-pointer w-full text-left ${active ? 'text-brand-gold' : 'text-brand-cream'
-                          }`}
+                    <motion.div key={link.name} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.04 * i }} className="border-b border-white/10">
+                      <Link
+                        to={link.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className={`block py-4 font-display text-2xl font-bold transition-colors ${active ? 'text-brand-gold' : 'text-brand-cream hover:text-brand-gold'}`}
                       >
-                        <span>{link.name}</span>
-                        <ChevronDown size={18} className={`transition-transform duration-300 ${mobileStoryOpen ? 'rotate-180 text-brand-gold' : 'text-brand-cream/50'}`} />
-                      </button>
-                      <AnimatePresence>
-                        {mobileStoryOpen && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            className="overflow-hidden flex flex-col pl-4 bg-brand-blue/30 rounded-xl mt-1.5 border border-white/5"
-                          >
-                            {link.dropdown.map(subLink => {
-                              const subActive = isActive(subLink.href);
-                              return (
-                                <Link
-                                  key={subLink.name}
-                                  to={subLink.href}
-                                  onClick={() => setIsMenuOpen(false)}
-                                  className={`text-base font-medium py-2.5 border-b border-white/5 last:border-0 transition-colors ${subActive ? 'text-brand-gold font-bold' : 'text-brand-cream/80 hover:text-brand-gold'
-                                    }`}
-                                >
-                                  {subLink.name}
-                                </Link>
-                              );
-                            })}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
+                        {link.name}
+                      </Link>
+                    </motion.div>
                   );
-                }
+                })}
+              </div>
 
-                const active = isActive(link.href);
-                const mobileClass = `text-lg font-medium py-2 border-b border-white/5 transition-colors ${active ? 'text-brand-gold font-bold' : 'text-brand-cream'
-                  }`;
-
-                return isRouterLink(link.href) ? (
-                  <Link
-                    key={link.name}
-                    to={link.href}
-                    className={mobileClass}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
-                ) : (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={mobileClass}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {link.name}
-                  </a>
-                );
-              })}
+              <a
+                href={ORDER_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMenuOpen(false)}
+                className="pulse-ring mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-brand-gold px-6 py-4 text-base font-bold text-brand-blue"
+              >
+                Order Now
+                <ArrowUpRight size={18} />
+              </a>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-      {/* Scroll Progress Bar */}
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-gold origin-left z-50"
-        style={{ scaleX }}
-      />
-    </nav>
+
+    </>
   );
 };
 

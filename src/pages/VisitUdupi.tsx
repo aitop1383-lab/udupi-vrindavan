@@ -1,16 +1,51 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Map, Plane, Train, Car, Compass, Images, Star, Utensils, X, ChevronRight } from "lucide-react";
+import { Map, Plane, Train, Car, Compass, Images, Landmark, Waves, Utensils, X, ChevronLeft, ChevronRight, ArrowUpRight, Lightbulb } from "lucide-react";
 import Seo from "../components/Seo";
+import Reveal, { ImageReveal } from "../components/ui/Reveal";
 import { breadcrumbSchema } from "../data/seoSchemas";
-import { 
-  UDUPI_FEATURES, 
-  TRAVEL_MODES, 
-  MUST_VISIT_PLACES, 
+import {
+  UDUPI_FEATURES,
+  TRAVEL_MODES,
+  MUST_VISIT_PLACES,
   CULTURE_GALLERY,
   UDUPI_GEOGRAPHY,
   CUISINE_HIGHLIGHTS
 } from "../data/siteConfig";
+
+const FEATURE_ICONS = [Landmark, Waves, Utensils];
+
+const itineraries = {
+  day1: {
+    title: "1-Day Spiritual Pilgrimage",
+    tagline: "Focus on sacred temples and traditional Satvik dining",
+    steps: [
+      { time: "06:00 AM", activity: "Temple Darshan", detail: "Start early to witness the divine morning arati and view the deity through the historic Kanakana Kindi." },
+      { time: "08:30 AM", activity: "Traditional Breakfast", detail: "Relish legendary Ghee Podi Idlis and piping hot Filter Kaapi at the local eateries near the Car Street." },
+      { time: "12:00 PM", activity: "Satvik Lunch at Bhojana Shala", detail: "Experience the ultimate community feast served on banana leaves inside the temple premises." },
+      { time: "04:30 PM", activity: "Sunset at Malpe Beach", detail: "Relax on the silver sands of Malpe Beach and capture the stunning coastal sunset." }
+    ]
+  },
+  day2: {
+    title: "2-Day Nature & Coastline Explorer",
+    tagline: "Discover unique basaltic islands, backwaters, and lighthouses",
+    steps: [
+      { time: "Day 1 - 09:00 AM", activity: "St. Mary's Island Ferry", detail: "Take a boat from Malpe to explore the geological marvel of hexagonal basaltic lava rock formations." },
+      { time: "Day 1 - 05:00 PM", activity: "Kapu Beach Lighthouse", detail: "Climb the historic 1901 lighthouse for a panoramic view of the Arabian Sea at sunset." },
+      { time: "Day 2 - 07:30 AM", activity: "Kemmannu Backwater Kayaking", detail: "Paddle through the serene mangrove-lined backwater canals and cross the hanging bridge." },
+      { time: "Day 2 - 04:00 PM", activity: "Delta Beach Hangout", detail: "Walk where the Suvarna river meets the sea, enjoying fresh coconut water and peace." }
+    ]
+  },
+  day3: {
+    title: "3-Day Ultimate Culinary & Heritage",
+    tagline: "A comprehensive immersion into cuisine, monuments, and spiritual roots",
+    steps: [
+      { time: "Day 1", activity: "Mitra Samaj & Pajaka Heritage", detail: "Enjoy authentic breakfast at Mitra Samaj, then visit Pajaka Kshetra, the birthplace of saint Sri Madhvacharya." },
+      { time: "Day 2", activity: "Island Excursion & Neer Dosa Dinner", detail: "Spend the day at St. Mary's Island, and end it with a soft, lacy Neer Dosa dinner in town." },
+      { time: "Day 3", activity: "Karkala & Moodabidri Monuments", detail: "Drive inland to see the Gommateshwara monolith in Karkala and the stunning 1000-pillar temple in Moodabidri." }
+    ]
+  }
+};
 
 const VisitUdupi = () => {
   const [isPlannerOpen, setIsPlannerOpen] = useState(false);
@@ -19,52 +54,27 @@ const VisitUdupi = () => {
 
   useEffect(() => {
     if (activeImageIndex === null) return;
-    
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setActiveImageIndex(null);
-      } else if (e.key === "ArrowRight") {
-        setActiveImageIndex((prev) => (prev !== null ? (prev + 1) % CULTURE_GALLERY.length : null));
-      } else if (e.key === "ArrowLeft") {
-        setActiveImageIndex((prev) => (prev !== null ? (prev - 1 + CULTURE_GALLERY.length) % CULTURE_GALLERY.length : null));
-      }
+      if (e.key === "Escape") setActiveImageIndex(null);
+      else if (e.key === "ArrowRight") setActiveImageIndex((p) => (p !== null ? (p + 1) % CULTURE_GALLERY.length : null));
+      else if (e.key === "ArrowLeft") setActiveImageIndex((p) => (p !== null ? (p - 1 + CULTURE_GALLERY.length) % CULTURE_GALLERY.length : null));
     };
-
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeImageIndex]);
 
-  const itineraries = {
-    day1: {
-      title: "1-Day Spiritual Pilgrimage",
-      tagline: "Focus on sacred temples and traditional Satvik dining",
-      steps: [
-        { time: "06:00 AM", activity: "Temple Darshan", detail: "Start early to witness the divine morning arati and view the deity through the historic Kanakana Kindi." },
-        { time: "08:30 AM", activity: "Traditional Breakfast", detail: "Relish legendary Ghee Podi Idlis and piping hot Filter Kaapi at the local eateries near the Car Street." },
-        { time: "12:00 PM", activity: "Satvik Lunch at Bhojana Shala", detail: "Experience the ultimate community feast served on banana leaves inside the temple premises." },
-        { time: "04:30 PM", activity: "Sunset at Malpe Beach", detail: "Relax on the silver sands of Malpe Beach and capture the stunning coastal sunset." }
-      ]
-    },
-    day2: {
-      title: "2-Day Nature & Coastline Explorer",
-      tagline: "Discover unique basaltic islands, backwaters, and lighthouses",
-      steps: [
-        { time: "Day 1 - 09:00 AM", activity: "St. Mary's Island Ferry", detail: "Take a boat from Malpe to explore the geological marvel of hexagonal basaltic lava rock formations." },
-        { time: "Day 1 - 05:00 PM", activity: "Kapu Beach Lighthouse", detail: "Climb the historic 1901 lighthouse for a panoramic view of the Arabian Sea at sunset." },
-        { time: "Day 2 - 07:30 AM", activity: "Kemmannu Backwater Kayaking", detail: "Paddle through the serene mangrove-lined backwater canals and cross the hanging bridge." },
-        { time: "Day 2 - 04:00 PM", activity: "Delta Beach Hangout", detail: "Walk where the Suvarna river meets the sea, enjoying fresh coconut water and peace." }
-      ]
-    },
-    day3: {
-      title: "3-Day Ultimate Culinary & Heritage",
-      tagline: "A comprehensive immersion into cuisine, monuments, and spiritual roots",
-      steps: [
-        { time: "Day 1", activity: "Mitra Samaj & Pajaka Heritage", detail: "Enjoy authentic breakfast at Mitra Samaj, then visit Pajaka Kshetra, the birthplace of saint Sri Madhvacharya." },
-        { time: "Day 2", activity: "Island Excursion & Neer Dosa Dinner", detail: "Spend the day at St. Mary's Island, and end it with a soft, lacy Neer Dosa dinner in town." },
-        { time: "Day 3", activity: "Karkala & Moodabidri Monuments", detail: "Drive inland to see the Gommateshwara monolith in Karkala and the stunning 1000-pillar temple in Moodabidri." }
-      ]
-    }
-  };
+  useEffect(() => {
+    if (!isPlannerOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsPlannerOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isPlannerOpen]);
+
+  useEffect(() => {
+    const locked = isPlannerOpen || activeImageIndex !== null;
+    document.body.style.overflow = locked ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isPlannerOpen, activeImageIndex]);
 
   const visitBreadcrumbSchema = breadcrumbSchema([
     { name: 'Home', path: '/' },
@@ -72,7 +82,7 @@ const VisitUdupi = () => {
   ]);
 
   return (
-    <div className="bg-[#fdfcf7] min-h-screen pt-16 md:pt-20 overflow-x-hidden font-sans selection:bg-brand-gold/30 texture-bg">
+    <div className="min-h-screen overflow-x-hidden bg-brand-ivory font-sans">
       <Seo
         title="Visit Udupi | Udupi food, South Indian heritage and Karnataka cuisine"
         description="Explore Udupi's temple heritage, coastal beauty, and vegetarian cuisine, then visit Udupi Vrindavan in Al Karama, Dubai for authentic South Indian food."
@@ -81,288 +91,285 @@ const VisitUdupi = () => {
         type="website"
         jsonLd={visitBreadcrumbSchema}
       />
-      
-      {/* --- HERO: Cinematic Entrance --- */}
-      <section className="relative h-[80vh] md:h-[95vh] flex items-center justify-center overflow-hidden">
-        <motion.div 
-          initial={{ scale: 1.2 }} 
-          animate={{ scale: 1 }} 
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="absolute inset-0"
-        >
-          <img 
-            src="/VisitUdupi_Gallery/udupi.webp" 
-            className="w-full h-full object-cover" 
+
+      {/* HERO */}
+      <section className="relative flex h-[88svh] min-h-[560px] items-end overflow-hidden md:h-screen">
+        <motion.div initial={{ scale: 1.15 }} animate={{ scale: 1 }} transition={{ duration: 1.6, ease: "easeOut" }} className="absolute inset-0">
+          <img
+            src="/VisitUdupi_Gallery/udupi.webp"
+            className="h-full w-full object-cover"
             alt="Scenic Udupi coastline and temple town views"
             fetchPriority="high"
             loading="eager"
             width="1920"
             height="1080"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-brand-blue/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-ink/60 via-brand-ink/20 to-brand-ink/85" />
         </motion.div>
 
-        <div className="relative z-10 text-center px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-          >
-            <span className="text-brand-gold tracking-[0.4em] md:tracking-[0.8em] uppercase font-bold text-[10px] md:text-xs mb-4 md:mb-6 block">
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-6 pb-16 md:pb-24 text-center">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }}>
+            <span className="eyebrow eyebrow-light justify-center tracking-[0.5em]">
               Escape to the Coast
             </span>
-            {/* Optimized for mobile font size */}
-            <h1 className="text-6xl md:text-[120px] lg:text-[160px] text-white font-display drop-shadow-2xl leading-none">
-              UDUPI
+            <h1 className="mt-6 flex justify-center overflow-hidden font-display text-[5.5rem] leading-none tracking-[0.04em] text-white drop-shadow-2xl sm:text-[8rem] md:text-[11rem] lg:text-[13rem]" aria-label="UDUPI">
+              {"UDUPI".split("").map((ch, i) => (
+                <motion.span
+                  key={i}
+                  aria-hidden="true"
+                  initial={{ y: '110%' }}
+                  animate={{ y: '0%' }}
+                  transition={{ duration: 1, delay: 0.5 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  className="inline-block"
+                >
+                  {ch}
+                </motion.span>
+              ))}
             </h1>
-            <div className="h-1 md:h-1.5 w-24 md:w-40 bg-brand-gold mx-auto mt-6 md:mt-8 rounded-full shadow-lg" />
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
+              className="mx-auto mt-6 h-1 w-24 origin-center rounded-full bg-brand-gold md:w-36"
+            />
           </motion.div>
         </div>
       </section>
 
-      {/* --- WHY VISIT: Elegant Cards --- */}
-      <section className="py-16 md:py-32">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 lg:gap-16">
-            {UDUPI_FEATURES.map((feature, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.2 }}
-                className="group text-center md:text-left"
-              >
-                <div className="w-12 h-12 bg-brand-gold/10 rounded-2xl flex items-center justify-center text-brand-gold mb-6 md:mb-8 mx-auto md:mx-0 group-hover:bg-brand-gold group-hover:text-brand-blue transition-all duration-500">
-                  <Star size={24} />
-                </div>
-                <h4 className="text-2xl md:text-3xl font-display text-brand-blue mb-4 md:mb-6">{feature.title}</h4>
-                <p className="text-brand-blue/60 leading-relaxed text-base md:text-lg">{feature.desc}</p>
-              </motion.div>
-            ))}
+      {/* WHY VISIT */}
+      <section className="relative -mt-10 md:-mt-16 z-10 pb-20 md:pb-28">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid gap-5 md:grid-cols-3">
+            {UDUPI_FEATURES.map((feature, i) => {
+              const Icon = FEATURE_ICONS[i] ?? Landmark;
+              return (
+                <Reveal key={i} delay={i * 0.1}>
+                  <article className="group h-full rounded-[1.75rem] bg-white p-8 md:p-10 shadow-[0_30px_60px_-35px_rgba(15,47,74,0.45)] ring-1 ring-brand-blue/5 transition-all duration-500 hover:-translate-y-1.5 hover:ring-brand-gold/40">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-gold/15 text-brand-bronze transition-colors duration-500 group-hover:bg-brand-gold group-hover:text-brand-blue">
+                      <Icon size={22} />
+                    </span>
+                    <h4 className="mt-7 text-2xl md:text-[1.7rem] text-brand-blue">{feature.title}</h4>
+                    <p className="mt-4 text-base leading-relaxed text-brand-blue/65">{feature.desc}</p>
+                  </article>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* --- GEOGRAPHY: Overlapping Editorial Layout --- */}
-      <section className="py-16 md:py-24 bg-brand-blue/5 relative">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-center">
-            <motion.div 
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="text-center lg:text-left order-2 lg:order-1"
-            >
-              <h2 className="text-4xl md:text-6xl text-brand-blue font-display mb-6 md:mb-10 leading-tight">
-                Between the <br/><span className="italic text-brand-gold">Ghats & The Sea</span>
+      {/* GEOGRAPHY */}
+      <section className="relative bg-brand-sand/40 py-20 md:py-28">
+        <div className="absolute inset-0 texture-bg opacity-40 pointer-events-none" />
+        <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid items-center gap-16 lg:grid-cols-2 lg:gap-24">
+            <Reveal x={-30} y={0} className="order-2 text-center lg:order-1 lg:text-left">
+              <h2 className="text-4xl md:text-6xl leading-[1.05] text-brand-blue">
+                Between the <br /><span className="accent text-[1.12em]">Ghats &amp; The Sea</span>
               </h2>
-              <p className="text-brand-blue/80 text-lg md:text-xl leading-relaxed mb-8 md:mb-10 font-light italic">
+              <p className="mt-8 font-accent text-xl md:text-2xl italic leading-relaxed text-brand-blue/80">
                 {UDUPI_GEOGRAPHY.desc}
               </p>
-              
-              <a 
-                href={UDUPI_GEOGRAPHY.mapLink} 
-                target="_blank" 
+              <a
+                href={UDUPI_GEOGRAPHY.mapLink}
+                target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-4 md:gap-6 p-4 md:p-6 bg-brand-blue rounded-[1.5rem] md:rounded-[2rem] text-white shadow-2xl hover:bg-brand-gold hover:text-brand-blue transition-all group"
+                className="group mt-10 inline-flex items-center gap-5 rounded-[1.5rem] bg-brand-blue p-4 pr-7 text-left text-white shadow-2xl shadow-brand-blue/25 transition-all hover:-translate-y-0.5 hover:bg-brand-gold hover:text-brand-blue"
               >
-                <div className="bg-white/10 p-3 md:p-4 rounded-xl md:rounded-2xl group-hover:bg-brand-blue/20">
-                  <Map size={24} className="md:w-8 md:h-8" />
-                </div>
-                <div className="text-left">
-                  <h4 className="font-bold text-lg md:text-xl uppercase tracking-tighter">View on Map</h4>
-                  <span className="text-[10px] md:text-xs opacity-60">Explore Karnataka Coast</span>
-                </div>
+                <span className="rounded-xl bg-white/10 p-3 group-hover:bg-brand-blue/15">
+                  <Map size={26} />
+                </span>
+                <span>
+                  <span className="block font-display text-lg font-bold uppercase tracking-tight">View on Map</span>
+                  <span className="text-xs opacity-65">Explore Karnataka Coast</span>
+                </span>
+                <ArrowUpRight size={18} className="ml-2 opacity-70" />
               </a>
-            </motion.div>
+            </Reveal>
 
-            {/* Editorial Image Stack - Adjusted for Mobile */}
-            <div className="relative h-[400px] md:h-[600px] w-full order-1 lg:order-2">
-              <motion.div 
-                whileHover={{ scale: 1.02 }}
-                className="absolute top-0 right-0 w-[85%] h-[85%] rounded-[2rem] md:rounded-[4rem] overflow-hidden shadow-2xl z-10 border-4 md:border-8 border-white"
-              >
-                <img src="/VisitUdupi_Gallery/templewater.jpeg" className="w-full h-full object-cover" alt="Temple tank reflecting the heritage of Udupi" loading="lazy" />
-              </motion.div>
-              <motion.div 
-                whileHover={{ scale: 1.05, rotate: -2 }}
-                className="absolute bottom-0 left-0 w-[55%] h-[55%] rounded-[1.5rem] md:rounded-[3rem] overflow-hidden shadow-2xl z-20 border-4 md:border-8 border-[#fdfcf7]"
-              >
-                <img src="/VisitUdupi_Gallery/top-view-ocen.jpeg" className="w-full h-full object-cover" alt="Ocean view over the Arabian Sea near Udupi" loading="lazy" />
-              </motion.div>
-            </div>
+            <Reveal x={30} y={0} delay={0.1} className="relative order-1 h-[380px] w-full sm:h-[480px] md:h-[580px] lg:order-2">
+              <ImageReveal className="absolute right-0 top-0 z-10 h-[85%] w-[78%] overflow-hidden rounded-[3rem] border-[6px] border-white shadow-2xl">
+                <img src="/VisitUdupi_Gallery/templewater.jpeg" className="h-full w-full object-cover transition-transform duration-1000 hover:scale-105" alt="Temple tank reflecting the heritage of Udupi" loading="lazy" />
+              </ImageReveal>
+              <ImageReveal from="left" delay={0.35} className="absolute bottom-0 left-0 z-20 h-[52%] w-[52%] overflow-hidden rounded-[2rem] border-[6px] border-brand-ivory shadow-2xl">
+                <img src="/VisitUdupi_Gallery/top-view-ocen.jpeg" className="h-full w-full object-cover transition-transform duration-1000 hover:scale-105" alt="Ocean view over the Arabian Sea near Udupi" loading="lazy" />
+              </ImageReveal>
+              <div className="absolute -left-4 top-10 h-24 w-24 rounded-full border border-brand-gold/50" />
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* --- TRAVEL: Premium Glassmorphism --- */}
-      <section className="py-20 md:py-32 bg-brand-blue text-white relative">
-        <div className="absolute inset-0 opacity-10 overflow-hidden">
-          <div className="absolute top-0 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-brand-gold rounded-full blur-[80px] md:blur-[120px]" />
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-display text-brand-gold italic mb-12 md:mb-20">The Journey Inward</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      {/* TRAVEL */}
+      <section className="relative overflow-hidden bg-brand-blue py-20 text-white md:py-28">
+        <div className="absolute inset-0 pattern-dots opacity-15 pointer-events-none" />
+        <div className="absolute -right-32 -top-32 h-[28rem] w-[28rem] rounded-full bg-brand-gold/15 blur-3xl pointer-events-none" />
+        <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-6">
+          <Reveal className="mb-14 text-center md:mb-16">
+            <h2 className="accent text-5xl md:text-6xl">The Journey Inward</h2>
+          </Reveal>
+          <div className="grid gap-5 md:grid-cols-3">
             {TRAVEL_MODES.map((mode, i) => (
-              <motion.div 
-                key={i}
-                whileHover={{ y: -10 }}
-                className="p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] bg-white/5 border border-white/10 backdrop-blur-xl text-left hover:border-brand-gold/50 transition-all duration-500"
-              >
-                <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-brand-gold text-brand-blue flex items-center justify-center mb-6 md:mb-8 shadow-xl">
-                  {mode.type === "Air" ? <Plane size={28} /> : mode.type === "Train" ? <Train size={28} /> : <Car size={28} />}
-                </div>
-                <h4 className="text-xl md:text-2xl font-bold mb-3 md:mb-4">{mode.title}</h4>
-                <p className="text-white/60 leading-relaxed italic text-sm md:text-base">{mode.desc}</p>
-              </motion.div>
+              <Reveal key={i} delay={i * 0.1}>
+                <article className="group relative h-full overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-8 md:p-10 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1.5 hover:border-brand-gold/50">
+                  <span className="absolute right-6 top-6 font-display text-5xl font-bold text-white/[0.06]">0{i + 1}</span>
+                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-gold text-brand-blue shadow-xl">
+                    {mode.type === "Air" ? <Plane size={26} /> : mode.type === "Train" ? <Train size={26} /> : <Car size={26} />}
+                  </span>
+                  <h4 className="mt-7 text-2xl">{mode.title}</h4>
+                  <p className="mt-3 text-sm md:text-base leading-relaxed text-white/65">{mode.desc}</p>
+                </article>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* --- PLACES: Floating Image Cards --- */}
+      {/* PLACES */}
       <section className="py-20 md:py-32">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl md:text-6xl text-center text-brand-blue font-display mb-12 md:mb-24">Must Visit <br className="md:hidden" /> <span className="italic text-brand-gold">Destinations</span></h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <Reveal>
+            <h2 className="mb-14 text-center text-4xl md:mb-20 md:text-6xl leading-[1.05] text-brand-blue">
+              Must Visit <br className="md:hidden" /> <span className="accent text-[1.12em]">Destinations</span>
+            </h2>
+          </Reveal>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
             {MUST_VISIT_PLACES.map((place, i) => (
-              <motion.div 
-                key={i} 
-                whileHover={{ y: -15 }}
-                className="rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-2xl bg-white group border border-brand-blue/5"
-              >
-                <div className="h-64 md:h-80 overflow-hidden relative">
-                  <img src={place.img} className="w-full h-full object-cover group-hover:scale-110 transition duration-1000" alt={`${place.title} - Scenic destination in Udupi, Karnataka`} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-blue/40 to-transparent" />
-                </div>
-                <div className="p-8 md:p-10 text-center">
-                  <h3 className="text-xl md:text-2xl font-bold text-brand-blue mb-3 md:mb-4 tracking-tighter">{place.title}</h3>
-                  <p className="text-brand-blue/60 leading-relaxed text-sm">{place.desc}</p>
-                </div>
-              </motion.div>
+              <Reveal key={i} delay={i * 0.1}>
+                <article className="group h-full overflow-hidden rounded-[2.5rem] bg-white shadow-[0_30px_60px_-35px_rgba(15,47,74,0.5)] ring-1 ring-brand-blue/5">
+                  <div className="relative h-72 overflow-hidden md:h-80">
+                    <img src={place.img} className="h-full w-full object-cover transition duration-1000 group-hover:scale-110" alt={`${place.title} - Scenic destination in Udupi, Karnataka`} loading="lazy" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/40 to-transparent" />
+                  </div>
+                  <div className="p-8 text-center md:p-9">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-brand-bronze">0{i + 1}</span>
+                    <h3 className="mt-2 text-2xl text-brand-blue">{place.title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-brand-blue/65">{place.desc}</p>
+                  </div>
+                </article>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* --- MASONRY GALLERY --- */}
-      <section className="py-20 md:py-32 bg-[#f8f7f0]">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 mb-12 md:mb-24">
-            <h2 className="text-4xl md:text-6xl text-brand-blue font-display shrink-0">Culture & <span className="italic text-brand-gold">Heritage</span></h2>
-            <div className="hidden md:block h-px w-full bg-brand-gold/30" />
-            <Images className="text-brand-gold opacity-50 shrink-0 hidden md:block" size={40} />
-          </div>
+      {/* GALLERY */}
+      <section className="bg-brand-cream py-20 md:py-32">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <Reveal className="mb-12 flex flex-col items-center gap-6 md:mb-16 md:flex-row md:gap-10">
+            <h2 className="shrink-0 text-4xl md:text-6xl text-brand-blue">Culture &amp; <span className="accent text-[1.12em]">Heritage</span></h2>
+            <div className="hidden h-px w-full bg-brand-gold/40 md:block" />
+            <Images className="hidden shrink-0 text-brand-gold md:block" size={36} />
+          </Reveal>
 
-          {/* Responsive columns: 1 on mobile, 2 on tablet, 3 on desktop */}
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-10 space-y-6 md:space-y-10">
+          <div className="columns-1 gap-5 space-y-5 sm:columns-2 lg:columns-3 md:gap-6 md:space-y-6">
             {CULTURE_GALLERY.map((item, i) => (
-              <motion.div 
+              <motion.button
+                type="button"
                 key={i}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
+                initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: '-40px 0px' }}
+                transition={{ duration: 0.8, delay: (i % 3) * 0.12, ease: [0.22, 1, 0.36, 1] }}
                 onClick={() => setActiveImageIndex(i)}
-                className="relative overflow-hidden rounded-[1.5rem] md:rounded-[2.5rem] shadow-2xl group cursor-pointer"
+                className="group relative block w-full break-inside-avoid overflow-hidden rounded-[1.5rem] shadow-xl cursor-zoom-in"
+                aria-label={`Open image: ${item.label}`}
               >
-                <img src={`/VisitUdupi_Gallery/${item.src}`} className="w-full group-hover:scale-110 transition duration-1000" alt={item.label} />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6 md:p-10">
-                  <p className="text-white text-lg md:text-xl italic font-display">{item.label}</p>
+                <img src={`/VisitUdupi_Gallery/${item.src}`} className="w-full transition duration-1000 group-hover:scale-105" alt={item.label} loading="lazy" />
+                <div className="absolute inset-0 flex items-end bg-gradient-to-t from-brand-ink/80 via-transparent to-transparent p-6 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100">
+                  <p className="accent text-xl md:text-2xl text-white">{item.label}</p>
                 </div>
-              </motion.div>
+              </motion.button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* --- CUISINE GRID --- */}
-      <section className="py-20 md:py-32 bg-brand-blue text-white overflow-hidden relative">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="text-center mb-16 md:mb-24">
-            <h2 className="text-4xl md:text-6xl font-display text-brand-gold italic mb-4 md:mb-6">The Gastronomic Soul</h2>
-            <p className="text-white/50 uppercase tracking-[0.2em] md:tracking-[0.4em] text-[10px] md:text-xs">A Tradition of Taste</p>
-          </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+      {/* CUISINE */}
+      <section className="relative overflow-hidden bg-brand-blue py-20 text-white md:py-28">
+        <div className="absolute inset-0 pattern-dots opacity-15 pointer-events-none" />
+        <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-6">
+          <Reveal className="mb-14 text-center md:mb-16">
+            <h2 className="accent text-5xl md:text-6xl">The Gastronomic Soul</h2>
+            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-white/55">A Tradition of Taste</p>
+          </Reveal>
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 md:gap-6">
             {CUISINE_HIGHLIGHTS.map((food, i) => (
-              <motion.div 
-                key={i}
-                whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' }}
-                className="p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border border-white/10 text-center backdrop-blur-sm transition-all"
-              >
-                <p className="font-bold text-base md:text-xl mb-1 md:mb-2">{food.name}</p>
-                <p className="text-brand-gold text-[10px] md:text-xs italic">{food.desc}</p>
-              </motion.div>
+              <Reveal key={i} delay={i * 0.08}>
+                <div className="flex h-full flex-col items-center justify-center rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-6 text-center transition-all duration-500 hover:border-brand-gold/50 hover:bg-white/[0.08] md:p-8">
+                  <span className="mb-4 h-1.5 w-1.5 rotate-45 bg-brand-gold" />
+                  <p className="font-display text-base font-bold md:text-xl">{food.name}</p>
+                  <p className="mt-2 font-accent text-base italic text-brand-gold-light">{food.desc}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* --- FINAL CTA --- */}
-      <section className="py-24 md:py-48 text-center relative px-6">
-        <div className="absolute inset-0 flex items-center justify-center opacity-[0.02] md:opacity-[0.03] pointer-events-none">
-          <Compass size={300} className="text-brand-blue rotate-12 md:w-[600px] md:h-[600px]" />
+      {/* FINAL CTA */}
+      <section className="relative px-5 py-24 text-center md:py-40">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.04]">
+          <Compass className="h-[300px] w-[300px] rotate-12 text-brand-blue md:h-[560px] md:w-[560px]" />
         </div>
-        <h3 className="text-brand-blue font-display italic text-3xl md:text-6xl max-w-4xl mx-auto leading-tight">
-          Begin your pilgrimage to the town where every meal is a sacred offering.
-        </h3>
-        <motion.button 
-          whileHover={{ scale: 1.05, backgroundColor: '#002E54', color: '#fff' }}
-          onClick={() => setIsPlannerOpen(true)}
-          className="mt-10 md:mt-16 bg-brand-gold text-brand-blue px-8 md:px-12 py-4 md:py-5 rounded-full font-bold uppercase tracking-[0.2em] md:tracking-[0.3em] text-[10px] md:text-sm shadow-2xl transition-all cursor-pointer"
-        >
-          Explore Trip Planner
-        </motion.button>
+        <Reveal>
+          <h3 className="mx-auto max-w-4xl font-accent text-3xl italic font-semibold leading-tight text-brand-blue md:text-6xl">
+            Begin your pilgrimage to the town where every meal is a sacred offering.
+          </h3>
+          <button
+            onClick={() => setIsPlannerOpen(true)}
+            className="mt-10 rounded-full bg-brand-gold px-9 py-4 text-xs font-semibold uppercase tracking-[0.25em] text-brand-blue shadow-2xl shadow-brand-gold/30 transition-all hover:-translate-y-0.5 hover:bg-brand-blue hover:text-white md:mt-14 md:px-12 md:py-5 md:text-sm cursor-pointer"
+          >
+            Explore Trip Planner
+          </button>
+        </Reveal>
       </section>
 
-      {/* --- ITINERARY MODAL --- */}
+      {/* ITINERARY MODAL */}
       <AnimatePresence>
         {isPlannerOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-brand-blue/80 backdrop-blur-md flex items-center justify-center p-4"
+            className="fixed inset-0 z-[100] flex items-end justify-center bg-brand-ink/80 backdrop-blur-md sm:items-center sm:p-4"
             onClick={() => setIsPlannerOpen(false)}
+            role="dialog"
+            aria-modal="true"
           >
             <motion.div
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              className="bg-[#fdfcf7] border-4 border-brand-gold/30 rounded-[2.5rem] shadow-2xl p-6 md:p-10 max-w-4xl w-full max-h-[85vh] overflow-y-auto relative text-brand-blue"
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 40, opacity: 0 }}
+              className="relative max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-t-[2rem] bg-brand-ivory p-6 text-brand-blue shadow-2xl sm:rounded-[2rem] md:p-10"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close Button */}
               <button
                 onClick={() => setIsPlannerOpen(false)}
-                className="absolute top-5 right-5 text-brand-blue hover:text-brand-gold bg-brand-blue/5 p-2 rounded-full hover:bg-brand-blue/10 transition-all cursor-pointer"
+                className="absolute right-5 top-5 rounded-full bg-brand-blue/5 p-2 text-brand-blue transition-all hover:bg-brand-blue hover:text-brand-gold cursor-pointer"
                 title="Close"
+                aria-label="Close"
               >
-                <X size={24} />
+                <X size={22} />
               </button>
 
-              {/* Title */}
-              <div className="text-center mb-8">
-                <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-xs mb-2 block font-sans">
-                  Curated Guide
-                </span>
-                <h3 className="text-3xl md:text-5xl font-display leading-tight">
-                  Udupi <span className="italic text-brand-gold font-display font-serif">Itinerary Planner</span>
+              <div className="mb-8 text-center">
+                <span className="eyebrow justify-center">Curated Guide</span>
+                <h3 className="mt-3 text-3xl md:text-5xl leading-tight">
+                  Udupi <span className="accent text-[1.1em]">Itinerary Planner</span>
                 </h3>
-                <div className="w-24 h-0.5 bg-brand-gold/30 mx-auto mt-4"></div>
+                <div className="mx-auto mt-5 h-px w-24 bg-brand-gold/40" />
               </div>
 
-              {/* Tabs */}
-              <div className="flex flex-wrap justify-center gap-3 mb-8 font-sans">
+              <div className="mb-8 flex flex-wrap justify-center gap-2">
                 {(Object.keys(itineraries) as Array<keyof typeof itineraries>).map((key) => (
                   <button
                     key={key}
                     onClick={() => setActiveTab(key)}
-                    className={`px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
+                    className={`rounded-full px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
                       activeTab === key
-                        ? "bg-brand-blue text-brand-cream shadow-md scale-105"
-                        : "bg-white text-brand-blue/60 hover:text-brand-blue hover:bg-white/80 border border-brand-blue/10"
+                        ? "bg-brand-blue text-brand-cream shadow-md"
+                        : "border border-brand-blue/10 bg-white text-brand-blue/60 hover:text-brand-blue"
                     }`}
                   >
                     {itineraries[key].title.split(" ")[0]} ({key === 'day1' ? '1 Day' : key === 'day2' ? '2 Days' : '3 Days'})
@@ -370,117 +377,104 @@ const VisitUdupi = () => {
                 ))}
               </div>
 
-              {/* Tab Content */}
-              <div className="bg-white p-6 md:p-8 rounded-[2rem] border border-brand-blue/5 shadow-inner">
-                <h4 className="text-2xl font-bold font-display mb-2">
-                  {itineraries[activeTab].title}
-                </h4>
-                <p className="text-brand-blue/60 text-sm italic mb-8 border-l-2 border-brand-gold/30 pl-4 font-sans">
-                  {itineraries[activeTab].tagline}
-                </p>
-
-                {/* Timeline */}
-                <div className="relative border-l-2 border-dashed border-brand-gold/40 ml-4 pl-8 space-y-8">
-                  {itineraries[activeTab].steps.map((step, idx) => (
-                    <div key={idx} className="relative">
-                      {/* Timeline dot */}
-                      <div className="absolute left-[-41px] top-1.5 w-6 h-6 rounded-full bg-brand-gold border-4 border-brand-cream flex items-center justify-center shadow-md">
-                        <div className="w-1.5 h-1.5 rounded-full bg-brand-blue"></div>
-                      </div>
-                      
-                      <div>
-                        <span className="inline-block bg-brand-blue/5 text-brand-blue text-xs font-bold px-3 py-1 rounded-full mb-2 uppercase tracking-wider font-sans">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="rounded-[1.5rem] bg-white p-6 ring-1 ring-brand-blue/5 md:p-8"
+                >
+                  <h4 className="mb-2 text-2xl">{itineraries[activeTab].title}</h4>
+                  <p className="mb-8 border-l-2 border-brand-gold/40 pl-4 text-sm italic text-brand-blue/60">
+                    {itineraries[activeTab].tagline}
+                  </p>
+                  <ol className="relative ml-3 space-y-8 border-l-2 border-dashed border-brand-gold/40 pl-8">
+                    {itineraries[activeTab].steps.map((step, idx) => (
+                      <li key={idx} className="relative">
+                        <span className="absolute -left-[45px] top-1 flex h-6 w-6 items-center justify-center rounded-full border-4 border-white bg-brand-gold shadow">
+                          <span className="h-1.5 w-1.5 rounded-full bg-brand-blue" />
+                        </span>
+                        <span className="mb-2 inline-block rounded-full bg-brand-blue/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-blue">
                           {step.time}
                         </span>
-                        <h5 className="text-lg font-bold tracking-tight text-brand-blue font-display">
-                          {step.activity}
-                        </h5>
-                        <p className="text-brand-blue/70 text-sm leading-relaxed mt-1 font-light font-sans">
-                          {step.detail}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+                        <h5 className="font-display text-lg font-bold tracking-tight">{step.activity}</h5>
+                        <p className="mt-1 text-sm leading-relaxed text-brand-blue/70">{step.detail}</p>
+                      </li>
+                    ))}
+                  </ol>
+                </motion.div>
+              </AnimatePresence>
 
-              {/* Travel Advisory Footer */}
-              <div className="mt-8 text-center bg-brand-blue/5 p-5 rounded-2xl border border-brand-blue/5">
-                <p className="text-xs text-brand-blue/60 leading-relaxed font-light font-sans">
-                  💡 <strong>Tip:</strong> Always check temple darshan timings before visiting. Standard dress codes apply for temple entry (men: dhoti/shawl, women: saree/salwar).
+              <div className="mt-6 flex items-start gap-3 rounded-2xl bg-brand-gold/10 p-5 text-left">
+                <Lightbulb size={18} className="mt-0.5 shrink-0 text-brand-bronze" />
+                <p className="text-xs leading-relaxed text-brand-blue/70">
+                  <strong>Tip:</strong> Always check temple darshan timings before visiting. Standard dress codes apply for temple entry (men: dhoti/shawl, women: saree/salwar).
                 </p>
               </div>
-
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* --- LIGHTBOX MODAL --- */}
+      {/* LIGHTBOX */}
       <AnimatePresence>
         {activeImageIndex !== null && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[110] bg-brand-blue/95 backdrop-blur-xl flex flex-col items-center justify-center p-4 select-none"
+            className="fixed inset-0 z-[110] flex select-none flex-col items-center justify-center bg-brand-ink/95 p-4 backdrop-blur-xl"
             onClick={() => setActiveImageIndex(null)}
+            role="dialog"
+            aria-modal="true"
           >
-            {/* Close Button */}
             <button
               onClick={() => setActiveImageIndex(null)}
-              className="absolute top-6 right-6 text-white hover:text-brand-gold bg-white/10 p-3 rounded-full hover:bg-white/20 transition-all cursor-pointer z-[120]"
+              className="absolute right-5 top-5 z-[120] rounded-full bg-white/10 p-3 text-white transition-all hover:bg-brand-gold hover:text-brand-blue cursor-pointer"
               title="Close Viewer"
+              aria-label="Close Viewer"
             >
-              <X size={28} />
+              <X size={24} />
             </button>
-
-            {/* Left Navigation Arrow */}
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setActiveImageIndex((prev) => (prev !== null ? (prev - 1 + CULTURE_GALLERY.length) % CULTURE_GALLERY.length : null));
-              }}
-              className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 text-white hover:text-brand-gold bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all cursor-pointer z-[120]"
+              onClick={(e) => { e.stopPropagation(); setActiveImageIndex((p) => (p !== null ? (p - 1 + CULTURE_GALLERY.length) % CULTURE_GALLERY.length : null)); }}
+              className="absolute left-3 top-1/2 z-[120] -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition-all hover:bg-brand-gold hover:text-brand-blue md:left-10 md:p-4 cursor-pointer"
               title="Previous Image"
+              aria-label="Previous Image"
             >
-              <ChevronRight className="rotate-180" size={28} />
+              <ChevronLeft size={26} />
             </button>
-
-            {/* Right Navigation Arrow */}
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setActiveImageIndex((prev) => (prev !== null ? (prev + 1) % CULTURE_GALLERY.length : null));
-              }}
-              className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 text-white hover:text-brand-gold bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all cursor-pointer z-[120]"
+              onClick={(e) => { e.stopPropagation(); setActiveImageIndex((p) => (p !== null ? (p + 1) % CULTURE_GALLERY.length : null)); }}
+              className="absolute right-3 top-1/2 z-[120] -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition-all hover:bg-brand-gold hover:text-brand-blue md:right-10 md:p-4 cursor-pointer"
               title="Next Image"
+              aria-label="Next Image"
             >
-              <ChevronRight size={28} />
+              <ChevronRight size={26} />
             </button>
 
-            {/* Image Card Container */}
             <motion.div
-              initial={{ scale: 0.95, y: 10 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 10 }}
-              className="relative max-w-4xl w-full flex flex-col items-center gap-6"
+              key={activeImageIndex}
+              initial={{ scale: 0.96, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.96, opacity: 0 }}
+              className="relative flex w-full max-w-4xl flex-col items-center gap-6"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl max-h-[70vh] flex items-center justify-center bg-black/40">
+              <div className="flex max-h-[70vh] items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-black/40 shadow-2xl">
                 <img
                   src={`/VisitUdupi_Gallery/${CULTURE_GALLERY[activeImageIndex].src}`}
                   alt={CULTURE_GALLERY[activeImageIndex].label}
-                  className="max-w-full max-h-[70vh] object-contain"
+                  className="max-h-[70vh] max-w-full object-contain"
                 />
               </div>
-              
-              {/* Caption & Counter */}
-              <div className="text-center text-white px-6 max-w-2xl">
-                <p className="text-brand-gold uppercase tracking-[0.2em] text-[10px] md:text-xs mb-2 font-sans font-bold">
+              <div className="max-w-2xl px-6 text-center text-white">
+                <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-brand-gold md:text-xs">
                   Image {activeImageIndex + 1} of {CULTURE_GALLERY.length}
                 </p>
-                <h4 className="text-xl md:text-2xl font-display italic font-semibold">
+                <h4 className="accent text-2xl md:text-3xl text-white">
                   {CULTURE_GALLERY[activeImageIndex].label}
                 </h4>
               </div>

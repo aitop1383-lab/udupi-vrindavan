@@ -1,47 +1,42 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRightCircle, ChevronRight } from 'lucide-react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import Reveal from './ui/Reveal';
 
-gsap.registerPlugin(ScrollTrigger);
+const categories = [
+  { name: "Combos", img: "/categories/Combos.jpg", link: "https://order.udupivrindavan.com/shop/?category=355129" },
+  { name: "Dosa", img: "/categories/Dosa.jpg", link: "https://order.udupivrindavan.com/shop/?category=355128" },
+  { name: "Idli", img: "/categories/Idli.jpg", link: "https://order.udupivrindavan.com/shop/?category=355128" },
+  { name: "Snacks", img: "/categories/Snacks.jpg", link: "https://order.udupivrindavan.com/shop/?category=355127" },
+  { name: "Hot Beverages", img: "/categories/Hot Beverages.jpg", link: "https://order.udupivrindavan.com/shop/?category=355131" },
+  { name: "Cold Beverages", img: "/categories/Cold Beverages.jpg", link: "https://order.udupivrindavan.com/shop/?category=355133" },
+];
 
 const SignatureMenu = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
+  const dragMoved = useRef(false);
   const startX = useRef(0);
-  const scrollLeft = useRef(0);
-
-  const sectionRef = useRef<HTMLElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
+  const scrollStart = useRef(0);
 
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-
-  const categories = [
-    { name: "Combos", img: "/categories/Combos.jpg", link: "https://order.udupivrindavan.com/shop/?category=355129" },
-    { name: "Dosa", img: "/categories/Dosa.jpg", link: "https://order.udupivrindavan.com/shop/?category=355128" },
-    { name: "Idli", img: "/categories/Idli.jpg", link: "https://order.udupivrindavan.com/shop/?category=355128" },
-    { name: "Snacks", img: "/categories/Snacks.jpg", link: "https://order.udupivrindavan.com/shop/?category=355127" },
-    { name: "Hot Beverages", img: "/categories/Hot Beverages.jpg", link: "https://order.udupivrindavan.com/shop/?category=355131" },
-    { name: "Cold Beverages", img: "/categories/Cold Beverages.jpg", link: "https://order.udupivrindavan.com/shop/?category=355133" },
-  ];
+  const [progress, setProgress] = useState(0);
 
   const checkScrollLimits = () => {
-    if (!scrollRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-    setCanScrollLeft(scrollLeft > 10);
-    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+    const el = scrollRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setCanScrollLeft(el.scrollLeft > 10);
+    setCanScrollRight(el.scrollLeft < max - 10);
+    setProgress(max > 0 ? el.scrollLeft / max : 0);
   };
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
     checkScrollLimits();
-
-    el.addEventListener('scroll', checkScrollLimits);
+    el.addEventListener('scroll', checkScrollLimits, { passive: true });
     window.addEventListener('resize', checkScrollLimits);
     return () => {
       el.removeEventListener('scroll', checkScrollLimits);
@@ -49,228 +44,138 @@ const SignatureMenu = () => {
     };
   }, []);
 
-  // ── GSAP ScrollTrigger Animations ─────────────────────────
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Header reveal
-      if (headerRef.current) {
-        const children = headerRef.current.children;
-        gsap.fromTo(children,
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1, y: 0,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: headerRef.current,
-              start: 'top 80%',
-              once: true,
-            },
-          }
-        );
-      }
-
-      // CTA button reveal
-      gsap.fromTo(ctaRef.current,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1, y: 0,
-          duration: 0.7,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: ctaRef.current,
-            start: 'top 90%',
-            once: true,
-          },
-        }
-      );
-
-      // Slider — fade in
-      gsap.fromTo(sliderRef.current,
-        { opacity: 0 },
-        {
-          opacity: 1,
-          duration: 0.8,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: sliderRef.current,
-            start: 'top 85%',
-            once: true,
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   const scroll = (direction: 'left' | 'right') => {
-    if (!scrollRef.current) return;
-    const scrollAmount = 400;
-    const target = scrollRef.current.scrollLeft + (direction === 'left' ? -scrollAmount : scrollAmount);
-    scrollRef.current.scrollTo({
-      left: target,
-      behavior: 'smooth'
-    });
+    const el = scrollRef.current;
+    if (!el) return;
+    const card = el.querySelector('a');
+    const amount = card ? card.getBoundingClientRect().width + 24 : 400;
+    el.scrollBy({ left: direction === 'left' ? -amount : amount, behavior: 'smooth' });
   };
 
-  // ── Drag-to-scroll handlers ──────────────────────────────
   const onMouseDown = (e: React.MouseEvent) => {
     if (!scrollRef.current) return;
     isDragging.current = true;
-    startX.current = e.pageX - scrollRef.current.offsetLeft;
-    scrollLeft.current = scrollRef.current.scrollLeft;
-    scrollRef.current.style.cursor = 'grabbing';
+    dragMoved.current = false;
+    startX.current = e.pageX;
+    scrollStart.current = scrollRef.current.scrollLeft;
   };
-
-  const onMouseLeave = () => {
-    isDragging.current = false;
-    if (scrollRef.current) scrollRef.current.style.cursor = 'grab';
-    checkScrollLimits();
-  };
-
-  const onMouseUp = () => {
-    isDragging.current = false;
-    if (scrollRef.current) scrollRef.current.style.cursor = 'grab';
-    checkScrollLimits();
-  };
-
+  const endDrag = () => { isDragging.current = false; };
   const onMouseMove = (e: React.MouseEvent) => {
     if (!isDragging.current || !scrollRef.current) return;
+    const walk = e.pageX - startX.current;
+    if (Math.abs(walk) > 5) dragMoved.current = true;
     e.preventDefault();
-    const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX.current) * 1.4;
-    scrollRef.current.scrollLeft = scrollLeft.current - walk;
-    checkScrollLimits();
+    scrollRef.current.scrollLeft = scrollStart.current - walk * 1.3;
   };
 
-  return (
-    <section ref={sectionRef} id="menu" className="py-16 lg:py-32 bg-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+  const arrowBtn = (enabled: boolean) =>
+    `flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-300 ${
+      enabled
+        ? 'border-brand-blue bg-brand-blue text-brand-gold hover:bg-brand-gold hover:text-brand-blue hover:border-brand-gold cursor-pointer'
+        : 'border-brand-blue/10 text-brand-blue/25 cursor-not-allowed'
+    }`;
 
+  return (
+    <section id="menu" className="relative overflow-hidden bg-white py-20 lg:py-32">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
         {/* Header */}
-        <div ref={headerRef} className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-10">
+        <Reveal className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px] mb-4 block">
-              Our Specialties
-            </span>
-            <h2 className="text-4xl md:text-5xl lg:text-7xl text-brand-blue leading-tight">
+            <span className="eyebrow">Our Specialties</span>
+            <h2 className="mt-5 text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-brand-blue">
               Explore Our <br />
-              <span className="italic text-brand-gold font-display">Categories</span>
+              <span className="accent text-[1.12em]">Categories</span>
             </h2>
           </div>
-          <p className="text-brand-blue/60 max-w-sm text-lg leading-relaxed border-l-2 border-brand-gold/20 pl-6">
-            Pick your favorite category and order directly from our kitchen to your doorstep.          </p>
-        </div>
-
-        {/* Draggable Horizontal Slider */}
-        <div ref={sliderRef} className="relative group/slider" style={{ opacity: 0 }}>
-          {/* Left Arrow Button */}
-          <div className="hidden lg:block absolute left-[-60px] top-[calc(50%-40px)] -translate-y-1/2 z-20">
-            <button
-              onClick={() => scroll('left')}
-              disabled={!canScrollLeft}
-              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg border transition-all duration-300 ${canScrollLeft
-                  ? 'bg-brand-blue border-brand-blue text-brand-gold hover:bg-brand-gold hover:text-brand-blue hover:scale-110 cursor-pointer'
-                  : 'bg-brand-blue/5 border-brand-blue/5 text-brand-blue/20 cursor-not-allowed'
-                }`}
-              title="Scroll Left"
-            >
-              <ChevronRight className="rotate-180" size={24} />
-            </button>
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-end lg:flex-col lg:items-end">
+            <p className="max-w-sm border-l-2 border-brand-gold/40 pl-5 text-base sm:text-lg leading-relaxed text-brand-blue/65 lg:text-right lg:border-l-0 lg:border-r-2 lg:pl-0 lg:pr-5">
+              Pick your favorite category and order directly from our kitchen to your doorstep.
+            </p>
+            <div className="hidden sm:flex gap-3">
+              <button onClick={() => scroll('left')} disabled={!canScrollLeft} className={arrowBtn(canScrollLeft)} aria-label="Scroll Left" title="Scroll Left">
+                <ChevronLeft size={20} />
+              </button>
+              <button onClick={() => scroll('right')} disabled={!canScrollRight} className={arrowBtn(canScrollRight)} aria-label="Scroll Right" title="Scroll Right">
+                <ChevronRight size={20} />
+              </button>
+            </div>
           </div>
+        </Reveal>
+      </div>
 
-          {/* Right Arrow Button */}
-          <div className="hidden lg:block absolute right-[-60px] top-[calc(50%-40px)] -translate-y-1/2 z-20">
-            <button
-              onClick={() => scroll('right')}
-              disabled={!canScrollRight}
-              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg border transition-all duration-300 ${canScrollRight
-                  ? 'bg-brand-blue border-brand-blue text-brand-gold hover:bg-brand-gold hover:text-brand-blue hover:scale-110 cursor-pointer'
-                  : 'bg-brand-blue/5 border-brand-blue/5 text-brand-blue/20 cursor-not-allowed'
-                }`}
-              title="Scroll Right"
+      {/* Slider */}
+      <Reveal delay={0.1} className="mt-14">
+        <div
+          ref={scrollRef}
+          className="no-scrollbar -my-6 flex snap-x snap-mandatory gap-6 overflow-x-auto px-5 sm:px-6 pt-6 pb-16 select-none cursor-grab active:cursor-grabbing scroll-px-5 sm:scroll-px-6 xl:px-[calc((100vw-80rem)/2+1.5rem)] xl:scroll-px-[calc((100vw-80rem)/2+1.5rem)]"
+          onMouseDown={onMouseDown}
+          onMouseLeave={endDrag}
+          onMouseUp={endDrag}
+          onMouseMove={onMouseMove}
+        >
+          {categories.map((cat, idx) => (
+            <motion.a
+              key={idx}
+              initial={{ opacity: 0, x: 60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-40px 0px' }}
+              transition={{ duration: 0.8, delay: Math.min(idx, 4) * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              href={cat.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              draggable={false}
+              onClick={(e) => { if (dragMoved.current) e.preventDefault(); }}
+              className="group/card w-[82vw] max-w-[380px] flex-shrink-0 snap-start sm:w-[360px]"
             >
-              <ChevronRight size={24} />
-            </button>
-          </div>
-
-          <div
-            ref={scrollRef}
-            className="flex overflow-x-auto gap-8 pb-12 no-scrollbar snap-x snap-mandatory select-none"
-            style={{ cursor: 'grab' }}
-            onMouseDown={onMouseDown}
-            onMouseLeave={onMouseLeave}
-            onMouseUp={onMouseUp}
-            onMouseMove={onMouseMove}
-          >
-            {categories.map((cat, idx) => (
-              <a
-                key={idx}
-                href={cat.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-shrink-0 w-[300px] md:w-[380px] snap-start group/card flex flex-col items-center"
-                // Prevent link navigation on drag
-                onClick={(e) => {
-                  if (Math.abs(scrollRef.current?.scrollLeft ?? 0 - scrollLeft.current) > 5) {
-                    e.preventDefault();
-                  }
-                }}
-              >
-                {/* Image with name overlay */}
-                <div className="relative w-full aspect-square rounded-[3rem] overflow-hidden border border-brand-gold/10 transition-all duration-500 group-hover/card:shadow-2xl group-hover/card:-translate-y-2">
+              <div className="overflow-hidden rounded-[1.75rem] border border-brand-blue/10 bg-brand-ivory transition-all duration-500 group-hover/card:-translate-y-2 group-hover/card:shadow-[0_30px_60px_-30px_rgba(15,47,74,0.5)]">
+                <div className="relative aspect-[4/3] overflow-hidden">
                   <img
                     src={cat.img}
                     alt={`${cat.name} category at Udupi Vrindavan South Indian vegetarian restaurant`}
-                    className="w-full h-full object-cover transform group-hover/card:scale-110 transition-transform duration-1000"
+                    className="h-full w-full object-cover transition-transform duration-1000 group-hover/card:scale-105"
                     draggable={false}
+                    loading="lazy"
                   />
-
-                  {/* Category name overlay — slides up on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-blue/80 via-brand-blue/10 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-400" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-4 group-hover/card:translate-y-0 opacity-0 group-hover/card:opacity-100 transition-all duration-400">
-                    <h3 className="text-brand-cream font-display font-bold text-2xl">{cat.name}</h3>
-                    <p className="text-brand-cream/70 text-xs uppercase tracking-widest font-bold mt-1">
-                      Tap to order
-                    </p>
-                  </div>
+                  <span className="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-brand-blue/85 text-xs font-semibold text-brand-cream backdrop-blur">
+                    {String(idx + 1).padStart(2, '0')}
+                  </span>
                 </div>
-
-                {/* Order Button */}
-                <div className="mt-8 inline-flex items-center gap-2 py-3 px-8 rounded-full bg-brand-blue text-brand-cream group-hover/card:bg-brand-gold group-hover/card:text-brand-blue transition-all duration-300 shadow-lg">
-                  <span className="text-[10px] font-bold uppercase tracking-widest">Order Now</span>
-                  <ArrowRightCircle size={16} className="transform group-hover/card:translate-x-1 transition-transform" />
+                <div className="flex items-center justify-between gap-4 px-6 py-5">
+                  <h3 className="text-xl text-brand-blue">{cat.name}</h3>
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-blue/15 px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-brand-blue transition-colors group-hover/card:border-brand-gold group-hover/card:bg-brand-gold">
+                    <span>Order Now</span>
+                    <ArrowUpRight size={14} />
+                  </span>
                 </div>
-              </a>
-            ))}
-          </div>
+              </div>
+            </motion.a>
+          ))}
+        </div>
+      </Reveal>
 
-          {/* Scroll hint */}
-          <div className="flex items-center gap-3 mt-6">
-            <div className="h-1 w-12 bg-brand-gold rounded-full" />
-            <div className="h-1 w-4 bg-brand-gold/20 rounded-full" />
-            <span className="text-[9px] font-bold text-brand-blue/40 uppercase tracking-[0.3em] ml-2">
-              Drag or swipe to explore
-            </span>
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
+        {/* Progress + hint */}
+        <div className="mt-6 flex items-center gap-4">
+          <div className="relative h-[3px] w-32 overflow-hidden rounded-full bg-brand-gold/20">
+            <div className="absolute inset-y-0 left-0 w-1/3 rounded-full bg-brand-gold transition-transform duration-200" style={{ transform: `translateX(${progress * 200}%)` }} />
           </div>
+          <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-brand-blue/45">
+            Drag or swipe to explore
+          </span>
         </div>
 
         {/* Full Menu Button */}
-        <div ref={ctaRef} className="mt-20 text-center" style={{ opacity: 0 }}>
-          <motion.a
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+        <Reveal className="mt-16 text-center">
+          <a
             href="https://order.udupivrindavan.com/shop/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-4 bg-brand-blue text-brand-cream px-12 py-5 rounded-full font-bold text-lg hover:bg-brand-gold hover:text-brand-blue transition-all shadow-xl group btn-glow"
+            className="group inline-flex items-center gap-3 rounded-full bg-brand-blue px-10 py-4 text-base sm:text-lg font-semibold text-brand-cream shadow-xl shadow-brand-blue/20 transition-all hover:-translate-y-0.5 hover:bg-brand-gold hover:text-brand-blue"
           >
             Browse Full Menu
-            <ChevronRight size={22} className="group-hover:translate-x-1 transition-transform" />
-          </motion.a>
-        </div>
+            <ChevronRight size={20} className="transition-transform group-hover:translate-x-1" />
+          </a>
+        </Reveal>
       </div>
     </section>
   );

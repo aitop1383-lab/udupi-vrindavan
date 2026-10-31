@@ -1,8 +1,8 @@
 import React from 'react';
-import { Instagram, Facebook, Youtube, Users, Utensils, Leaf, Heart, Flame, Star } from 'lucide-react';
+import { Users, Utensils, Leaf, Heart, Flame, Star } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faWhatsapp, faXTwitter } from '@fortawesome/free-brands-svg-icons';
-import { FaTripadvisor } from "react-icons/fa";
+import { FaTripadvisor, FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
 /**
  * Site Configuration Data
  * This file contains all shared strings, links, and icons used across multiple components.
@@ -45,7 +45,7 @@ export const SOCIAL_LINKS = [
         id: 'ig',
         name: 'Instagram',
         href: 'https://www.instagram.com/udupivrindavan/',
-        icon: Instagram,
+        icon: FaInstagram,
         isLucide: true,
         hoverColor: "hover:bg-gradient-to-tr hover:from-[#f9ce34] hover:to-[#ee2a7b]"
     },
@@ -53,7 +53,7 @@ export const SOCIAL_LINKS = [
         id: 'fb',
         name: 'Facebook',
         href: 'https://www.facebook.com/UdupiVrindavan/',
-        icon: Facebook,
+        icon: FaFacebookF,
         isLucide: true,
         hoverColor: "hover:bg-[#1877F2]"
     },
@@ -61,7 +61,7 @@ export const SOCIAL_LINKS = [
         id: 'yt',
         name: 'Youtube',
         href: 'https://www.youtube.com/@udupivrindavan',
-        icon: Youtube,
+        icon: FaYoutube,
         isLucide: true,
         hoverColor: "hover:bg-[#FF0000]"
     },
