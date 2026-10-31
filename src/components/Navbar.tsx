@@ -43,16 +43,10 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-<<<<<<< HEAD
   useEffect(() => {
     setIsMenuOpen(false);
     setActiveDropdown(null);
   }, [location.pathname, location.hash]);
-=======
-  const navbarBg = isScrolled || location.pathname !== '/'
-    ? 'bg-brand-blue/95 py-4 shadow-xl border-b border-brand-gold/20 backdrop-blur-xl'
-    : 'bg-transparent py-6';
->>>>>>> c479ab9f7bf1889a781480cc8e805accdf8a216f
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? 'hidden' : '';
@@ -179,19 +173,12 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Toggle */}
-<<<<<<< HEAD
         <button
           aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-          className={`lg:hidden flex h-11 w-11 items-center justify-center rounded-full border transition-colors cursor-pointer ${
-            solid ? 'border-brand-gold/40 text-brand-gold' : 'border-brand-blue/15 bg-white/70 text-brand-blue'
-          }`}
+          className={`lg:hidden flex h-11 w-11 items-center justify-center rounded-full border transition-colors cursor-pointer ${solid ? 'border-brand-gold/40 text-brand-gold' : 'border-brand-blue/15 bg-white/70 text-brand-blue'}`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
-=======
-        <button aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'} className="md:hidden text-brand-gold cursor-pointer rounded-full p-2 transition-colors hover:bg-brand-gold/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
->>>>>>> c479ab9f7bf1889a781480cc8e805accdf8a216f
         </button>
       </div>
 

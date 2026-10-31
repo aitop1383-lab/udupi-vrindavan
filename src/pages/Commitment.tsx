@@ -51,7 +51,6 @@ const Commitment = () => {
                   </motion.h2>
                 </AnimatePresence>
 
-<<<<<<< HEAD
                 <div className="mt-7 flex items-center gap-4">
                   <motion.div
                     initial={{ scaleX: 0 }}
@@ -81,70 +80,6 @@ const Commitment = () => {
                       )}
                       <span className="relative">{code === 'en' ? 'English' : 'ಕನ್ನಡ'}</span>
                     </button>
-=======
-        {/* Language Toggle Switch */}
-        <div className="flex justify-center mb-16">
-          <div className="bg-brand-blue/5 p-1 rounded-full border border-brand-blue/10 flex items-center gap-1">
-            <button
-              onClick={() => setLang('en')}
-              className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
-                lang === 'en'
-                  ? 'bg-brand-blue text-brand-cream shadow-md'
-                  : 'text-brand-blue/60 hover:text-brand-blue'
-              }`}
-            >
-              English
-            </button>
-            <button
-              onClick={() => setLang('kn')}
-              className={`px-6 py-2.5 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${
-                lang === 'kn'
-                  ? 'bg-brand-blue text-brand-cream shadow-md'
-                  : 'text-brand-blue/60 hover:text-brand-blue'
-              }`}
-            >
-              ಕನ್ನಡ
-            </button>
-          </div>
-        </div>
-
-        {/* Benefits Grid */}
-        <div ref={gridRef} className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
-          {EMPLOYEE_BENEFITS.map((benefit, idx) => (
-            <div
-              key={idx}
-              className="benefit-card group relative overflow-hidden flex flex-col min-h-[22rem] rounded-[2rem] border border-brand-blue/10 bg-white/75 p-7 md:p-9 shadow-[0_18px_45px_rgba(15,47,74,0.07)] transition-all duration-500 hover:-translate-y-2 hover:border-brand-gold/50 hover:shadow-[0_28px_65px_rgba(15,47,74,0.14)]"
-              style={{ opacity: 0 }}
-            >
-              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-gold via-brand-gold/30 to-transparent" />
-              <div className="absolute -right-16 -top-16 size-48 rounded-full bg-brand-gold/10 blur-3xl transition-all duration-500 group-hover:scale-150 group-hover:bg-brand-gold/20" />
-              <div className="absolute bottom-0 right-0 h-28 w-28 rounded-tl-[5rem] bg-brand-blue/[0.03] transition-colors group-hover:bg-brand-gold/[0.08]" />
-
-              <div className="relative z-10 flex items-start justify-between gap-5 border-b border-brand-blue/10 pb-7">
-                <div className="flex items-center gap-5">
-                  <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-brand-blue text-brand-cream shadow-lg transition-all duration-500 group-hover:bg-brand-gold group-hover:text-brand-blue group-hover:rotate-6">
-                    {getIcon(benefit.title)}
-                  </div>
-                  <div>
-                    <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold">0{idx + 1}</p>
-                    <h3 className="text-xl font-bold leading-tight text-brand-blue md:text-2xl">
-                      {lang === 'kn' ? (benefit as any).kannadaTitle : benefit.title}
-                    </h3>
-                  </div>
-                </div>
-                <span className="hidden text-[10px] font-bold uppercase tracking-widest text-brand-blue/35 md:block">{lang === 'kn' ? 'ಮುಖ್ಯ ಸೌಲಭ್ಯ' : 'Core Benefit'}</span>
-              </div>
-
-              <div className="relative z-10 flex-grow pt-7">
-                <ul className="flex flex-col gap-5">
-                  {(lang === 'kn' ? (benefit as any).kannadaItems : benefit.items).map((item, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <span className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-full border border-brand-gold/50 text-brand-gold transition-colors group-hover:bg-brand-gold group-hover:text-brand-blue">
-                        <ArrowRightCircle className="size-3.5" />
-                      </span>
-                      <span className="text-sm leading-7 text-brand-blue/75 md:text-base">{item}</span>
-                    </li>
->>>>>>> c479ab9f7bf1889a781480cc8e805accdf8a216f
                   ))}
                 </div>
               </Reveal>
