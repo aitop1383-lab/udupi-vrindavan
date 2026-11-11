@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Mail, Info, Eye, Globe, Lock, ShieldAlert, FileText } from 'lucide-react';
 import Seo from '../components/Seo';
+import PageHero from '../components/ui/PageHero';
 
 /**
  * PrivacyPolicy Component
@@ -10,28 +11,27 @@ import Seo from '../components/Seo';
  */
 const PrivacyPolicy = () => {
   return (
-    <div className="bg-[#fdfcf7] min-h-screen pt-24 md:pt-28 pb-16 md:pb-20 texture-bg">
+    <div className="bg-[#fdfcf7] min-h-screen pb-16 md:pb-20 texture-bg">
       <Seo
         title="Privacy Policy | Udupi Vrindavan Restaurant Dubai"
         description="Read the privacy policy for Udupi Vrindavan Restaurant LLC and how we safeguard visitor information and user privacy."
         canonicalPath="/privacy"
       />
-      <div className="max-w-4xl mx-auto px-6">
-        
-        {/* --- Header Section --- */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+      <PageHero
+        icon={<ShieldCheck size={28} />}
+        title={<>Privacy Policy</>}
+      >
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
+          transition={{ delay: 0.25 }}
+          className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] text-brand-gold-light"
         >
-          <div className="w-20 h-20 bg-brand-blue/5 rounded-full flex items-center justify-center mx-auto mb-6">
-            <ShieldCheck className="text-brand-gold" size={40} />
-          </div>
-          <h1 className="text-4xl md:text-5xl font-display text-brand-blue mb-4">Privacy Policy</h1>
-          <p className="text-brand-gold font-bold tracking-widest uppercase text-xs">Effective Date: October 2024</p>
-          <div className="h-1 w-20 bg-brand-gold/30 mx-auto mt-6 rounded-full" />
-        </motion.div>
-
+          Effective Date: October 2024
+        </motion.p>
+      </PageHero>
+      <div className="max-w-4xl mx-auto px-6 pt-16 md:pt-20">
+        
         {/* --- Content Body --- */}
         <motion.div 
           initial={{ opacity: 0 }}
@@ -221,7 +221,7 @@ const PrivacyPolicy = () => {
             <h2 className="text-3xl font-display text-brand-gold mb-6 italic">Contact Us</h2>
             <p className="text-xl mb-8 opacity-80">Questions about your privacy? Reach out to our team.</p>
             <div className="space-y-2">
-              <a href="mailto:info@UdupiVrindavan.com" className="text-lg md:text-2xl font-bold hover:text-brand-gold transition-colors block break-all">
+              <a href="mailto:info@UdupiVrindavan.com" className="text-lg md:text-2xl font-bold text-brand-cream no-underline hover:text-brand-gold transition-colors block break-all">
                 info@UdupiVrindavan.com
               </a>
               <p className="font-bold text-brand-gold mt-4">Udupi Vrindavan Restaurant LLC</p>

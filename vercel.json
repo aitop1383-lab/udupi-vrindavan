@@ -9,12 +9,49 @@
       "source": "/(booking|bookings|book|reservation|reservations|table-booking)",
       "destination": "https://order.udupivrindavan.com",
       "permanent": false
+    },
+    {
+      "source": "/reach-us",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/legacy-blog",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/menu",
+      "destination": "/#menu",
+      "permanent": true
     }
   ],
   "rewrites": [
     {
       "source": "/((?!assets|categories|Thumbnail|videos|VisitUdupi_Gallery|aboutUs|heritage|process|favicon.ico|robots.txt|sitemap.xml|llms.txt|llms-full.txt|Menu.pdf|.*\\..*).*)",
       "destination": "/api/index?route=$1"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": ".*\\.vercel\\.app"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
     }
   ]
 }

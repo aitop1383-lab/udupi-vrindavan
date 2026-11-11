@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Seo from '../components/Seo';
+import PageHero from '../components/ui/PageHero';
 import { 
   FileText, 
   CheckCircle, 
@@ -23,28 +24,27 @@ import { Helmet } from 'react-helmet-async';
  */
 const TermsOfService = () => {
   return (
-    <div className="bg-[#fdfcf7] min-h-screen pt-24 md:pt-28 pb-16 md:pb-20 font-sans texture-bg">
+    <div className="bg-[#fdfcf7] min-h-screen pb-16 md:pb-20 font-sans texture-bg">
       <Seo
         title="Terms of Use | Udupi Vrindavan Restaurant Dubai"
         description="Review the terms of use for Udupi Vrindavan Restaurant LLC website and services."
         canonicalPath="/terms-of-service"
       />
-      <div className="max-w-4xl mx-auto px-6">
-        
-        {/* --- Header Section --- */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+      <PageHero
+        icon={<FileText size={28} />}
+        title={<>Terms of Use</>}
+      >
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
+          transition={{ delay: 0.25 }}
+          className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] text-brand-gold-light"
         >
-          <div className="w-20 h-20 bg-brand-blue/5 rounded-full flex items-center justify-center mx-auto mb-6">
-            <FileText className="text-brand-gold" size={40} />
-          </div>
-          <h1 className="text-4xl md:text-5xl font-display text-brand-blue mb-4">Terms of Use</h1>
-          <p className="text-brand-gold font-bold tracking-widest uppercase text-xs">Effective Date: October 2024</p>
-          <div className="h-1 w-20 bg-brand-gold/30 mx-auto mt-6 rounded-full" />
-        </motion.div>
-
+          Effective Date: October 2024
+        </motion.p>
+      </PageHero>
+      <div className="max-w-4xl mx-auto px-6 pt-16 md:pt-20">
+        
         {/* --- Content Body --- */}
         <motion.div 
           initial={{ opacity: 0 }}

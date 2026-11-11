@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import { Menu, X, ChevronDown, ArrowUpRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -33,8 +33,26 @@ const Navbar = () => {
   const [mobileStoryOpen, setMobileStoryOpen] = useState(false);
   const location = useLocation();
 
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+  // Track page progress manually so lazily loaded pages (which start short) never report 0/0 as a full bar
+  const scrollProgress = useMotionValue(0);
+  const scaleX = useSpring(scrollProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+
+  useEffect(() => {
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      scrollProgress.set(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    const observer = new ResizeObserver(update);
+    observer.observe(document.body);
+    return () => {
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+      observer.disconnect();
+    };
+  }, [scrollProgress]);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 40);

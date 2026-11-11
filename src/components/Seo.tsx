@@ -50,12 +50,12 @@ const Seo: React.FC<SeoProps> = ({
       <meta name="description" content={metaDescription} />
       <meta name="keywords" content={SITE_METADATA.keywords.join(', ')} />
       <meta name="robots" content={noIndex ? 'noindex,nofollow' : 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'} />
-      <link rel="canonical" href={canonicalUrl} />
+      {noIndex ? null : <link rel="canonical" href={canonicalUrl} />}
 
       <meta property="og:title" content={pageTitle} />
       <meta property="og:description" content={metaDescription} />
       <meta property="og:type" content={type} />
-      <meta property="og:url" content={canonicalUrl} />
+      {noIndex ? null : <meta property="og:url" content={canonicalUrl} />}
       <meta property="og:image" content={socialImage} />
       <meta property="og:image:alt" content={pageTitle} />
       <meta property="og:site_name" content={SITE_METADATA.siteName} />

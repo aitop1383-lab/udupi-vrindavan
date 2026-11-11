@@ -42,8 +42,21 @@ interface RouteMeta {
   canonical: string;
   image?: string;
   type?: string;
+  noIndex?: boolean;
+  notFound?: boolean;
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
+
+const INDEX_ROBOTS = 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1';
+const NOINDEX_ROBOTS = 'noindex,nofollow';
+
+const NOT_FOUND_META: RouteMeta = {
+  title: '404 — Page Not Found | Udupi Vrindavan',
+  description: 'The page you requested could not be found on Udupi Vrindavan.',
+  canonical: '',
+  noIndex: true,
+  notFound: true
+};
 
 const STATIC_ROUTE_METADATA: Record<string, RouteMeta> = {
   '/': {
@@ -51,14 +64,14 @@ const STATIC_ROUTE_METADATA: Record<string, RouteMeta> = {
     description: 'Visit Udupi Vrindavan in Al Karama for authentic Udupi and South Indian vegetarian dishes, including dosa, idli, vada, and healthy Karnataka cuisine.',
     canonical: 'https://udupivrindavan.com/',
     image: 'https://udupivrindavan.com/Butter-Dosa.jpg',
-    type: 'restaurant'
+    type: 'website'
   },
   '/about': {
     title: 'About Us | Authentic South Indian Vegetarian Dining Philosophy in Dubai',
     description: "Learn about Udupi Vrindavan's philosophy of pure Satvik food, authentic Karnataka culinary traditions, and ethical kitchen practices in Al Karama, Dubai.",
     canonical: 'https://udupivrindavan.com/about',
     image: 'https://udupivrindavan.com/host.jpeg',
-    type: 'article'
+    type: 'website'
   },
   '/contact': {
     title: 'Contact Us & Location | Udupi Vrindavan Restaurant Al Karama, Dubai',
@@ -91,7 +104,7 @@ const STATIC_ROUTE_METADATA: Record<string, RouteMeta> = {
   '/menu': {
     title: 'Dining Menu | Authentic South Indian & Udupi Vegetarian Dishes | Udupi Vrindavan',
     description: 'Explore authentic South Indian and Udupi vegetarian menu dishes at Udupi Vrindavan in Al Karama, Dubai.',
-    canonical: 'https://udupivrindavan.com/menu',
+    canonical: 'https://udupivrindavan.com/',
     image: 'https://udupivrindavan.com/Butter-Dosa.jpg',
     type: 'website'
   },
@@ -115,10 +128,16 @@ const STATIC_ROUTE_METADATA: Record<string, RouteMeta> = {
     canonical: 'https://udupivrindavan.com/terms-of-service',
     image: 'https://udupivrindavan.com/logo.png',
     type: 'website'
+  },
+  '/blog/admin': {
+    title: 'Blog Management | Udupi Vrindavan',
+    description: 'Private content management area.',
+    canonical: '',
+    noIndex: true
   }
 };
 
-const GOOGLE_SHEETS_URL = process.env.VITE_GOOGLE_SHEETS_URL || 'https://script.google.com/macros/s/AKfycbyaBHnmNalAdlbWn7y5mcuSxWiIrKQUxlOa6ElBaXXmYt86IP-173Zm7yfwSExhdIgpLA/exec';
+const GOOGLE_SHEETS_URL = process.env.VITE_GOOGLE_SHEETS_URL || '';
 
 let blogPostsCache: Array<{ slug?: string; title?: string; excerpt?: string; date?: string; image?: string; category?: string; author?: string }> | null = null;
 let blogCacheTimestamp = 0;
@@ -129,7 +148,7 @@ async function getBlogPostMeta(slug: string): Promise<RouteMeta> {
   const canonicalUrl = `https://udupivrindavan.com/blog/${cleanSlug}`;
 
   try {
-    if (!blogPostsCache || Date.now() - blogCacheTimestamp > BLOG_CACHE_TTL) {
+    const refreshPosts = async () => {
       const response = await fetch(`${GOOGLE_SHEETS_URL}?action=getPosts`);
       if (response.ok) {
         const data = await response.json();
@@ -138,14 +157,25 @@ async function getBlogPostMeta(slug: string): Promise<RouteMeta> {
           blogCacheTimestamp = Date.now();
         }
       }
-    }
-
-    if (blogPostsCache) {
-      const match = blogPostsCache.find((p) => {
+    };
+    const findPost = () =>
+      blogPostsCache?.find((p) => {
         const pSlug = (p.slug || '').trim().toLowerCase();
         const genSlug = (p.title || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
         return pSlug === cleanSlug || genSlug === cleanSlug;
       });
+
+    if (!blogPostsCache || Date.now() - blogCacheTimestamp > BLOG_CACHE_TTL) {
+      await refreshPosts();
+    }
+
+    if (blogPostsCache) {
+      let match = findPost();
+      // A newly published post may not be in a recent cache yet; refresh once before treating it as missing
+      if (!match && Date.now() - blogCacheTimestamp > 60 * 1000) {
+        await refreshPosts();
+        match = findPost();
+      }
 
       if (match) {
         const cleanTitle = (match.title || '').replace(/<[^>]*>/g, '').trim();
@@ -197,6 +227,11 @@ async function getBlogPostMeta(slug: string): Promise<RouteMeta> {
     console.error('Failed to fetch blog post meta from Google Sheets:', err);
   }
 
+  // Posts loaded successfully but no match: serve a real 404 instead of a soft 404
+  if (blogPostsCache) {
+    return NOT_FOUND_META;
+  }
+
   const titleWords = cleanSlug
     .split(/[-_]+/)
     .filter(Boolean)
@@ -215,38 +250,49 @@ async function getBlogPostMeta(slug: string): Promise<RouteMeta> {
 function injectMetadata(html: string, meta: RouteMeta): string {
   let updated = html;
 
-  const escapeAttr = (val: string) => val.replace(/"/g, '&quot;');
+  const escapeHtml = (val: string) =>
+    val.replace(/&(?!amp;|lt;|gt;|quot;|#\d+;)/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
+    const pattern = new RegExp(`<meta\\s+(?:name|property)=["']${key.replace(/:/g, '\\:')}["']\\s+content=["'][^"']*["']\\s*\\/?>`, 'i');
+    const tag = `<meta ${attr}="${key}" content="${escapeHtml(value)}" />`;
+    updated = pattern.test(updated) ? updated.replace(pattern, tag) : updated.replace('</head>', `  ${tag}\n</head>`);
+  };
 
   // Title
-  updated = updated.replace(/<title>.*?<\/title>/i, `<title>${meta.title}</title>`);
+  updated = updated.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(meta.title)}</title>`);
 
-  // Meta description
-  updated = updated.replace(/<meta\s+name=["']description["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta name="description" content="${escapeAttr(meta.description)}" />`);
+  setMeta('name', 'description', meta.description);
+  setMeta('name', 'robots', meta.noIndex ? NOINDEX_ROBOTS : INDEX_ROBOTS);
 
-  // Canonical
-  updated = updated.replace(/<link\s+rel=["']canonical["']\s+href=["'][^"']*["']\s*\/?>/i, `<link rel="canonical" href="${meta.canonical}" />`);
+  // Canonical (removed for non-indexable pages so they never point at the homepage)
+  const canonicalPattern = /<link\s+rel=["']canonical["']\s+href=["'][^"']*["']\s*\/?>\s*/i;
+  if (meta.canonical && !meta.noIndex) {
+    updated = updated.replace(canonicalPattern, `<link rel="canonical" href="${escapeHtml(meta.canonical)}" />\n  `);
+    setMeta('property', 'og:url', meta.canonical);
+  } else {
+    updated = updated.replace(canonicalPattern, '');
+  }
 
   // Open Graph
-  updated = updated.replace(/<meta\s+property=["']og:title["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="og:title" content="${escapeAttr(meta.title)}" />`);
-  updated = updated.replace(/<meta\s+property=["']og:description["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="og:description" content="${escapeAttr(meta.description)}" />`);
-  updated = updated.replace(/<meta\s+property=["']og:url["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="og:url" content="${meta.canonical}" />`);
+  setMeta('property', 'og:title', meta.title);
+  setMeta('property', 'og:description', meta.description);
   if (meta.image) {
-    updated = updated.replace(/<meta\s+property=["']og:image["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="og:image" content="${meta.image}" />`);
+    setMeta('property', 'og:image', meta.image);
+    setMeta('property', 'og:image:alt', meta.title);
   }
-  if (meta.type) {
-    updated = updated.replace(/<meta\s+property=["']og:type["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="og:type" content="${meta.type}" />`);
-  }
+  if (meta.type) setMeta('property', 'og:type', meta.type);
 
   // Twitter
-  updated = updated.replace(/<meta\s+property=["']twitter:title["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="twitter:title" content="${escapeAttr(meta.title)}" />`);
-  updated = updated.replace(/<meta\s+property=["']twitter:description["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="twitter:description" content="${escapeAttr(meta.description)}" />`);
+  setMeta('name', 'twitter:title', meta.title);
+  setMeta('name', 'twitter:description', meta.description);
   if (meta.image) {
-    updated = updated.replace(/<meta\s+property=["']twitter:image["']\s+content=["'][^"']*["']\s*\/?>/i, `<meta property="twitter:image" content="${meta.image}" />`);
+    setMeta('name', 'twitter:image', meta.image);
+    setMeta('name', 'twitter:image:alt', meta.title);
   }
 
-  // Inject route-specific JSON-LD before </head> if provided
+  // Inject route-specific JSON-LD before </head> if provided (escape "<" so content can't close the script tag)
   if (meta.jsonLd) {
-    const jsonLdTag = `<script type="application/ld+json">${JSON.stringify(meta.jsonLd)}</script>`;
+    const jsonLdTag = `<script type="application/ld+json">${JSON.stringify(meta.jsonLd).replace(/</g, '\\u003c')}</script>`;
     updated = updated.replace('</head>', `  ${jsonLdTag}\n</head>`);
   }
 
@@ -484,6 +530,11 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     }
   }
 
+  const isValid = isDynamicValidRoute(cleanPath) && !meta?.notFound;
+  if (!isValid) {
+    meta = NOT_FOUND_META;
+  }
+
   // Retrieve production built index.html
   let html = getProductionHtml();
 
@@ -493,10 +544,10 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       html = injectMetadata(html, meta);
     }
 
-    const isValid = isDynamicValidRoute(cleanPath);
     res.status(isValid ? 200 : 404);
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=86400, stale-while-revalidate=86400');
+    if (meta?.noIndex) res.setHeader('X-Robots-Tag', NOINDEX_ROBOTS);
     return res.send(html);
   }
 

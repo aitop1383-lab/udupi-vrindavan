@@ -167,15 +167,7 @@ const Home = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileTap={{ scale: 0.96 }}
-                animate={{
-                  boxShadow: [
-                    '0 0 0 0px rgba(212, 166, 90, 0)',
-                    '0 0 0 10px rgba(212, 166, 90, 0.4)',
-                    '0 0 0 20px rgba(212, 166, 90, 0)',
-                  ],
-                }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                className="btn-glow group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-brand-blue px-8 py-4 text-lg font-bold text-brand-cream w-full sm:w-auto"
+                className="pulse-ring btn-glow group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-brand-blue px-8 py-4 text-lg font-bold text-brand-cream w-full sm:w-auto"
               >
                 <span className="absolute inset-0 translate-y-full bg-brand-gold transition-transform duration-500 ease-out group-hover:translate-y-0" />
                 <span className="relative z-10 flex items-center justify-center gap-3 transition-all duration-300 group-hover:scale-105 group-hover:text-brand-blue">

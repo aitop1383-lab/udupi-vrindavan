@@ -2,6 +2,18 @@
 <html lang="en">
 
 <head>
+  <!-- Google Tag Manager -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','%VITE_GTM_ID%');
+  </script>
+  <!-- End Google Tag Manager -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0f2f4a" />
@@ -16,7 +28,7 @@
   <link rel="canonical" href="https://udupivrindavan.com/" />
   
   <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="restaurant" />
+  <meta property="og:type" content="website" />
   <meta property="og:url" content="https://udupivrindavan.com/" />
   <meta property="og:title" content="Udupi Vrindavan | Authentic Udupi & South Indian Vegetarian Cuisine in Dubai" />
   <meta property="og:description" content="Visit Udupi Vrindavan in Al Karama for authentic Udupi and South Indian vegetarian dishes, including dosa, idli, vada, and more." />
@@ -26,21 +38,22 @@
   <meta property="og:locale" content="en_US" />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@UdupiVrindavan" />
   <meta name="twitter:creator" content="@UdupiVrindavan" />
-  <meta property="twitter:title" content="Udupi Vrindavan | Authentic Udupi & South Indian Vegetarian Cuisine in Dubai" />
-  <meta property="twitter:description" content="Visit Udupi Vrindavan in Al Karama for authentic Udupi and South Indian vegetarian dishes, including dosa, idli, vada, and more." />
-  <meta property="twitter:image" content="https://udupivrindavan.com/Butter-Dosa.jpg" />
-  <meta property="twitter:image:alt" content="Butter dosa served at Udupi Vrindavan" />
+  <meta name="twitter:title" content="Udupi Vrindavan | Authentic Udupi & South Indian Vegetarian Cuisine in Dubai" />
+  <meta name="twitter:description" content="Visit Udupi Vrindavan in Al Karama for authentic Udupi and South Indian vegetarian dishes, including dosa, idli, vada, and more." />
+  <meta name="twitter:image" content="https://udupivrindavan.com/Butter-Dosa.jpg" />
+  <meta name="twitter:image:alt" content="Butter dosa served at Udupi Vrindavan" />
 
+  <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="icon" type="image/png" href="/logo.png">
   <link rel="apple-touch-icon" href="/logo.png">
   
   <!-- Critical LCP Assets -->
-  <link rel="preload" as="image" href="/Butter-Dosa.jpg">
+  <link rel="preload" as="image" href="/Butter-Dosa.jpg" fetchpriority="high">
 
   <script type="application/ld+json">
     [
@@ -121,13 +134,16 @@
   </script>
   
   <!-- Critical Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Cinzel+Decorative:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700&family=Cinzel+Decorative:wght@400;700;900&display=swap" rel="stylesheet">
   <link href="https://fonts.cdnfonts.com/css/garet" rel="stylesheet">
 
   <link rel="stylesheet" href="/src/index.css" />
 </head>
 
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=%VITE_GTM_ID%" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
   <div id="root">
     <!-- Server-Rendered / Crawler-Visible Content (Hydrated by React on client execution) -->
     <header style="background-color: #0f2f4a; color: #f7f3e9; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center;">

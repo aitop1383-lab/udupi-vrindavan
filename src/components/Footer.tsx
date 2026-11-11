@@ -64,7 +64,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-4">
             <div className="mb-6 flex items-center gap-3">
-              <img src="/logo.png" alt="Udupi Vrindavan Logo" className="h-14 w-14 object-contain" />
+              <img src="/logo.png" alt="Udupi Vrindavan Logo" loading="lazy" decoding="async" className="h-14 w-14 object-contain" />
               <span className="font-display text-2xl font-bold">
                 Udupi <span className="text-brand-gold">Vrindavan</span>
               </span>

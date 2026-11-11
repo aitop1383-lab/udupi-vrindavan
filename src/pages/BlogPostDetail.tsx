@@ -572,6 +572,8 @@ const BlogPostDetail = () => {
                           <img
                             src={p.image}
                             alt={stripHtml(p.title)}
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             onError={(e) => { (e.target as HTMLImageElement).src = '/logo.png'; }}
                           />
@@ -647,6 +649,8 @@ const BlogPostDetail = () => {
                         <img
                           src={p.image}
                           alt={stripHtml(p.title)}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           onError={(e) => { (e.target as HTMLImageElement).src = '/logo.png'; }}
                         />
@@ -682,7 +686,7 @@ const BlogPostDetail = () => {
             {/* Footer bar */}
             <div className="mt-20 pt-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-3">
-                <img src="/logo.png" alt="Udupi Vrindavan logo" className="w-11 h-11 object-contain" />
+                <img src="/logo.png" alt="Udupi Vrindavan logo" loading="lazy" decoding="async" className="w-11 h-11 object-contain" />
                 <div>
                   <span className="block text-[10px] font-bold uppercase tracking-widest text-brand-cream/30">Udupi Vrindavan</span>
                   <span className="text-sm font-semibold text-brand-cream/60">Al Karama, Dubai</span>

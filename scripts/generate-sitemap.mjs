@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import 'dotenv/config';
 
-const GOOGLE_SHEETS_URL = process.env.VITE_GOOGLE_SHEETS_URL || 'https://script.google.com/macros/s/AKfycbyaBHnmNalAdlbWn7y5mcuSxWiIrKQUxlOa6ElBaXXmYt86IP-173Zm7yfwSExhdIgpLA/exec';
+const GOOGLE_SHEETS_URL = process.env.VITE_GOOGLE_SHEETS_URL;
 
 const STATIC_URLS = [
   { loc: 'https://udupivrindavan.com/', changefreq: 'daily', priority: '1.0' },
@@ -11,8 +12,7 @@ const STATIC_URLS = [
   { loc: 'https://udupivrindavan.com/blog', changefreq: 'weekly', priority: '0.8' },
   { loc: 'https://udupivrindavan.com/privacy', changefreq: 'yearly', priority: '0.4' },
   { loc: 'https://udupivrindavan.com/terms-of-service', changefreq: 'yearly', priority: '0.4' },
-  { loc: 'https://udupivrindavan.com/Menu.pdf', changefreq: 'monthly', priority: '0.7' },
-  { loc: 'https://udupivrindavan.com/llms.txt', changefreq: 'monthly', priority: '0.6' }
+  { loc: 'https://udupivrindavan.com/Menu.pdf', changefreq: 'monthly', priority: '0.7' }
 ];
 
 async function generateSitemap() {
@@ -51,15 +51,21 @@ async function generateSitemap() {
     console.warn('Could not fetch latest posts from Google Sheets during sitemap generation. Preserving existing entries.', e);
   }
 
-  // Fallback to massage post if none were fetched
+  // If posts could not be fetched, keep the blog URLs already listed in the current sitemap
   if (blogUrls.length === 0) {
-    blogUrls.push({
-      slug: 'massage',
-      loc: 'https://udupivrindavan.com/blog/massage',
-      lastmod: today,
-      changefreq: 'monthly',
-      priority: '0.7'
-    });
+    try {
+      const existing = fs.readFileSync(path.resolve(process.cwd(), 'public', 'sitemap.xml'), 'utf8');
+      const entries = existing.match(/<url>[\s\S]*?<\/url>/g) || [];
+      entries.forEach((entry) => {
+        const loc = (entry.match(/<loc>(.*?)<\/loc>/) || [])[1];
+        const lastmod = (entry.match(/<lastmod>(.*?)<\/lastmod>/) || [])[1] || today;
+        if (loc && /^https:\/\/udupivrindavan\.com\/blog\/[^/]+$/.test(loc)) {
+          blogUrls.push({ slug: loc.split('/').pop(), loc, lastmod, changefreq: 'monthly', priority: '0.7' });
+        }
+      });
+    } catch {
+      // No existing sitemap; publish static pages only
+    }
   }
 
   const allUrls = [
@@ -73,7 +79,7 @@ async function generateSitemap() {
 ${allUrls
   .map(
     (u) => `  <url>
-    <loc>${u.loc}</loc>
+    <loc>${u.loc.replace(/&/g, '&amp;')}</loc>
     <lastmod>${u.lastmod}</lastmod>
     <changefreq>${u.changefreq}</changefreq>
     <priority>${u.priority}</priority>

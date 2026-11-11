@@ -99,6 +99,36 @@ const ScrollHandler = () => {
   return null;
 };
 
+// 📊 Google Tag Manager: report SPA route changes (the initial page load is tracked by the GTM container itself)
+declare global {
+  interface Window { dataLayer?: Record<string, unknown>[] }
+}
+
+const AnalyticsRouteTracker = () => {
+  const { pathname, search } = useLocation();
+  const isFirstLoad = React.useRef(true);
+
+  useEffect(() => {
+    if (isFirstLoad.current) {
+      isFirstLoad.current = false;
+      return;
+    }
+    // Wait for react-helmet-async to update the document title before reporting
+    const timer = window.setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'virtual_page_view',
+        page_path: pathname + search,
+        page_location: window.location.href,
+        page_title: document.title,
+      });
+    }, 300);
+    return () => window.clearTimeout(timer);
+  }, [pathname, search]);
+
+  return null;
+};
+
 // 🏠 Main Landing Page Content
 const MainLanding = () => (
   <main>
@@ -135,6 +165,7 @@ export default function App() {
     <MotionConfig reducedMotion="user">
     <Router>
       <ScrollHandler />
+      <AnalyticsRouteTracker />
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <ScrollToTop />

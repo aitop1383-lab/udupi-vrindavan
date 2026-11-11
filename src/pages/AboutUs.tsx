@@ -174,7 +174,7 @@ const AboutUs = () => {
                   <span className="absolute bottom-0 right-0 h-10 w-10 rounded-br-2xl border-b-[3px] border-r-[3px] border-brand-gold/60 transition-all duration-500 group-hover:h-14 group-hover:w-14 group-hover:border-brand-gold" />
 
                   <div className="flex h-full flex-col items-center rounded-xl border border-brand-blue/10 px-6 pb-8 pt-9 text-center">
-                    <img src="/logo.png" alt="Udupi Vrindavan logo" className="h-14 w-14 object-contain transition-transform duration-700 group-hover:rotate-45" />
+                    <img src="/logo.png" alt="Udupi Vrindavan logo" loading="lazy" decoding="async" className="h-14 w-14 object-contain transition-transform duration-700 group-hover:rotate-45" />
                     <h3 className="mt-4 text-[10px] font-semibold tracking-[0.4em] uppercase text-brand-blue/45">
                       UDUPI VRINDAVAN
                     </h3>

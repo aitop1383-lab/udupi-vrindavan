@@ -53,7 +53,7 @@ const ReachUs = () => {
             {/* QR & Social */}
             <div className="group/qr flex flex-col items-center gap-8 rounded-[2.5rem] border-2 border-brand-gold/10 bg-brand-cream/20 p-7 sm:p-9 transition-all duration-500 hover:bg-white hover:border-brand-gold/25 hover:shadow-xl sm:flex-row">
               <div className="w-44 shrink-0 rounded-[2rem] bg-white p-5 text-center shadow-2xl transition-transform duration-700 group-hover/qr:scale-105">
-                <img src="/qrcode.png" alt="QR code for the official Udupi Vrindavan website" className="w-full object-contain" />
+                <img src="/qrcode.png" loading="lazy" decoding="async" alt="QR code for the official Udupi Vrindavan website" className="w-full object-contain" />
                 <p className="mt-3 text-[9px] font-bold uppercase tracking-[0.25em] text-brand-blue/60">Official Website</p>
               </div>
               <div className="hidden sm:block h-32 w-px shrink-0 bg-brand-gold/20" />
@@ -97,7 +97,7 @@ const ReachUs = () => {
                     className="flex h-20 items-center justify-center rounded-2xl ring-1 ring-brand-blue/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                     style={{ backgroundColor: app.bgColor }}
                   >
-                    <img src={app.logo} alt={`${app.name} delivery partner logo`} className="max-h-10 max-w-[70%] object-contain" />
+                    <img src={app.logo} loading="lazy" decoding="async" alt={`${app.name} delivery partner logo`} className="max-h-10 max-w-[70%] object-contain" />
                   </a>
                 ))}
               </div>
